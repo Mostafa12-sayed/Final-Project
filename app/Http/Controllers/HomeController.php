@@ -26,4 +26,9 @@ class HomeController extends Controller
         return view('website::index');
     }
 
+    public function profile()
+    {
+        return view('website::profile.profile');
+    }
+
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
 
 class User extends Authenticatable
@@ -40,6 +41,11 @@ class User extends Authenticatable
     public function stores()
     {
         return $this->hasOne(Stores::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasOne(Addresses::class);
     }
 
     /**

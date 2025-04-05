@@ -60,7 +60,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'user_type' => ['required', 'string', 'in:vendor,customer'],
             'phone' => ['required', 'string', 'max:15'],
-            'user' => ['required', 'string'],
         ];
 
         // Add store-specific validation rules

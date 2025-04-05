@@ -1,6 +1,5 @@
 @extends('website::layouts.master')
 @section('content')
-@include('layouts.app')
 
 <style>
     .switch {
