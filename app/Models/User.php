@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Website\app\Models\Stores;
 
 class User extends Authenticatable
 {
@@ -19,8 +20,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'phone',
         'email',
         'password',
+        'user_type',
     ];
 
     /**
@@ -32,6 +36,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function stores()
+    {
+        return $this->hasOne(Stores::class);
+    }
 
     /**
      * Get the attributes that should be cast.

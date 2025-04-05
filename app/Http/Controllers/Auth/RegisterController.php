@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -52,11 +53,23 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'user_type' => ['required', 'string', 'in:vendor,customer'],
+            'phone' => ['required', 'string', 'max:15'],
+            'user' => ['required', 'string'],
+        ];
+
+        // Add store-specific validation rules
+        if ($data['user_type'] === 'vendor') {
+            $rules['store_name'] = ['required', 'string', 'max:255', 'unique:stores,name'];
+            $rules['store_description'] = ['required', 'string'];
+        }
+
+        return Validator::make($data, $rules);
     }
 
     /**
@@ -67,10 +80,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'user_type' => $data['user_type'],
+            'phone' => $data['phone']
         ]);
+
+        // Create store details if user is store owner
+        if ($data['user_type'] === 'vendor') {
+            $user->stores()->create([
+                'name' => $data['store_name'],
+                'description' => $data['store_description'],
+                'slug' => Str::slug($data['store_name']),
+
+            ]);
+        }
+
+        return $user;
     }
 }
