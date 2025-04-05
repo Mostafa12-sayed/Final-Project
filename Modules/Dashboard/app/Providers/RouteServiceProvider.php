@@ -4,6 +4,7 @@ namespace Modules\Dashboard\app\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Dashboard\app\Http\Middleware\AdminAuthMiddleware;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+        Route::aliasMiddleware('auth.admin', AdminAuthMiddleware::class);
     }
 
     /**
