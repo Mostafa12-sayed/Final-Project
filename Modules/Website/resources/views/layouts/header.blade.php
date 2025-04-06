@@ -54,13 +54,28 @@
                         <div class="header-middle-right">
                             <ul class="header-middle-list">
                                 <li>
-                                    <a href="#" class="list-item">
+                                    @guest
+                                    <a href="{{route('login')}}" class="list-item" style="text-decoration: none;">
                                         <div class="list-item-icon">
                                             <i class="far fa-user-circle"></i>
                                         </div>
                                         <div class="list-item-info">
-                                            <h6>Sign In</h6>
-                                            <h5>Account</h5>
+                                                @if (Route::has('login'))
+                                                <h6>Sign In</h6>
+                                                <h5>Account</h5>
+                                                @endif
+                                            @else
+                                                <a href="{{route('profile.index')}}" class="list-item" style="text-decoration: none;">
+                                                <div class="list-item-icon">
+                                                    <i class="far fa-user-circle"></i>
+                                                </div>
+                                                <div class="list-item-info">
+                                                <h6 class="" role="button">{{ ucfirst(Auth::user()->name) }}</h6>
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item" style="text-decoration: underline;">Logout</button>
+                                                </form>
+                                            @endguest
                                         </div>
                                     </a>
                                 </li>
@@ -503,6 +518,41 @@
 
     </header>
     <!-- header area end -->
+
+    <script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the dropdown toggle button and dropdown menu
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        // Check if both elements exist
+        if (dropdownToggle && dropdownMenu) {
+            // Add a click event listener to the dropdown toggle
+            dropdownToggle.addEventListener('click', function (event) {
+                // Prevent the default behavior
+                event.preventDefault();
+
+                // Toggle the 'show' class to open/close the dropdown menu
+                dropdownMenu.classList.toggle('show');
+                
+                // Optionally, toggle the aria-expanded attribute for accessibility
+                const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
+                dropdownToggle.setAttribute('aria-expanded', !isExpanded);
+            });
+
+            // Optionally, close the dropdown if the user clicks outside of it
+            document.addEventListener('click', function (event) {
+                // Close the dropdown if the click was outside of the dropdown
+                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    });
+</script>
+
 
 
 

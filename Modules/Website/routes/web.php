@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\CategoryController;
@@ -18,6 +19,13 @@ use Modules\Website\app\Http\Controllers\CategoryController;
 
 Route::group([], function () {
     Route::resource('website', WebsiteController::class)->names('website');
+});
+Route::group(['prefix' => '/profile'], function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/update_password/{id}', [ProfileController::class, 'update_password'])->name('profile.update_password');
+    Route::put('/update/profile_image/{id}', [ProfileController::class, 'update_image'])->name('profile.update_image');
+
 });
 
 
