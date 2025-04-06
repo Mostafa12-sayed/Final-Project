@@ -55,7 +55,7 @@
                                         
                                         </div>
 
-                                        <p class="text-danger text-center">Don't have an account? <a href="auth-signup.html" class="text-dark fw-bold ms-1">Sign Up</a></p>
+                                        <p class="text-danger text-center">Don't have an account? <a href="{{ route('admin.register') }}" class="text-dark fw-bold ms-1">Sign Up</a></p>
                                    </div>
                               </div>
                          </div>

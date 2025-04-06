@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('code_to_register_id')->nullable()->constrained('codes_to_register','id')->nullOnDelete();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

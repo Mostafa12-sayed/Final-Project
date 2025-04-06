@@ -39,7 +39,31 @@ class AuthAdminController extends Controller
 
     public function logout()
     {
+        // dd('logout');
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }
+
+    public function register()
+    {
+        return view('dashboard::auth.register');
+    }
+    // public function register(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:admins',
+    //         'password' => 'required|string|min:8|confirmed',
+    //     ]);
+
+    //     $admin = Admin::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => bcrypt($request->password),
+    //     ]);
+
+    //     Auth::guard('admin')->login($admin);
+
+    //     return redirect()->route('admin.dashboard');
+    // }
 }
