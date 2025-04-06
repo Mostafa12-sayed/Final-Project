@@ -20,6 +20,11 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public function showLoginForm()
+    {
+        return view('website::profile.login');
+    }
+
     /**
      * Where to redirect users after login.
      *
