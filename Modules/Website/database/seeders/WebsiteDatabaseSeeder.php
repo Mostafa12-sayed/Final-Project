@@ -3,6 +3,8 @@
 namespace Modules\Website\database\seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Website\app\Models\Product;
+use Modules\Website\app\Models\Category;
 
 class WebsiteDatabaseSeeder extends Seeder
 {
@@ -11,6 +13,11 @@ class WebsiteDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        // Create 50 products, each assigned to a random category
+        // Product::factory()->count(50)->create();
+
+        Category::factory()->count(10)->create();
+        $parent = Category::first();
+        Category::factory()->count(5)->subcategory($parent->id)->create();
     }
 }

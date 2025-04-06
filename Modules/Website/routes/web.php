@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Website\app\Http\Controllers\WebsiteController;
+use Modules\Website\app\Http\Controllers\ProductController;
+use Modules\Website\app\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,9 @@ use Modules\Website\app\Http\Controllers\WebsiteController;
 Route::group([], function () {
     Route::resource('website', WebsiteController::class)->names('website');
 });
+
+
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
