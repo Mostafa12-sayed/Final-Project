@@ -108,6 +108,18 @@ class ProfileController extends Controller
         $user->save();
         return redirect()->route('profile.index')->with('success', 'Password updated successfully.');
     }
+    public function update_image(Request $request, $id):RedirectResponse
+    {
+        $request->validate([
+        'profile_image' => ['image','mimes:png,jpg,jpeg','max:2048','nullable']
+        ]);
+        $user=user::find($id);
+        $photoname=time().'.'.$request->profile_image->extension();
+        $request->profile_image->move(public_path('assets/img/account/').$photoname);
+        $user->profile_image=$photoname;
+        $user->save();
+        return redirect()->route('profile.index')->with('success', 'Profile image updated successfully.');
+    }
 
     /**
      * Remove the specified resource from storage.

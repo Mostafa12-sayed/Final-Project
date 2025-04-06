@@ -22,4 +22,6 @@ Route::group(['prefix' => '/profile'], function () {
     Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/update_password/{id}', [ProfileController::class, 'update_password'])->name('profile.update_password');
+    Route::put('/update/profile_image/{id}', [ProfileController::class, 'update_image'])->name('profile.update_image');
+
 });
