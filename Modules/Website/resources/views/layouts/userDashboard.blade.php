@@ -8,46 +8,67 @@
                 <div class="sidebar">
                     <div class="sidebar-top">
                         <div class="sidebar-profile-img">
-                            <img src="{{ Auth::user()->profile_photo ?? 'assets/img/account/03.jpg' }}" alt="" id="profileImage">
+                            @if (@empty(Auth::user()->profile_image))
+                            <img src="{{ 'assets/img/account/04.jpg' }}" alt="" id="profileImage">
+                            @else
+                            <img src="{{ 'assets/img/account/'.Auth::user()->profile_image }}" alt="" id="profileImage">
+                            @endif
                             <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
                             <input type="file" name="profile_image" class="profile-img-file" id="profilePhotoInput" accept="image/*" onchange="uploadPhoto(this)">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         </div>
                         <script>
-                            function uploadPhoto(input) {
-                                if (input.files && input.files[0]) {
-                                    var formData = new FormData();
-                                    formData.append('profile_image', input.files[0]);
-                                    formData.append('_token', '{{ csrf_token() }}');
-                                    console.log(formData.get('profile_image')); // Use formData.get to inspect
-                                    // $token=input.files[1];
-                                    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                                    $.ajax({
-                                        url: "{{ route('profile.update_image', Auth::user()->id) }}", // Correct URL generation
-                                        type: 'PUT', // Or 'PUT', depending on your route definition
-                                        data: {'profile_image':input.files[0],
-                                            '_token': csrftoken}, // Send the FormData object
-                                        processData: false,
-                                        contentType: false,
-                                        dataType: 'json',
-                                        success: function(response) {
+                        function uploadPhoto(input) {
+                            if (input.files && input.files[0]) {
+                                var formData = new FormData();
+                                formData.append('profile_image', input.files[0]);
+                                formData.append('_token', '{{ csrf_token() }}');
+                                formData.append('_method', 'PUT');
+                                
+                                $.ajax({
+                                    url: "{{ route('profile.update_image', Auth::user()->id) }}",
+                                    type: 'POST', // Important: Use POST with _method for file uploads
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    },
+                                    success: function(response) {
+                                        if (response.success) {
                                             $('#profileImage').attr('src', response.photo_url);
-                                            console.log('Photo uploaded successfully:', response.photo_url); // Log the response for debugging
-                                        },
-                                        error: function(xhr) {
-                                            alert('Error uploading photo');
-                                            console.error(xhr); // Log the error for debugging
+                                            console.log('Photo uploaded successfully:', response);
+                                            console.log('src:', response.photo_url);
+                                        } else {
+                                            alert('Error: ' + (response.message || 'Unknown error'));
                                         }
-                                    });
-                                }
-                            }
-
-                            $(document).ready(function() {
-                                $('.profile-img-btn').on('click', function() {
-                                    $('#profilePhotoInput').click(); // Trigger file input click
+                                    },
+                                    error: function(xhr) {
+                                        var errorMessage = 'Error uploading photo';
+                                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                                            errorMessage = xhr.responseJSON.message;
+                                        } else if (xhr.responseText) {
+                                            try {
+                                                var htmlResponse = $(xhr.responseText);
+                                                var text = htmlResponse.filter('div.alert, div.message').text() || 
+                                                        htmlResponse.find('div.alert, div.message').text();
+                                                if (text) errorMessage = text.trim();
+                                            } catch(e) {
+                                                errorMessage = xhr.statusText;
+                                            }
+                                        }
+                                        alert(errorMessage);
+                                        console.error('Error details:', xhr);
+                                    }
                                 });
-                            });
-                        </script>
+                            }
+                        }
+
+    $(document).ready(function() {
+        $('.profile-img-btn').on('click', function() {
+            $('#profilePhotoInput').click();
+        });
+    });
+</script>
                         <h5><a href="{{ route('profile.index')}}">{{ ucfirst(Auth::user()->name) }} {{ ucfirst(Auth::user()->last_name) }}</a></h5>
                         <p>{{ Auth::user()->email }}</p>
                     </div>
