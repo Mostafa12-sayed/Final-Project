@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
+use Modules\Website\app\Http\Controllers\ProductController;
+use Modules\Website\app\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +27,9 @@ Route::group(['prefix' => '/profile'], function () {
     Route::put('/update/profile_image/{id}', [ProfileController::class, 'update_image'])->name('profile.update_image');
 
 });
+
+
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
