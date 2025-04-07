@@ -78,7 +78,7 @@ class ProfileController extends Controller
     $user->email = $request->email;
     $user->phone = $request->phone;
     $user->save();
-    $address=$user->address;
+    $address=Addresses::where('user_id',$user->id)->first();
     if (!$address) {
         $address = new Addresses();
         $address->user_id = $user->id;
@@ -87,7 +87,7 @@ class ProfileController extends Controller
         $address->zip_code = $request->zip_code;
         $address->save();
     }else {
-        $address = Addresses::find($address->id);
+        $address = Addresses::where('user_id',$user->id)->first();
         $address->street = $request->street;
         $address->city = $request->city;
         $address->zip_code = $request->zip_code;
@@ -108,16 +108,31 @@ class ProfileController extends Controller
         $user->save();
         return redirect()->route('profile.index')->with('success', 'Password updated successfully.');
     }
-    public function update_image(Request $request, $id):RedirectResponse
+    public function update_image(Request $request, $id)
     {
         $request->validate([
         'profile_image' => ['image','mimes:png,jpg,jpeg','max:2048','nullable']
         ]);
         $user=user::find($id);
-        $photoname=time().'.'.$request->profile_image->extension();
-        $request->profile_image->move(public_path('assets/img/account/').$photoname);
+
+        $directory = public_path('assets/img/account/');
+        $photoname='profile_'.time().'.'.$request->profile_image->extension();
+
+        if ($user->profile_image && file_exists($directory.'/'.$user->profile_image)) {
+            unlink($directory.'/'.$user->profile_image);
+        }
+
+        $request->profile_image->move($directory,$photoname);
         $user->profile_image=$photoname;
         $user->save();
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'photo_url' => asset('assets/img/account/'.$photoname),
+                'message' => 'Profile image updated successfully.'
+            ]);
+        }
+        
         return redirect()->route('profile.index')->with('success', 'Profile image updated successfully.');
     }
 
