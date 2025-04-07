@@ -12,7 +12,7 @@
      <meta name="description" content="A fully responsive premium admin dashboard template" />
      <meta name="author" content="Techzaa" />
      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
+     @stack('styles')
      <!-- App favicon -->
      <link rel="shortcut icon" href="{{asset('dashboard/assets/images/favicon.ico')}}">
 
@@ -33,7 +33,13 @@
 
 
      <div class="wrapper">
-
+          @if (session()->has('flasher_messages'))
+                    @foreach (session('flasher_messages') as $message)
+                    <div class="alert alert-{{ $message['type'] }}">
+                         {{ $message['message'] }}
+                    </div>
+                    @endforeach
+          @endif
           <!-- ========== Topbar Start ========== -->
      
           @include('dashboard::layouts.includes.header')
@@ -46,6 +52,7 @@
 
      <!-- App Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/app.js')}}"></script>
+     @stack('scripts') {{-- مهم لعرض السكربت --}}
 
 </body>
 

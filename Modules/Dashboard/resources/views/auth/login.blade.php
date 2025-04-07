@@ -4,9 +4,20 @@
      <div class="d-flex flex-column h-100 p-3">
           <div class="d-flex flex-column flex-grow-1">
                <div class="row h-100">
+          
                     <div class="col-xxl-12">
+             
                          <div class="row justify-content-center h-100">
+                              
                               <div class="col-lg-6 py-lg-5">
+                                               @if(session()->has('success'))
+                                   @component('dashboard::component.alert-success')
+                                        @slot('type', 'success')
+                                        @slot('bg', 'success ')
+                                        @slot('title',session('success'))
+                    
+                                   @endcomponent
+                              @endif
                                    <div class="d-flex flex-column h-100 justify-content-center">
                                    <div class="auth-logo mb-4">
                                              <a href="index.html" class="logo-dark">

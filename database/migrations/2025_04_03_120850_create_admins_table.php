@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('code_to_register_id')->nullable()->constrained('codes_to_register','id')->nullOnDelete();
+   
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->enum('type',['user','admin'])->default('user');
 
-            $table->string('status')->default('active'); // Default status is 'active'
+            $table->enum('status',['active' ,'pending' , 'inactive'])->default('pending'); // Default status is 'active'
             $table->string('remember_token')->nullable();
             $table->string('profile_picture')->nullable(); // Optional profile picture
             $table->string('last_login_ip')->nullable(); // Optional last login IP

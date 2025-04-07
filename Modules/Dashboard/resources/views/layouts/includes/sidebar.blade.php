@@ -297,14 +297,13 @@
                            <div class="collapse" id="sidebarSellers">
                                 <ul class="nav sub-navbar-nav">
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-list.html">List</a>
+                                          <a class="sub-nav-link" href="{{ route('admin.sellers.index') }}">List</a>
                                      </li>
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-details.html">Details</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-edit.html">Edit</a>
-                                     </li>
+                                        <a class="sub-nav-link" href="{{ route('admin.sellers.orders') }}">orders</a>
+                                   </li>
+                                  
+                                
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="seller-add.html">Create</a>
                                      </li>
