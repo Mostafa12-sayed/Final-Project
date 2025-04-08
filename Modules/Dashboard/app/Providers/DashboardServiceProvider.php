@@ -4,7 +4,8 @@ namespace Modules\Dashboard\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-
+use Flasher\SweetAlert\Prime\SweetAlertInterface;
+use Flasher\SweetAlert\Laravel\SweetAlert;
 class DashboardServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Dashboard';
@@ -36,6 +37,8 @@ class DashboardServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+        // $this->app->bind(SweetAlertInterface::class, SweetAlert::class);
+
     }
 
     /**

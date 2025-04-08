@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('code')->unique();
             $table->string('slug')->unique();
-            $table->foreignId('parent_id')->nullable()->constrained('categories','id')->nullOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('categories','id')->cascadOnDelete();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->enum('status',['active','nactive'])->default('active');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
