@@ -44,7 +44,7 @@ Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 
 
-
+Route::middleware(['auth'])->group(function () {
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
@@ -53,4 +53,4 @@ Route::get('/my-orders-details', [OrderController::class, 'details'])->name('ord
 // Route::get('/my-orders/{id}', [OrderController::class, 'show'])->name('order.show');
 Route::get('/track-order/{trackingNumber}', [OrderController::class, 'track'])->name('order.track');
 
-
+});
