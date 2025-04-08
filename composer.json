@@ -11,7 +11,8 @@
         "laravel/socialite": "^5.19",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
-        "nwidart/laravel-modules": "10.0.6"
+        "nwidart/laravel-modules": "10.0.6",
+        "php-flasher/flasher-laravel": "^2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

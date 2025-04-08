@@ -23,57 +23,57 @@ Table of contents
 12. Mega menu
 13. Multi level dropdown menu
 14. Search popup
-15. Hero css 
-16. Small banner css 
-17. Mid banner css 
-18. Big banner css 
-19. Popup banner css 
-20. Category css 
-21. Shop css 
-22. Shop cart css 
+15. Hero css
+16. Small banner css
+17. Mid banner css
+18. Big banner css
+19. Popup banner css
+20. Category css
+21. Shop css
+22. Shop cart css
 23. Shop checkout css
-24. Shop checkout complete css 
-25. Shop single css 
-26. Compare css 
-27. Price range css 
-28. Product css 
+24. Shop checkout complete css
+25. Shop single css
+26. Compare css
+27. Price range css
+28. Product css
 29. Product list css
-30. Modal quick view css 
-31. Bs custom css 
+30. Modal quick view css
+31. Bs custom css
 32. Countdown css
-33. Deal css 
-34. Feature css 
-35. About css 
-36. Counter css 
-37. Team css 
+33. Deal css
+34. Feature css
+35. About css
+36. Counter css
+37. Team css
 38. Play btn
-39. Video css 
-40. Testimonial css 
-41. Brand css 
-42. Help css 
-43. Invoices css 
-44. Faq css 
-45. Auth css 
-46. User css 
-47. Coming soon css 
-48. Error css 
-49. Terms/privacy css 
-50. Mail success css 
-51. Blog css 
+39. Video css
+40. Testimonial css
+41. Brand css
+42. Help css
+43. Invoices css
+44. Faq css
+45. Auth css
+46. User css
+47. Coming soon css
+48. Error css
+49. Terms/privacy css
+50. Mail success css
+51. Blog css
 52. Blog single css
 53. Widget sidebar css
-54. Pagination css 
-55. Breadcrumb css 
-56. Contact us css 
-57. Gallery css 
-58. Affiliate css 
-59. Cta css 
-60. Process css 
-61. Instagram css 
-62. Choose css 
-63. Newsletter css 
-64. Footer css 
-65. Home 2 css 
+54. Pagination css
+55. Breadcrumb css
+56. Contact us css
+57. Gallery css
+58. Affiliate css
+59. Cta css
+60. Process css
+61. Instagram css
+62. Choose css
+63. Newsletter css
+64. Footer css
+65. Home 2 css
 =======================================================*/
 
 
@@ -926,7 +926,7 @@ label {
   .header-top-right .header-top-list li{
     padding-right: 0px;
   }
-  
+
   .header-top .dropdown-toggle::after{
     float: unset;
   }
@@ -1876,11 +1876,11 @@ label {
   .nav-item.mega-menu {
     position: static;
   }
-  
+
   .navbar .nav-item.mega-menu .dropdown-menu{
     width: 98.2%;
     left: 12px;
-  } 
+  }
 
   .mega-menu .mega-content{
     padding: 12px 16px 10px 16px;
@@ -2120,7 +2120,7 @@ label {
 
 
 /*====================
-15. Hero css 
+15. Hero css
 ======================*/
 
 .hero-section {
@@ -2176,7 +2176,7 @@ label {
   display: flex;
   align-items: center;
   gap: 10px;
-} 
+}
 
 
 /* hero slider */
@@ -2447,7 +2447,7 @@ label {
 
 
 /*====================
-16. Small banner css 
+16. Small banner css
 ======================*/
 
 .small-banner{
@@ -2532,7 +2532,7 @@ label {
 
 
 /*====================
-17. Mid banner css 
+17. Mid banner css
 ======================*/
 
 .mid-banner{
@@ -2602,7 +2602,7 @@ label {
   .mid-banner .banner-item h3 {
     font-size: 19px;
   }
-} 
+}
 
 @media all and (max-width: 991px) {
   .mid-banner .banner-item p{
@@ -2625,7 +2625,7 @@ label {
 
 
 /*====================
-18. Big banner css 
+18. Big banner css
 ======================*/
 
 .big-banner{
@@ -2678,7 +2678,7 @@ label {
 
 
 /*====================
-19. Popup banner css 
+19. Popup banner css
 ======================*/
 
 .popup-banner .modal-content{
@@ -2792,7 +2792,7 @@ label {
 
 
 /*====================
-20. Category css 
+20. Category css
 ======================*/
 
 .category-item a{
@@ -2890,7 +2890,7 @@ label {
 
 
 /*====================
-21. Shop css 
+21. Shop css
 ======================*/
 
 /* shop sidebar */
@@ -2980,12 +2980,12 @@ label {
   color: var(--body-text-color);
   width: 100%;
   margin-left: 4px;
-} 
+}
 
 .shop-checkbox-list .form-check-label span{
   float: right;
   margin-right: 3px;
-} 
+}
 
 .shop-checkbox-list.color li{
   display: inline-block;
@@ -3194,7 +3194,7 @@ label {
 
 
 /*===================
-22. Shop cart css 
+22. Shop cart css
 =====================*/
 
 .shop-cart thead tr {
@@ -3380,7 +3380,7 @@ label {
 
 
 /*===================
-23. Shop checkout css 
+23. Shop checkout css
 =====================*/
 
 .shop-checkout-step .accordion-item{
@@ -3600,7 +3600,7 @@ label {
 
 
 /*============================
-24. Shop checkout complete css 
+24. Shop checkout complete css
 ==============================*/
 
 .shop-checkout-complete{
@@ -3646,7 +3646,7 @@ label {
 
 
 /*===================
-25. Shop single css 
+25. Shop single css
 =====================*/
 
 .shop-single{
@@ -3695,7 +3695,7 @@ label {
   margin: 6.8px;
   padding: 0;
   width: 23%;
-} 
+}
 
 .shop-single-gallery .flex-control-thumbs li:first-child{
   margin-left: 0;
@@ -3947,7 +3947,7 @@ label {
 @media all and (max-width: 1399px) {
   .shop-single-gallery .flex-control-thumbs li{
     margin: 6px;
-  } 
+  }
 
   .shop-single-action .theme-btn2{
     margin-left: 2px;
@@ -3982,7 +3982,7 @@ label {
 @media all and (max-width: 767px) {
   .shop-single-gallery .flex-control-thumbs li{
     margin: 4.6px;
-  } 
+  }
 
   .shop-single-size{
     margin-top: 20px;
@@ -4010,7 +4010,7 @@ label {
 
 
 /*====================
-26. Compare css 
+26. Compare css
 ======================*/
 
 .compare-table {
@@ -4078,7 +4078,7 @@ label {
 
 
 /*===================
-27. Price range css 
+27. Price range css
 =====================*/
 
 .price-range-box{
@@ -4126,7 +4126,7 @@ label {
 
 
 /*====================
-28. Product css 
+28. Product css
 ======================*/
 
 .product-area{
@@ -4488,7 +4488,7 @@ label {
 
 
 /*====================
-29. Product list css 
+29. Product list css
 ======================*/
 
 .product-list{
@@ -4541,7 +4541,7 @@ label {
 }
 
 .product-list-item:last-child{
-  margin-bottom: 0;  
+  margin-bottom: 0;
 }
 
 .product-list-img{
@@ -4626,7 +4626,7 @@ label {
 
 
 /*======================
-30. Modal quick view css 
+30. Modal quick view css
 ========================*/
 
 .quickview .modal-content{
@@ -4725,7 +4725,7 @@ label {
 
 
 /*====================
-31. Bs custom css 
+31. Bs custom css
 ======================*/
 
 /* tooltip */
@@ -4800,7 +4800,7 @@ label {
 
 
 /*====================
-33. Deal css 
+33. Deal css
 ======================*/
 
 .deal-area{
@@ -4963,7 +4963,7 @@ label {
 
 
 /*====================
-34. Feature css 
+34. Feature css
 ======================*/
 
 .feature-area{
@@ -5040,7 +5040,7 @@ label {
   .feature-content{
     flex: 1;
   }
-  
+
   .feature-wrap .feature-item{
     border-right: none;
   }
@@ -5062,7 +5062,7 @@ label {
 
 
 /*====================
-35. About css 
+35. About css
 ======================*/
 
 .about-left{
@@ -5167,7 +5167,7 @@ label {
 
 
 /*====================
-36. Counter css 
+36. Counter css
 ======================*/
 
 .counter-area {
@@ -5240,7 +5240,7 @@ label {
 
 
 /*===================
-37. Team css 
+37. Team css
 =====================*/
 
 .team-area {
@@ -5367,7 +5367,7 @@ label {
 
 
 /*====================
-39. Video css 
+39. Video css
 ======================*/
 
 .video-content {
@@ -5421,9 +5421,9 @@ label {
 
 
 
- 
+
 /*====================
-40. Testimonial css 
+40. Testimonial css
 ======================*/
 
 .testimonial-area {
@@ -5523,7 +5523,7 @@ label {
 
 
 /*====================
-41. Brand css 
+41. Brand css
 ======================*/
 
 .brand-area{
@@ -5557,7 +5557,7 @@ label {
 
 
 /*====================
-42. Help css 
+42. Help css
 ======================*/
 
 .help-area{
@@ -5636,7 +5636,7 @@ label {
   margin-top: 15px;
   margin-bottom: 10px;
   font-size: 20px;
-} 
+}
 
 .help-item .theme-btn{
   border-radius: 50px;
@@ -5657,7 +5657,7 @@ label {
 
 
 /*====================
-43. Invoices css 
+43. Invoices css
 ======================*/
 
 .invoice-area{
@@ -5718,12 +5718,12 @@ label {
 }
 
 .invoice-table table,
-.invoice-table td, 
+.invoice-table td,
 .invoice-table th {
   border: 1px solid var(--border-info-color);
 }
 
-.invoice-table td, 
+.invoice-table td,
 .invoice-table th {
   padding: 10px 20px;
 }
@@ -5743,7 +5743,7 @@ label {
 
 
 /*====================
-44. Faq css 
+44. Faq css
 ======================*/
 
 .faq-area{
@@ -5830,7 +5830,7 @@ label {
 
 
 /*====================
-45. Auth css 
+45. Auth css
 ======================*/
 
 .login-form {
@@ -6033,7 +6033,7 @@ label {
 
 
 /*====================
-46. User css 
+46. User css
 ======================*/
 
 /* nav account */
@@ -7028,7 +7028,7 @@ label {
 
 
 /*====================
-47. Coming soon css 
+47. Coming soon css
 ======================*/
 
 .coming-soon {
@@ -7140,7 +7140,7 @@ label {
 
 
 /*====================
-48. Error css 
+48. Error css
 ======================*/
 
 .error-wrapper {
@@ -7182,7 +7182,7 @@ label {
 
 
 /*====================
-49. Terms/privacy css 
+49. Terms/privacy css
 ====================== */
 
 .terms-content:not(:last-child) {
@@ -7215,7 +7215,7 @@ label {
 
 
 /*============================
-50. Mail success css 
+50. Mail success css
 ==============================*/
 
 .mail-success{
@@ -7255,7 +7255,7 @@ label {
 
 
 /*====================
-51. Blog css 
+51. Blog css
 ======================*/
 
 .blog-area{
@@ -7283,7 +7283,7 @@ label {
 
 .blog-item:hover .blog-item-img img{
   transform: scale(1.1);
-} 
+}
 
 .blog-date{
   position: absolute;
@@ -7797,7 +7797,7 @@ label {
 
 
 /*====================
-54. Pagination css 
+54. Pagination css
 ======================*/
 
 .pagination-area{
@@ -7833,7 +7833,7 @@ label {
 
 
 /*====================
-55. Breadcrumb css 
+55. Breadcrumb css
 ======================*/
 
 .site-breadcrumb {
@@ -7915,7 +7915,7 @@ label {
 
 
 /*===================
-56. Contact us css 
+56. Contact us css
 =====================*/
 
 .contact-area {
@@ -8027,7 +8027,7 @@ label {
 
 
 /* ========================
-57. Gallery css 
+57. Gallery css
 =========================== */
 
 .gallery-item {
@@ -8100,7 +8100,7 @@ label {
 
 
 /* ===================
-58. Affiliate css 
+58. Affiliate css
 ====================== */
 
 .affiliate-area{
@@ -8174,7 +8174,7 @@ label {
 
 
 /* ===================
-59. Cta css 
+59. Cta css
 ====================== */
 
 .cta-area{
@@ -8243,7 +8243,7 @@ label {
 
 
 /* ===================
-60. Process css 
+60. Process css
 ====================== */
 
 .process-area{
@@ -8291,7 +8291,7 @@ label {
 
 
 /* ===================
-61. Instagram css 
+61. Instagram css
 ====================== */
 
 .instagram-area{
@@ -8352,7 +8352,7 @@ label {
 
 
 /*====================
-62. Choose css 
+62. Choose css
 ======================*/
 
 .choose-area{
@@ -8408,7 +8408,7 @@ label {
 
 
 /*====================
-63. Newsletter css 
+63. Newsletter css
 ======================*/
 
 .newsletter-area{
@@ -8497,7 +8497,7 @@ label {
 
 
 /*====================
-64. Footer css 
+64. Footer css
 ======================*/
 
 .footer-area {
@@ -8895,7 +8895,7 @@ label {
 
 
 /*====================
-65. Home 2 css 
+65. Home 2 css
 ======================*/
 
 .home-2 .navbar{
@@ -9097,8 +9097,42 @@ label {
   .home-2 .search-form .form-group{
     margin-bottom: 20px;
   }
-} 
+}
 
+.pagination-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
 
+.pagination {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.pagination a:hover{
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.pagination a, .pagination span {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+}
+
+.pagination .disabled {
+    color: #999;
+    cursor: not-allowed;
+    border-color: #eee;
+}
+
+.entries-count {
+    color: #666;
+    font-size: 0.9rem;
+}
 
 

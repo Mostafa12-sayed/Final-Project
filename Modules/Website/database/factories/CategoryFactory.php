@@ -31,7 +31,14 @@ class CategoryFactory extends Factory
             'slug' => Str::slug($name),
             'parent_id' => null, // Can be overridden for subcategories
             'description' => $this->faker->sentence,
-            'image' => $this->faker->imageUrl(200, 200, 'categories', true),
+            'image' => $this->faker->randomElement([
+                'assets/img/icon/account.svg',
+                'assets/img/icon/award.svg',
+                'assets/img/icon/baby-mom-care.svg',
+                'assets/img/icon/sale.svg',
+                'assets/img/icon/rate.svg',
+                'assets/img/icon/supplements.svg',
+            ]),
             'status' => $this->faker->randomElement(['active', 'nactive']),
         ];
     }
