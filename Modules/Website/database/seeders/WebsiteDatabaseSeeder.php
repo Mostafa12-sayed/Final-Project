@@ -2,9 +2,11 @@
 
 namespace Modules\Website\database\seeders;
 
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\Seeder;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Category;
+use Modules\Website\app\Models\Stores;
 
 class WebsiteDatabaseSeeder extends Seeder
 {
@@ -13,11 +15,15 @@ class WebsiteDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 50 products, each assigned to a random category
-        // Product::factory()->count(50)->create();
-
+        // Step 1: Create 10 categories first
         Category::factory()->count(10)->create();
-        $parent = Category::first();
-        Category::factory()->count(5)->subcategory($parent->id)->create();
+
+        // Step 2: Create 100 products, assigning them to existing categories
+        Product::factory()->count(100)->create([
+            'category_id' => function () {
+                // Randomly pick an existing category
+                return Category::inRandomOrder()->first()->id;
+            },
+        ]);
     }
 }

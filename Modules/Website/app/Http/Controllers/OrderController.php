@@ -73,6 +73,8 @@ class OrderController extends Controller
         
         return view('website::order.details', compact('orders'));
     }
+    
+
 
     public function track($trackingNumber)
     {

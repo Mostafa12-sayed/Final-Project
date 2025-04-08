@@ -13,10 +13,30 @@ class Order extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id', 
+        'tracking_number', 
+        'shipping_address', 
+        'total_price', 
+        'payment_method',
+    ];
+
+    /**
+     * Define the relationship with OrderItems.
+     */
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
     
     protected static function newFactory(): OrderFactory
     {
-        //return OrderFactory::new();
+        return OrderFactory::new();
     }
 }
+

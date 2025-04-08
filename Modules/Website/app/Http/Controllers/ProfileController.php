@@ -93,7 +93,7 @@ class ProfileController extends Controller
         $address->zip_code = $request->zip_code;
         $address->save();
     }
-    
+
     return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
 }
     public function update_password(Request $request, $id): RedirectResponse
