@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Website\app\Models\Product;
+use Modules\Website\app\Models\Category;
 
 class ProductController extends Controller
 {
@@ -15,27 +16,67 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $products = Product::where('status', 'active')->paginate(9);
-        $products = Product::query()
-        ->when(request('search'), function ($query) {
-            $query->where('name', 'like', '%' . request('search') . '%');
-        })
-        ->when(request('sort'), function ($query) {
+        $query = Product::query();
+
+        // Search Filter
+        $query->when(request('search'), function ($q) {
+            $q->where('name', 'like', '%' . request('search') . '%');
+        });
+
+        // Category Filter
+        $query->when(request('category'), function ($q) {
+            $category = Category::where('slug', request('category'))->first();
+            if ($category) {
+                $q->where('category_id', $category->id);
+            }
+        });
+
+        // Price Range Filter
+        $query->when(request('price_min') || request('price_max'), function ($q) {
+            $min = request('price_min', 0);
+            $max = request('price_max', 1000);
+            $q->whereBetween('price', [$min, $max]);
+        });
+
+        // Sales Filters
+        $query->when(request('on_sale'), function ($q) {
+            $q->where('discount', '>', 0); // Assuming 'on sale' means discounted
+        });
+        $query->when(request('in_stock'), function ($q) {
+            $q->where('stock', '>', 0);
+        });
+        $query->when(request('out_of_stock'), function ($q) {
+            $q->where('stock', 0);
+        });
+        $query->when(request('discount'), function ($q) {
+            $q->where('discount', '>', 0);
+        });
+
+        // Ratings Filter
+        $query->when(request('rating'), function ($q) {
+            $ratings = request('rating', []);
+            $q->whereIn('rating', $ratings);
+        });
+
+        // Sorting
+        $query->when(request('sort'), function ($q) {
             switch (request('sort')) {
                 case 'latest':
-                    $query->latest();
+                    $q->latest();
                     break;
                 case 'price_low':
-                    $query->orderBy('price', 'asc');
+                    $q->orderBy('price', 'asc');
                     break;
                 case 'price_high':
-                    $query->orderBy('price', 'desc');
+                    $q->orderBy('price', 'desc');
                     break;
             }
-        })
-        ->paginate(15); // 10 items per page
-        return view('website::product.products', compact('products'));
-        // return view('website::index');
+        });
+
+        $products = $query->paginate(15);
+        $categories = Category::where('status', 'active')->get(); // Fetch categories for the sidebar
+
+        return view('website::product.products', compact('products', 'categories'));
     }
     public function getProductDetails(Request $request): \Illuminate\Http\JsonResponse
     {

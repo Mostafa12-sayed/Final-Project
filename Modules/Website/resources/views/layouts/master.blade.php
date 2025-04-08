@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
 
+
+
     {{-- Vite CSS --}}
     {{-- {{ module_vite('build-website', 'resources/assets/sass/app.scss') }} --}}
 </head>
@@ -63,4 +65,6 @@
         <script src="{{ asset('assets/js/wow.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <script src="{{ asset('assets/js/quickview.js') }}"></script>
+
+        
 </body>
