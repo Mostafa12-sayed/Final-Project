@@ -140,7 +140,7 @@
                    <div class="dropdown topbar-item">
                         <a type="button" class="topbar-button" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                              <span class="d-flex align-items-center">
-                                  <img class="rounded-circle" width="32" src="assets/images/users/avatar-1.jpg" alt="avatar-3">
+                                  <img class="rounded-circle" width="32" src="{{ asset('dashboard/assets/images/users/avatar-1.jpg') }}" alt="avatar-3">
                              </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -165,7 +165,7 @@
 
                              <div class="dropdown-divider my-1"></div>
 
-                             <a class="dropdown-item text-danger" href="auth-signin.html">
+                             <a class="dropdown-item text-danger" href="{{ route('admin.logout') }}">
                                   <i class="bx bx-log-out fs-18 align-middle me-1"></i><span class="align-middle">Logout</span>
                              </a>
                         </div>

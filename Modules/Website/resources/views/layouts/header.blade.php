@@ -340,9 +340,8 @@
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle" href="#">Orders</a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="order-list.html">Orders List</a></li>
-                                                <li><a class="dropdown-item" href="order-detail.html">Order Details</a>
-                                                </li>
+                                                <li><a class="dropdown-item" href="{{ route('order.list') }}">Orders List</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('order.details') }}">Order Details</a></li>
                                             </ul>
                                         </li>
                                         <li><a class="dropdown-item" href="wishlist.html">My Wishlist</a></li>

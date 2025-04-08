@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stores', function (Blueprint $table) {
-            $table->foreignId('user_id')->after('id')->constrained()->onDelete('cascade');
+            $table->foreignId('admin_id')->after('id')->constrained('admins')->onDelete('cascade');
             $table->decimal('commission_rate', 5, 2)->default(0);
             $table->enum('is_approved', ['yes', 'no'])->default('no');
         });

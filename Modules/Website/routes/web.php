@@ -6,6 +6,10 @@ use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\CategoryController;
+use Modules\Website\app\Http\Controllers\OrderController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +42,15 @@ Route::get('/quick-view/{productId}', [ProductController::class, 'getProductDeta
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+
+
+
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
+Route::get('/my-orders-details', [OrderController::class, 'details'])->name('order.details');
+// route::get('/delete-order/{id}', [OrderController::class,'show'])->name('order.delete');
+// Route::get('/my-orders/{id}', [OrderController::class, 'show'])->name('order.show');
+Route::get('/track-order/{trackingNumber}', [OrderController::class, 'track'])->name('order.track');
+
+

@@ -32,6 +32,25 @@
                                 <span class="nav-text"> Dashboard </span>
                            </a>
                       </li>
+
+                      <li class="nav-item">
+                         <a class="nav-link menu-arrow" href="#sidebarCodes" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCodes">
+                              <span class="nav-icon">
+                                   <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
+                              </span>
+                              <span class="nav-text"> Codes Register </span>
+                         </a>
+                         <div class="collapse" id="sidebarCodes">
+                              <ul class="nav sub-navbar-nav">
+                                   <li class="sub-nav-item">
+                                        <a class="sub-nav-link" href="{{ route('admin.codes.index') }}">List</a>
+                                   </li>
+                                   <li class="sub-nav-item">
+                                        <a class="sub-nav-link" href="{{ route('admin.codes.create') }}">Create</a>
+                                   </li>
+                              </ul>
+                         </div>
+                    </li>
                       {{-- products --}}
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarProducts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarProducts">
@@ -278,14 +297,13 @@
                            <div class="collapse" id="sidebarSellers">
                                 <ul class="nav sub-navbar-nav">
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-list.html">List</a>
+                                          <a class="sub-nav-link" href="{{ route('admin.sellers.index') }}">List</a>
                                      </li>
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-details.html">Details</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="seller-edit.html">Edit</a>
-                                     </li>
+                                        <a class="sub-nav-link" href="{{ route('admin.sellers.orders') }}">orders</a>
+                                   </li>
+                                  
+                                
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="seller-add.html">Create</a>
                                      </li>
