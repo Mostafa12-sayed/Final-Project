@@ -14,7 +14,7 @@ return new class extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             $table->string('last_name')->after('name')->nullable();
-            $table->string('phone')->after('email');
+            $table->string('phone')->after('email')->nullable();
             $table->enum('user_type', ['customer', 'vendor'])->default('customer');
         });
     }
