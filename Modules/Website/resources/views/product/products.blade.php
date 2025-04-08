@@ -59,56 +59,57 @@
                     <div class="shop-item-wrap item-4">
                         <div class="row g-4">
                             @forelse($products as $product)
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="product-item">
-                                        <div class="product-img">
-                                            @if($product->is_new)
-                                                <span class="type new">New</span>
-                                            @elseif($product->discount)
-                                                <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
-                                            @elseif($product->stock == 0)
-                                                <span class="type oos">Out Of Stock</span>
-                                            @endif
-                                            <a href="{{ route('product.show', $product->slug) }}">
-                                                <img src="{{ asset($product->gallery[0] ?? 'assets/img/product/01.png') }}" alt="{{ $product->name }}">
-                                            </a>
-                                            <div class="product-action-wrap">
-                                                <div class="product-action">
-                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i class="far fa-arrows-repeat"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <h3 class="product-title"><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h3>
-                                            <div class="product-rate">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    @if($i <= floor($product->rating))
-                                                        <i class="fas fa-star"></i>
-                                                    @elseif($i - 0.5 <= $product->rating)
-                                                        <i class="fas fa-star-half-alt"></i>
-                                                    @else
-                                                        <i class="far fa-star"></i>
-                                                    @endif
-                                                @endfor
-                                            </div>
-                                            <div class="product-bottom">
-                                                <div class="product-price">
-                                                    @if($product->discount)
-                                                        <del>${{ number_format($product->price, 2) }}</del>
-                                                        <span>${{ number_format($product->price - $product->discount, 2) }}</span>
-                                                    @else
-                                                        <span>${{ number_format($product->price, 2) }}</span>
-                                                    @endif
-                                                </div>
-                                                <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
-                                                    <i class="far fa-shopping-bag"></i>
-                                                </button>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="product-item" data-product-id="{{ $product->id }}">
+                                    <div class="product-img">
+                                        @if($product->is_new)
+                                            <span class="type new">New</span>
+                                        @elseif($product->discount)
+                                            <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
+                                        @elseif($product->stock == 0)
+                                            <span class="type oos">Out Of Stock</span>
+                                        @endif
+                                        <a href="{{ route('product.show', $product->slug) }}">
+                                            <!-- <img src="{{ asset($product->gallery[0] ?? 'assets/img/product/01.png') }}" alt="{{ $product->name }}"> -->
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                        </a>
+                                        <div class="product-action-wrap">
+                                            <div class="product-action">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a>
+                                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
+                                                <a href="#" data-tooltip="tooltip" title="Add To Compare"><i class="far fa-arrows-repeat"></i></a>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="product-content">
+                                        <h3 class="product-title"><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h3>
+                                        <div class="product-rate">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= floor($product->rating))
+                                                    <i class="fas fa-star"></i>
+                                                @elseif($i - 0.5 <= $product->rating)
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                @else
+                                                    <i class="far fa-star"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                        <div class="product-bottom">
+                                            <div class="product-price">
+                                                @if($product->discount)
+                                                    <del>${{ number_format($product->price, 2) }}</del>
+                                                    <span>${{ number_format($product->price - $product->discount, 2) }}</span>
+                                                @else
+                                                    <span>${{ number_format($product->price, 2) }}</span>
+                                                @endif
+                                            </div>
+                                            <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
+                                                <i class="far fa-shopping-bag"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                             @empty
                                 <p>No products found.</p>
                             @endforelse
@@ -116,7 +117,31 @@
                     </div>
                     <!-- pagination -->
                     <div class="pagination-area mt-50">
-                        {{ $products->links() }}
+                        <div class="pagination">
+                            {{-- Previous Button --}}
+                            @if ($products->onFirstPage())
+                                <span class="disabled">Previous</span>
+                            @else
+                                <a href="{{ $products->previousPageUrl() }}">Previous</a>
+                            @endif
+
+                            {{-- Page Indicator (e.g., "8:7:22" from your image) --}}
+                            <span class="page-indicator">
+                                {{ $products->currentPage() }}:{{ $products->lastPage() }}:{{ $products->total() }}
+                            </span>
+
+                            {{-- Next Button --}}
+                            @if ($products->hasMorePages())
+                                <a href="{{ $products->nextPageUrl() }}">Next</a>
+                            @else
+                                <span class="disabled">Next</span>
+                            @endif
+                        </div>
+
+                        {{-- Optional: Show entries count (e.g., "Showing 1 to 10 of 17") --}}
+                        <div class="entries-count">
+                            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
+                        </div>
                     </div>
                     <!-- pagination end -->
                 </div>
@@ -124,5 +149,7 @@
         </div>
     </div>
     <!-- shop-area end -->
-@endsection
+    @endsection
+
+
 

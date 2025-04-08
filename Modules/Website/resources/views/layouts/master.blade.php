@@ -35,15 +35,15 @@
 <body>
     @include('website::layouts.header')
 
-    
+
     @yield('content')
 
 
-    
-    
+
+
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-website', 'resources/assets/js/app.js') }} --}}
-    
+
     @include('website::layouts.footer')
         <!-- js -->
         <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
@@ -62,4 +62,5 @@
         <script src="{{ asset('assets/js/countdown.min.js') }}"></script>
         <script src="{{ asset('assets/js/wow.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
+        <script src="{{ asset('assets/js/quickview.js') }}"></script>
 </body>
