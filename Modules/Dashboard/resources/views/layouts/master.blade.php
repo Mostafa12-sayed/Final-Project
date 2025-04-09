@@ -27,11 +27,15 @@
 
      <!-- Theme Config js (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/config.js')}}"></script>
+
+     <link  href="{{ asset('vendor/flasher/flasher.min.css') }}" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="h-100">
 
 
+     
      <div class="wrapper">
           @if (session()->has('flasher_messages'))
                     @foreach (session('flasher_messages') as $message)
@@ -52,7 +56,11 @@
 
      <!-- App Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/app.js')}}"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     
+     @include('dashboard::layouts.script')
      @stack('scripts') {{-- مهم لعرض السكربت --}}
+    @yield('script')
 
 </body>
 
