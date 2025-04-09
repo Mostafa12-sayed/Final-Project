@@ -2,33 +2,74 @@
 @section('title', 'Product Add')
 @section('content')
      <div class="page-content">
-
-          <!-- Start Container Fluid -->
           <div class="container-xxl">
-
                <div class="row">
-         
+
                     <div class="col-xl-12 col-lg-12 ">
-                         <div class="card">
-                              <div class="card-header">
-                                   <h4 class="card-title">Add Product Photo</h4>
-                              </div>
-                              <form action="https://techzaa.in/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-                              <div class="card-body">
-                                   <!-- File Upload -->
-                              
-                                        <div class="fallback">
-                                             <input name="file" type="file" multiple />
+                         <form action="{{ $product->id ?  route('admin.products.update' , ['product' =>$product->id]): route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+                              @csrf
+                              @if($product->id)
+                                   @method('PUT')
+                              @endif
+                              <div class="row">
+                                   <div class="card col-md-6">
+                                        <div class="card-header">
+                                        <h4 class="card-title">Add main photo</h4>
                                         </div>
-                                        <div class="dz-message needsclick">
+                                   
+                                        <div class="card-body">
+                                        <div class="image-upload-area text-center border p-4" style="cursor: pointer;" onclick="document.getElementById('main-image').click();">
                                              <i class="bx bx-cloud-upload fs-48 text-primary"></i>
                                              <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span></h3>
                                              <span class="text-muted fs-13">
                                                   1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
                                              </span>
+                                             <input type="file" name="image" id="main-image" accept="image/png, image/jpeg, image/gif" style="display: none;" >
                                         </div>
+                                   
+                                        <div id="imagePreviewContainermain" class="row mt-3">
+                                             @if(isset($product) && $product->image)
+                                                  <div class="col-md-3 position-relative mb-3" id="oldImagePreview">
+                                                       <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded" style="max-height: 200px;">
+                                                       <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="removeOldImage()">×</button>
+                                                  </div>
+                                             @endif
+                                        </div>
+                                        </div>
+                                        @if($errors->has('image'))
+                                             <span class="text-danger">{{ $errors->first('image') }}</span>
+                                        @endif
+                                   </div>
+
+                                   <div class="card col-md-6">
+                                        <div class="card-header">
+                                        <h4 class="card-title">Add Thumbnail Photo</h4>
+                                        </div>
+                                   
+                                        <div class="card-body">
+                                        <div class="image-upload-area text-center border p-4" style="cursor: pointer;" onclick="document.getElementById('gallary').click();">
+                                             <i class="bx bx-cloud-upload fs-48 text-primary"></i>
+                                             <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span></h3>
+                                             <span class="text-muted fs-13">
+                                                  1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
+                                             </span>
+                                             <input type="file" name="images[]" id="gallary" accept="image/png, image/jpeg, image/gif" style="display: none;" multiple>
+                                        </div>
+                                   
+                                        <div id="imagePreviewContainerimages" class="row mt-3">
+                                             @if(isset($product) && $product->image)
+                                                  <div class="col-md-3 position-relative mb-3" id="oldImagePreview">
+                                                       <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded" style="max-height: 200px;">
+                                                       <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="removeOldImage()">×</button>
+                                                  </div>
+                                             @endif
+                                        </div>
+                                        </div>
+                                        @if($errors->has('image'))
+                                             <span class="text-danger">{{ $errors->first('image') }}</span>
+                                        @endif
+                                   </div>
                               </div>
-                         </div>
                          <div class="card">
                               <div class="card-header">
                                    <h4 class="card-title">Product Information</h4>
@@ -36,43 +77,55 @@
                               <div class="card-body">
                                    <div class="row">
                                         <div class="col-lg-6">
-                                             <form>
+                                             
                                                   <div class="mb-3">
                                                        <label for="product-name" class="form-label">Product Name</label>
-                                                       <input type="text" id="product-name" class="form-control" placeholder="Items Name">
+                                                       <input type="text" id="product-name" name="name" class="form-control" placeholder="Items Name" value="{{ old('name' , $product->name) }}">
+                                                       @if($errors->has('name'))
+                                                       <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                       @endif
+                                                        
                                                   </div>
-                                             </form>
+                                             
                                         </div>
                                         <div class="col-lg-6">
-                                             <form>
+                                            
                                                   <label for="product-categories" class="form-label">Product Categories</label>
-                                                  <select class="form-control" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories" name="choices-single-groups">
-                                                       <option value="">Choose a categories</option>
-                                                       <option value="Fashion">Fashion</option>
-                                                       <option value="Electronics">Electronics</option>
-                                                       <option value="Footwear">Footwear</option>
-                                                       <option value="Sportswear">Sportswear</option>
-                                                       <option value="Watches">Watches</option>
-                                                       <option value="Furniture">Furniture</option>
-                                                       <option value="Appliances">Appliances</option>
-                                                       <option value="Headphones">Headphones</option>
-                                                       <option value="Other Accessories">Other Accessories</option>
+                                                  <select class="form-control mb-0" name="category_id" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories">
+                                                       <option value="" selected>Choose a categories</option>
+                                                       @foreach ($categories as $category )
+                                                       <option value="{{ $category->id }}"
+                                                            @if($product->id)
+                                                            {{ $product->category_id == $category->id  ? 'selected' : '' }}
+                                                            @endif
+                                                            >{{ $category->name }}</option>
+                                                       @endforeach
+                                            
                                                   </select>
-                                             </form>
+                                                  @if($errors->has('category_id'))
+                                                  <span class="text-danger">{{ $errors->first('category_id') }}</span>
+                                                  @endif
+                                           
                                         </div>
                                    </div>
                                    <div class="row">
                                         <div class="col-lg-6">
                                                   <div class="mb-3">
                                                        <label for="product-brand" class="form-label">Brand</label>
-                                                       <input type="text" id="product-brand" class="form-control" placeholder="Brand Name">
+                                                       <input type="text" name="brand" id="product-brand" class="form-control" placeholder="Brand Name" value="{{ old('brand',$product->brand) }}">
                                                   </div>
+                                                  @if($errors->has('brand'))
+                                                  <span class="text-danger">{{ $errors->first('brand') }}</span>
+                                                  @endif
                                         </div>
                                         <div class="col-lg-6">
                                              
                                              <div class="mb-3">
                                                   <label for="product-weight" class="form-label">Weight</label>
-                                                  <input type="text" id="product-weight" class="form-control" placeholder="In gm & kg">
+                                                  <input type="text" name="weight" id="product-weight" class="form-control" placeholder="In gm & kg" value="{{ old('weight',$product->weight) }}">
+                                                  @if($errors->has('weight'))
+                                                  <span class="text-danger">{{ $errors->first('weight') }}</span>
+                                                  @endif
                                              </div>
                                             
                                         </div>
@@ -83,38 +136,39 @@
                                         <div class="col-lg-12">
                                              <div class="mb-3">
                                                   <label for="description" class="form-label">Description</label>
-                                                  <textarea class="form-control bg-light-subtle" id="description" rows="7" placeholder="Short description about the product"></textarea>
+                                                  <textarea name="description" class="form-control bg-light-subtle" id="description" rows="7" placeholder="Short description about the product" > {{ old('description',$product->description) }}</textarea>
+                                                  @if($errors->has('description'))
+                                                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                                                  @endif
                                              </div>
                                         </div>
                                    </div>
                                    <div class="row">
-                                        <div class="col-lg-4">
-                                             <form>
+                                        <div class="col-lg-6">
+                                             
                                                   <div class="mb-3">
-                                                       <label for="product-id" class="form-label">Tag Number</label>
-                                                       <input type="number" id="product-id" class="form-control" placeholder="#******">
+                                                       <label for="product-code" class="form-label">Code </label>
+                                                       <input type="number" name="code" id="product-code" class="form-control" placeholder="#******" value="{{ old('code',$product->code) }}">
+                                                       @if($errors->has('code'))
+                                                       <span class="text-danger">{{ $errors->first('code') }}</span>
+                                                       @endif
                                                   </div>
 
-                                             </form>
+                                             
                                         </div>
-                                        <div class="col-lg-4">
-                                             <form>
+                                        <div class="col-lg-6">
+                                             
                                                   <div class="mb-3">
                                                        <label for="product-stock" class="form-label">Stock</label>
-                                                       <input type="number" id="product-stock" class="form-control" placeholder="Quantity">
+                                                       <input type="number" name="quantity" id="product-stock" class="form-control" placeholder="Quantity" value="{{ old('quantity',$product->quantity) }}">
+                                                       @if($errors->has('quantity'))
+                                                       <span class="text-danger">{{ $errors->first('quantity') }}</span>
+                                                       @endif
                                                   </div>
 
-                                             </form>
+                                             
                                         </div>
-                                        <div class="col-lg-4">
-                                             <label for="product-stock" class="form-label">Tag</label>
-                                             <select class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-                                                  <option value="Fashion" selected>Fashion</option>
-                                                  <option value="Electronics">Electronics</option>
-                                                  <option value="Watches">Watches</option>
-                                                  <option value="Headphones">Headphones</option>
-                                             </select>
-                                        </div>
+                                        
                                    </div>
                               </div>
                          </div>
@@ -125,31 +179,40 @@
                               <div class="card-body">
                                    <div class="row">
                                         <div class="col-lg-4">
-                                             <form>
+                                         
                                                   <label for="product-price" class="form-label">Price</label>
                                                   <div class="input-group mb-3">
                                                        <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
-                                                       <input type="number" id="product-price" class="form-control" placeholder="000">
+                                                       <input type="number" name="price" id="product-price" class="form-control" placeholder="000"  value="{{ old('price',$product->price) }}">
                                                   </div>
-                                             </form>
+                                                  @if($errors->has('price'))
+                                                  <span class="text-danger">{{ $errors->first('price') }}</span>
+                                                  @endif
+                                            
                                         </div>
                                         <div class="col-lg-4">
-                                             <form>
+                                             
                                                   <label for="product-discount" class="form-label">Discount</label>
                                                   <div class="input-group mb-3">
                                                        <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
-                                                       <input type="number" id="product-discount" class="form-control" placeholder="000">
+                                                       <input type="number" name="discount" value={{ old('discount',$product->discount) }} id="product-discount" class="form-control" placeholder="000">
                                                   </div>
-                                             </form>
+                                                  @if($errors->has('discount'))
+                                                  <span class="text-danger">{{ $errors->first('discount') }}</span>
+                                                  @endif
+                                             
                                         </div>
                                         <div class="col-lg-4">
-                                             <form>
+                                             
                                                   <label for="product-tex" class="form-label">Tex</label>
                                                   <div class="input-group mb-3">
                                                        <span class="input-group-text fs-20"><i class='bx bxs-file-txt'></i></span>
-                                                       <input type="number" id="product-tex" class="form-control" placeholder="000">
+                                                       <input type="number" name="tax" id="product-tex" class="form-control" placeholder="000" value="{{ old('tax',$product->tax) }}">
                                                   </div>
-                                             </form>
+                                                  @if($errors->has('tax'))
+                                                  <span class="text-danger">{{ $errors->first('tax') }}</span>
+                                                  @endif
+                                             
                                         </div>
                                    </div>
                               </div>
@@ -157,16 +220,17 @@
                          <div class="p-3 bg-light mb-3 rounded">
                               <div class="row justify-content-end g-2">
                                    <div class="col-lg-2">
-                                        <a href="#!" class="btn btn-outline-secondary w-100">Create Product</a>
+                                        <button type="submit" class="btn btn-outline-secondary w-100">Create Product</button>
                                    </div>
+
                                    <div class="col-lg-2">
-                                        <a href="#!" class="btn btn-primary w-100">Cancel</a>
+                                        <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
                                    </div>
                               </div>
                          </div>
-                    </form>
-
+                         
                     </div>
+               </form>
                </div>
           </div>
           <!-- End Container Fluid -->
@@ -184,4 +248,30 @@
           <!-- ========== Footer End ========== -->
 
      </div>
+
+     
+@endsection
+
+@section('script')
+
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+         const mainImageInput = document.getElementById('main-image');
+         const previewMain = document.getElementById('imagePreviewContainermain');
+         const extraImageInput = document.getElementById('gallary');
+         const previewExtra = document.getElementById('imagePreviewContainerimages');
+ 
+         if (mainImageInput && previewMain) {
+             setupImageUpload('main-image', 'imagePreviewContainermain');
+         }
+ 
+         if (extraImageInput && previewExtra) {
+          // extraImageInput.addEventListener('change', function (event) {
+              
+     
+             setupImageUpload('gallary', 'imagePreviewContainerimages');
+         }
+     });
+ </script>
+ 
 @endsection
