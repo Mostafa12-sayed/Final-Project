@@ -135,7 +135,7 @@
                         <p>Continue with social media</p>
                         <div class="social-login-list">
                             <a href="#" class="fb-auth"><i class="fab fa-facebook-f"></i> Facebook</a>
-                            <a href="#" class="gl-auth"><i class="fab fa-google"></i> Google</a>
+                            <a href="" class="gl-auth"><i class="fab fa-google"></i> Google</a>
                             <a href="#" class="tw-auth"><i class="fab fa-x-twitter"></i> Twitter</a>
                         </div>
                     </div>
