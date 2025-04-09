@@ -29,6 +29,7 @@ class DashboardServiceProvider extends ServiceProvider
 
         // Register Blade component
         Blade::component('dashboard::components.gridtable', 'grid-table');
+        Blade::component('dashboard::components.paginate', 'paginate');
     }
 
     /**

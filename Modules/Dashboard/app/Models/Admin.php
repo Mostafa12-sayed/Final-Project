@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Dashboard\Database\factories\AdminFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable; // هذا مهم
-use Modules\Website\app\Models\Stores;
+use Modules\Dashboard\app\Models\Store;
+use Laratrust\Traits\HasRolesAndPermissions;
+
+
 class Admin extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,HasRolesAndPermissions;
     
     Public $guarded = [];
 
@@ -18,7 +21,7 @@ class Admin extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     */
+    */
 
     
     protected static function newFactory(): AdminFactory
@@ -28,6 +31,6 @@ class Admin extends Authenticatable
 
     public function stores()
     {
-        return $this->hasOne(Stores::class);
+        return $this->hasOne(Store::class);
     }
 }

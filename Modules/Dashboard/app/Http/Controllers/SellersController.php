@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Modules\Dashboard\app\Models\Admin;
+use Modules\Dashboard\app\Models\Store;
+
 class SellersController extends Controller
 {
     /**
@@ -15,7 +17,10 @@ class SellersController extends Controller
      */
     public function index()
     {
-        return view('dashboard::sellers.sellers-list');
+        $sellers = Store::with('admin')
+        ->paginate(1);
+     
+        return view('dashboard::sellers.sellers-list' ,compact('sellers'));
     }
 
 
@@ -35,7 +40,7 @@ class SellersController extends Controller
      */
     public function create()
     {
-        return view('dashboard::create');
+        return view('dashboard::sellers.sellers-add');
     }
 
     /**

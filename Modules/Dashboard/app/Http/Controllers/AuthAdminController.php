@@ -82,7 +82,7 @@ class AuthAdminController extends Controller
             DB::rollBack();
             \Log::error('Admin Registration Error: ' . $e->getMessage());
             // dd($e);
-            return redirect()->back()->with('error', 'Something went wrong, please try again.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
        
 
