@@ -7,6 +7,9 @@ use Modules\Dashboard\app\Http\Controllers\ProductController;
 use Modules\Dashboard\app\Http\Controllers\CategoryController;
 use Modules\Dashboard\app\Http\Controllers\CodesController;
 use Modules\Dashboard\app\Http\Controllers\SellersController;
+use Modules\Dashboard\app\Http\Controllers\RoleController;
+use Modules\Dashboard\app\Http\Controllers\AdminController;
+use Modules\Dashboard\app\Http\Controllers\PermissionsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +50,16 @@ Route::middleware('auth.admin')->group(function () {
     Route::resource('/admin/category', CategoryController::class)->names('admin.category');
     Route::resource('codes', CodesController::class)->names('admin.codes');
     Route::get('/admin/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
+
+
+    
+    // routes of roles
+    Route::Resource('/admin/roles',RoleController::class)->names('admin.roles');
+    Route::Resource('/admin/admins',AdminController::class)->names('admin.admins');
+
+    Route::Resource('/admin/permissions',PermissionsController::class)->names('admin.permissions');
+    Route::post('/admin/roles/update-status', [RoleController::class, 'updateStatus']);
+
 
 
 });

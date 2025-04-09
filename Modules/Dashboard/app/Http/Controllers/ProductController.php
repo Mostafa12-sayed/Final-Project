@@ -21,8 +21,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        return view('dashboard::product.product-list');
+        $products= Product::with('category:id,name')->paginate(2);
+        return view('dashboard::product.product-list' ,compact('products'));
     }
 
     /**
@@ -93,18 +93,21 @@ class ProductController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        return view('dashboard::show');
+        $categories = Category::select('id', 'name')->get();
+
+        return view('dashboard::product.product-add' , compact('categories', 'product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        return view('dashboard::edit');
-    }
+      $categories = Category::select('id', 'name')->get();
+
+        return view('dashboard::product.product-add' , compact('categories', 'product'));    }
 
     /**
      * Update the specified resource in storage.
