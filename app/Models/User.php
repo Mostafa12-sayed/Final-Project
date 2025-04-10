@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
+use Modules\Website\app\Models\Review;
 
 class User extends Authenticatable
 {
@@ -52,6 +53,10 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasOne(Addresses::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
     /**

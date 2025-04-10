@@ -47,6 +47,12 @@
                 <div class="col-md-12 col-lg-6 col-xxl-6">
                     <div class="shop-single-info">
                         <h4 class="shop-single-title">{{ $product->name }}</h4>
+                        <div class="shop-single-rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <i class="{{ $product->average_rating >= $i ? 'fas fa-star' : ($product->average_rating >= $i - 0.5 ? 'fas fa-star-half-alt' : 'far fa-star') }}"></i>
+                            @endfor
+                            <span class="rating-count"> ({{ $product->reviews->count() }} Reviews)</span>
+                        </div>
                         <div class="shop-single-price">
                             @if ($product->discount)
                                 <del>${{ number_format($product->price, 2) }}</del>
@@ -80,7 +86,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="shop-single-sortinfo">
@@ -89,7 +94,6 @@
                                 <li>SKU: <span>{{ $product->code }}</span></li>
                                 <li>Category: <span>{{ $product->category->name }}</span></li>
                                 <li>Brand: <a href="#">{{ $product->brand }}</a></li>
-
                             </ul>
                         </div>
                         <div class="shop-single-action">
@@ -122,6 +126,7 @@
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Description</button>
                         <button class="nav-link" id="nav-tab2" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Additional Info</button>
+                        <button class="nav-link" id="nav-tab3" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">Reviews ({{ $product->reviews->count() }})</button>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -133,7 +138,63 @@
                     <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="nav-tab2">
                         <div class="shop-single-additional">
                             <p>Additional information about the product can be added here.</p>
-                            <!-- Add dynamic additional info if available in the model -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="nav-tab3">
+                        <div class="shop-single-review">
+                            <div class="blog-comments">
+                                <h5>Reviews ({{ $product->reviews->count() }})</h5>
+                                <div class="blog-comments-wrap">
+                                    @foreach ($product->reviews as $review)
+                                        <div class="blog-comments-item {{ $loop->first ? 'mt-0' : '' }}">
+                                            <img src="{{ asset('assets/img/blog/com-' . ($loop->iteration % 3 + 1) . '.jpg') }}" alt="thumb">
+                                            <div class="blog-comments-content">
+                                                <h5>{{ $review->user->name }}</h5>
+                                                <span><i class="far fa-clock"></i> {{ $review->created_at->format('F d, Y') }}</span>
+                                                <p>{{ $review->comment }}</p>
+                                                <div class="review-rating">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i class="{{ $review->rating >= $i ? 'fas fa-star' : 'far fa-star' }}"></i>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="blog-comments-form">
+                                    <h4 class="mb-4">Leave A Review</h4>
+                                    @if (auth()->check())
+                                        @if (session('success'))
+                                            <div class="alert alert-success">{{ session('success') }}</div>
+                                        @endif
+                                        <form action="{{ route('products.reviews.store', $product->slug) }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select name="rating" class="form-control form-select" required>
+                                                            <option value="">Your Rating</option>
+                                                            <option value="5">5 Stars</option>
+                                                            <option value="4">4 Stars</option>
+                                                            <option value="3">3 Stars</option>
+                                                            <option value="2">2 Stars</option>
+                                                            <option value="1">1 Star</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <textarea name="comment" class="form-control" rows="5" placeholder="Your Review"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Submit Review</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    @else
+                                        <p>Please <a href="{{ route('login') }}">log in</a> to submit a review.</p>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

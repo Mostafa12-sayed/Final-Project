@@ -37,7 +37,9 @@ Route::group(['prefix' => '/profile'], function () {
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/quick-view/{productId}', [ProductController::class, 'getProductDetails'])->name('product.quickview');
-
+Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
+    ->name('products.reviews.store')
+    ->middleware('auth');
 // Cart Routes
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
