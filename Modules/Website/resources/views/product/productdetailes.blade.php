@@ -69,9 +69,9 @@
                                     <div class="shop-single-size">
                                         <h6>Quantity</h6>
                                         <div class="shop-cart-qty">
-                                            <button class="minus-btn"><i class="fal fa-minus"></i></button>
-                                            <input class="quantity" type="text" value="1" disabled="">
-                                            <button class="plus-btn"><i class="fal fa-plus"></i></button>
+                                            <button type="button" class="minus-btn"><i class="fal fa-minus"></i></button>
+                                            <input class="quantity" type="text" value="1" disabled>
+                                            <button type="button" class="plus-btn"><i class="fal fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -99,8 +99,12 @@
                         <div class="shop-single-action">
                             <div class="row align-items-center">
                                 <div class="col-md-6 col-lg-12 col-xl-6">
-                                    <div class="shop-single-btn">
-                                        <a href="#" class="theme-btn"><span class="far fa-shopping-bag"></span>Add To Cart</a>
+                                    <div class="shop-single-btn d-flex">
+                                        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="quantity" class="hidden-quantity" value="1">
+                                            <button type="submit" class="theme-btn"><span class="far fa-shopping-bag"></span> Add To Cart</button>
+                                        </form>
                                         <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Wishlist"><span class="far fa-heart"></span></a>
                                         <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Compare"><span class="far fa-arrows-repeat"></span></a>
                                     </div>
@@ -191,7 +195,7 @@
                                             </div>
                                         </form>
                                     @else
-                                        <p>Please <a href="{{ route('login') }}">log in</a> to submit a review.</p>
+                                        <p>Please <a href="{{ route('login') }}" class="theme-btn">log in</a> to submit a review.</p>
                                     @endif
                                 </div>
                             </div>
@@ -248,6 +252,7 @@
                                             </div>
                                             <button type="button" class="product-cart-btn" data-tooltip="tooltip" title="Add To Cart">
                                                 <i class="far fa-shopping-bag"></i>
+                                                <a href="{{ route('cart.add', $related->id) }}" class="btn btn-primary">Add to Cart</a>
                                             </button>
                                         </div>
                                     </div>
@@ -261,4 +266,36 @@
         </div>
     </div>
     <!-- shop single end -->
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            // Ensure only one event listener is attached
+            $('.minus-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                var $input = $(this).closest('.shop-cart-qty').find('.quantity');
+                var $hiddenInput = $(this).closest('.shop-single-cs').siblings('.shop-single-action').find('.hidden-quantity');
+                var currentVal = parseInt($input.val());
+                if (currentVal > 1) {
+                    $input.val(currentVal - 1);
+                    $hiddenInput.val(currentVal - 1);
+                }
+            });
+
+            $('.plus-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                var $input = $(this).closest('.shop-cart-qty').find('.quantity');
+                var $hiddenInput = $(this).closest('.shop-single-cs').siblings('.shop-single-action').find('.hidden-quantity');
+                var currentVal = parseInt($input.val());
+                var maxStock = {{ $product->stock }};
+                if (currentVal < maxStock) {
+                    $input.val(currentVal + 1);
+                    $hiddenInput.val(currentVal + 1);
+                } else {
+                    alert('Maximum stock reached');
+                }
+            });
+        });
+    </script>
 @endsection

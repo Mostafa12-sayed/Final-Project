@@ -41,7 +41,11 @@ Route::post('/products/{product}/reviews', [ProductController::class, 'storeRevi
     ->name('products.reviews.store')
     ->middleware('auth');
 // Cart Routes
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 
