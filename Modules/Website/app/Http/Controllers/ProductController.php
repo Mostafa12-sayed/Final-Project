@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Category;
+use Modules\Website\app\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -133,12 +135,35 @@ class ProductController extends Controller
      */
     public function show($slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = Product::with('reviews.user')->where('slug', $slug)->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)
                                 ->where('id', '!=', $product->id)
                                 ->limit(4)
                                 ->get();
         return view('website::product.productdetailes', compact('product', 'relatedProducts'));
+    }
+
+    public function storeReview(Request $request, $slug): RedirectResponse
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to submit a review.');
+        }
+
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        Review::create([
+            'user_id' => Auth::id(),
+            'product_id' => $product->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return redirect()->back()->with('success', 'Review submitted successfully!');
     }
 
     public function edit($id)

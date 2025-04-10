@@ -12,6 +12,8 @@
      <meta name="description" content="A fully responsive premium admin dashboard template" />
      <meta name="author" content="Techzaa" />
      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
      @stack('styles')
      <!-- App favicon -->
      <link rel="shortcut icon" href="{{asset('dashboard/assets/images/favicon.ico')}}">
@@ -27,9 +29,13 @@
 
      <!-- Theme Config js (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/config.js')}}"></script>
+
+     <link  href="{{ asset('vendor/flasher/flasher.min.css') }}" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="h-100">
+
 
 
      <div class="wrapper">
@@ -41,18 +47,26 @@
                     @endforeach
           @endif
           <!-- ========== Topbar Start ========== -->
-     
+
           @include('dashboard::layouts.includes.header')
           @include('dashboard::layouts.includes.sidebar')
 
             @yield('content')
+              <div class="modal fade table-modal" id="hr-table-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                   aria-hidden="true">
+              </div>
     </div>
      <!-- Vendor Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/vendor.js')}}"></script>
 
      <!-- App Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/app.js')}}"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+     @include('dashboard::layouts.script')
+
      @stack('scripts') {{-- مهم لعرض السكربت --}}
+    @yield('script')
 
 </body>
 

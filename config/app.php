@@ -118,6 +118,11 @@ return [
     |
     */
 
+
+    //     'aliases' => [
+    //     // الاسم المستعار
+    //     'Flasher' => Flasher\Laravel\Facade\Flasher::class,
+    // ],
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),

@@ -1,11 +1,14 @@
 <?php
 
 namespace Modules\Dashboard\app\Http\Controllers;
+use App\Helpers\FileHelper;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Modules\Dashboard\app\Models\Category;
+use Modules\Dashboard\app\Http\Requests\CategoryRequest;
+use Illuminate\Support\Str;
+// use Flasher\SweetAlert\Prime\SweetAlertInterface;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('dashboard::category.category-list');
+        $categories = Category::paginate(5);
+        return view('dashboard::category.category-list' ,compact('categories')) ;
     }
 
     /**
@@ -22,15 +26,37 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('dashboard::category.category-add');
+        $categories = Category::select('id', 'name')->get();
+        $category = new Category();
+        return view('dashboard::category.category-add' ,compact('categories' ,'category')) ;
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CategoryRequest $request)
     {
-        //
+        if ($request->hasFile('image')) {
+            $imagePath = FileHelper::uploadImage($request->file('image'), 'category');
+        }
+        $category = Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Str::slug($request->name),
+            'parent_id' => $request->parent_id ?? null,
+            'image' => $imagePath ?? null,
+            'code' => $request->code,
+            'created_by' => auth()->guard('admin')->user()->name,
+        ]);
+
+        if ($category) {
+            flash()->success('Category created successfully.');
+            return back();
+        } else {
+            flash()->success('Category Filed Create.');
+            return back();
+        }
+
     }
 
     /**
@@ -38,7 +64,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return view('dashboard::show');
+        $categories = Category::select('id', 'name')->get();
+        $category = Category::findOrFail($id);
+        return view('dashboard::category.category-add' ,compact('categories' ,'category')) ;
     }
 
     /**
@@ -46,22 +74,46 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('dashboard::edit');
+        $categories = Category::select('id', 'name')->get();
+        $category = Category::findOrFail($id);
+        return view('dashboard::category.category-add' ,compact('categories' ,'category')) ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
+    public function update(CategoryRequest $request, Category $category)
+    {   $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = FileHelper::uploadImage($request->file('image'), 'category');
+        }
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Str::slug($request->name),
+            'parent_id' => $request->parent_id,
+            'image' => $imagePath ?  $imagePath : $category->image,
+            'code' => $request->code,
+        ]);
+        if ($category) {
+            flash()->success('Category updated successfully.');
+            return back();
+        } else {
+            flash()->success('Category Filed Update.');
+            return back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        if ($category->image) {
+            FileHelper::deleteImage($category->image);
+        }
+        $category->delete();
+        flash()->success('Category deleted successfully.');
+        return back();
     }
 }
