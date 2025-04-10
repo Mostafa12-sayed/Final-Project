@@ -37,7 +37,7 @@
 <body class="h-100">
 
 
-     
+
      <div class="wrapper">
           @if (session()->has('flasher_messages'))
                     @foreach (session('flasher_messages') as $message)
@@ -47,11 +47,14 @@
                     @endforeach
           @endif
           <!-- ========== Topbar Start ========== -->
-     
+
           @include('dashboard::layouts.includes.header')
           @include('dashboard::layouts.includes.sidebar')
 
             @yield('content')
+              <div class="modal fade table-modal" id="hr-table-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                   aria-hidden="true">
+              </div>
     </div>
      <!-- Vendor Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/vendor.js')}}"></script>
@@ -59,8 +62,9 @@
      <!-- App Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/app.js')}}"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-     
+
      @include('dashboard::layouts.script')
+
      @stack('scripts') {{-- مهم لعرض السكربت --}}
     @yield('script')
 

@@ -16,7 +16,7 @@
                                    Add Product
                               </a>
 
-                             
+
                          </div>
                          <div>
                               <div class="table-responsive">
@@ -34,7 +34,7 @@
                                         <tbody>
                                              @if($products->count()>0)
                                              @foreach ($products as $product )
-                                                  
+
                                              <tr>
                                                   <td>
                                                        <div class="d-flex align-items-center gap-2">
@@ -61,11 +61,12 @@
                                                        <div class="d-flex gap-2">
                                                             <a href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                             <a href="{{ route('admin.products.edit' , ['product'=>$product->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                            <form action="{{ route('admin.products.destroy' , ['product'=>$product->id]) }}" method="POST">
+                                                            <form id="delete-form-product-{{ $product->id }}" action="{{ route('admin.products.destroy' , ['product'=>$product->id]) }}" method="POST">
                                                                  @csrf
                                                                  @method('delete')
-                                                            <a type="submit" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                             </form>
+                                                           <a type="submit" class="btn btn-soft-danger btn-sm delete-item" data-form="delete-form-product-{{ $product->id }}"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+
                                                        </div>
                                                   </td>
                                              </tr>

@@ -44,7 +44,7 @@ class ProductController extends Controller
         $firstimage =null;
         DB::beginTransaction();
         try{
-        
+
             if( $request->file('image')) {
                 $firstimage = FileHelper::uploadImage($request->file('image'), 'products');
             }
@@ -67,7 +67,6 @@ class ProductController extends Controller
                 'image' => $firstimage,
                 'gallery' => json_encode($images),
                 'slug'=> Str::slug($request->name),
-                'weight'=> $request->weight
             ]);
 
                 if( $product) {
@@ -86,8 +85,8 @@ class ProductController extends Controller
             flash()->error('Error: ' . $e->getMessage());
             return back();
         }
-            
-        
+
+
     }
 
     /**
@@ -120,9 +119,11 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        flash()->success('Product deleted successfully.');
+        return back();
     }
 
 

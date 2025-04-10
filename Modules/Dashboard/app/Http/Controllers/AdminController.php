@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
+use Modules\Dashboard\app\Http\Requests\AdminRequest;
+use Modules\Dashboard\app\Models\Admin;
+use Modules\Dashboard\app\Models\Role;
 
 class AdminController extends Controller
 {
@@ -14,7 +20,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('dashboard::index');
+        $admins =Admin::where('store_id' , null)->paginate(10);
+        return view('dashboard::admins.index' , compact('admins'));
     }
 
     /**
@@ -22,15 +29,23 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('dashboard::create');
+        $admin= new Admin();
+        $roles =Role::select('id', 'name')->get();
+        return view('dashboard::admins.create',compact('admin', 'roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(AdminRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['password'] = Hash::make('password');
+        $data['type']="admin";
+        $data['created_by']= Auth::guard('admin')->user()->name;
+        $admin = Admin::create($data);
+        return back()->with('success', 'Admin Created Successfully');
+
     }
 
     /**
@@ -44,17 +59,24 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Admin $admin)
     {
-        return view('dashboard::edit');
+        $roles =Role::select('id', 'name')->get();
+        return view('dashboard::admins.create',compact('admin', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(AdminRequest $request, Admin $admin)
     {
-        //
+        $data = $request->all();
+        $data['updated_by']= Auth::guard('admin')->user()->name;
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+        $admin->update($data);
+        return back()->with('success', 'Admin Updated Successfully');
     }
 
     /**
@@ -63,5 +85,13 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $admin = Admin::find($request->id);
+        $admin->status = $request->status;
+        $admin->save();
+        return response()->json(['success' => 'Status updated successfully.']);
     }
 }

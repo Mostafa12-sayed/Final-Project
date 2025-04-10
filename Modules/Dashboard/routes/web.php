@@ -6,6 +6,7 @@ use Modules\Dashboard\app\Http\Controllers\AuthAdminController;
 use Modules\Dashboard\app\Http\Controllers\ProductController;
 use Modules\Dashboard\app\Http\Controllers\CategoryController;
 use Modules\Dashboard\app\Http\Controllers\CodesController;
+use Modules\Dashboard\app\Http\Controllers\ProfileController;
 use Modules\Dashboard\app\Http\Controllers\SellersController;
 use Modules\Dashboard\app\Http\Controllers\RoleController;
 use Modules\Dashboard\app\Http\Controllers\AdminController;
@@ -52,14 +53,21 @@ Route::middleware('auth.admin')->group(function () {
     Route::get('/admin/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
 
 
-    
+
     // routes of roles
     Route::Resource('/admin/roles',RoleController::class)->names('admin.roles');
     Route::Resource('/admin/admins',AdminController::class)->names('admin.admins');
+    Route::post('/admin/admins/update-status', [AdminController::class, 'updateStatus']);
 
     Route::Resource('/admin/permissions',PermissionsController::class)->names('admin.permissions');
     Route::post('/admin/roles/update-status', [RoleController::class, 'updateStatus']);
 
 
+
+    Route::get('/admin/profile/edit', [ProfileController::class , 'index'])->name('admin.profile.edit');
+
+    Route::post('/admin/profile/update', [ProfileController::class , 'update'])->name('admin.profile.update');
+    Route::get('/admin/profile/change-password', [ProfileController::class , 'changePassword'])->name('admin.profile.changePassword');
+    Route::post('/admin/profile/update-password', [ProfileController::class , 'updatePassword'])->name('admin.profile.change_password.update');
 
 });
