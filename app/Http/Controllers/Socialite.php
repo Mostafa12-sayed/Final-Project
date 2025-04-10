@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite as FacadesSocialite;
 
+use function PHPUnit\Framework\isEmpty;
+
 class Socialite extends Controller
 {
     //
@@ -20,7 +22,7 @@ class Socialite extends Controller
         $user = FacadesSocialite::driver('google')->user();
         // dd($user->user['given_name']);
         $olduser=user::where('google_id',$user->id)->first();
-        if($olduser){
+        if(!isempty($olduser) && $olduser !== null){
             Auth::login($olduser);
             return redirect()->route('home');
         }else{
@@ -68,8 +70,26 @@ class Socialite extends Controller
     }
     public function twitter_callback(){
         $user = FacadesSocialite::driver('twitter')->user();
-        // dd($user);
-        $user->token;
+        $olduser=user::where('twitter_id,$user->id');
+        $first_name=explode(' ',$user->name)[0];
+        $last_name=explode(' ',$user->name)[1];
+
+        if(!isEmpty($olduser) && $olduser !== null){
+            Auth::login($olduser);
+            return redirect()->route('home');
+        }else{
+            $newuser=user::updateOrCreate([
+                'twitter_id'=>$user->id
+            ],[
+                'twitter_id'=>$user->id,
+                'name'=>$first_name,
+                'last_name'=>$last_name,
+                'email'=>$user->email,
+                'image_url'=>$user->avatar,
+                'email_verified_at'=>now(),
+            ]);
+        }
+        Auth::login($newuser);
         return redirect()->route('home');
     }
 }

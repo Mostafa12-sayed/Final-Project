@@ -49,6 +49,13 @@ return [
         'client_id' => env('TWITTER_CLIENT_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
         'redirect' => env('TWITTER_REDIRECT'),
+        'guzzle' => [
+            'cert' => '/path/to/ssl/certificate.crt',
+            'ssl_key' => '/path/to/ssl/private.key',
+            'curl' => [
+                CURLOPT_SSL_VERIFYPEER => true,
+            ],
+        ],
     ],
 
 ];
