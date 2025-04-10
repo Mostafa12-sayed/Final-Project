@@ -34,12 +34,16 @@
                             </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="remember">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">
                                         Remember Me
                                     </label>
                                 </div>
-                                <a href="forgot-password.html" class="forgot-pass">Forgot Password?</a>
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link forgot-pass" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Password?') }}
+                                    </a>
+                                @endif
                             </div>
                             <div class="d-flex align-items-center">
                                 <button type="submit" class="theme-btn"><i class="far fa-sign-in"></i> Login</button>
