@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Dashboard\app\Http\Requests\PermissionRequest;
+use Modules\Dashboard\app\Models\Permission;
 
 
 class PermissionsController extends Controller
@@ -15,8 +17,9 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $permissions = true;
-        return view('dashboard::permissions.permissions');
+        $permissions = Permission::paginate(10);
+
+        return view('dashboard::permissions.permissions', compact('permissions'));
     }
 
     /**
@@ -24,15 +27,17 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        return view('dashboard::create');
+        return view('dashboard::permissions.form', ['permission' => new Permission()]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(PermissionRequest $request)
     {
-        //
+        Permission::create($request->all());
+        flash()->success('Permission created successfully!');
+        return back();
     }
 
     /**
@@ -46,24 +51,30 @@ class PermissionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
-        return view('dashboard::edit');
+        return view('dashboard::permissions.form', ['permission' => $permission]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(PermissionRequest $request, Permission $permission)
     {
-        //
+        $permission->update($request->all());
+        flash()->success('Permission updated successfully!');
+        return back();
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        flash()->success('Permission deleted successfully!');
+        return back();
+
     }
 }

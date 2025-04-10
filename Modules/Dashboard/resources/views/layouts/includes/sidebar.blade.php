@@ -64,7 +64,7 @@
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.category.index') }}">List</a>
                                      </li>
-                 
+
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.category.create') }}">Create</a>
                                      </li>
@@ -72,117 +72,117 @@
                            </div>
                       </li>
 
-                      <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarInventory">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:box-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Inventory </span>
-                           </a>
-                           <div class="collapse" id="sidebarInventory">
-                                <ul class="nav sub-navbar-nav">
+{{--                      <li class="nav-item">--}}
+{{--                           <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarInventory">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:box-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Inventory </span>--}}
+{{--                           </a>--}}
+{{--                           <div class="collapse" id="sidebarInventory">--}}
+{{--                                <ul class="nav sub-navbar-nav">--}}
 
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="inventory-warehouse.html">Warehouse</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="inventory-received-orders.html">Received Orders</a>
-                                     </li>
-                                </ul>
-                           </div>
-                      </li>
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="inventory-warehouse.html">Warehouse</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="inventory-received-orders.html">Received Orders</a>--}}
+{{--                                     </li>--}}
+{{--                                </ul>--}}
+{{--                           </div>--}}
+{{--                      </li>--}}
 
-                      <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Orders </span>
-                           </a>
-                           <div class="collapse" id="sidebarOrders">
-                                <ul class="nav sub-navbar-nav">
+{{--                      <li class="nav-item">--}}
+{{--                           <a class="nav-link menu-arrow" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Orders </span>--}}
+{{--                           </a>--}}
+{{--                           <div class="collapse" id="sidebarOrders">--}}
+{{--                                <ul class="nav sub-navbar-nav">--}}
 
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="orders-list.html">List</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-detail.html">Details</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-cart.html">Cart</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
-                                     </li>
-                                </ul>
-                           </div>
-                      </li>
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="orders-list.html">List</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="order-detail.html">Details</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="order-cart.html">Cart</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="order-checkout.html">Check Out</a>--}}
+{{--                                     </li>--}}
+{{--                                </ul>--}}
+{{--                           </div>--}}
+{{--                      </li>--}}
 
-                      <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarPurchases" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPurchases">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:card-send-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Purchases </span>
-                           </a>
-                           <div class="collapse" id="sidebarPurchases">
-                                <ul class="nav sub-navbar-nav">
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="purchase-list.html">List</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="purchase-order.html">Order</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="purchase-returns.html">Return</a>
-                                     </li>
-                                </ul>
-                           </div>
-                      </li>
+{{--                      <li class="nav-item">--}}
+{{--                           <a class="nav-link menu-arrow" href="#sidebarPurchases" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPurchases">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:card-send-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Purchases </span>--}}
+{{--                           </a>--}}
+{{--                           <div class="collapse" id="sidebarPurchases">--}}
+{{--                                <ul class="nav sub-navbar-nav">--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="purchase-list.html">List</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="purchase-order.html">Order</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="purchase-returns.html">Return</a>--}}
+{{--                                     </li>--}}
+{{--                                </ul>--}}
+{{--                           </div>--}}
+{{--                      </li>--}}
 
-                      <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAttributes">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Attributes </span>
-                           </a>
-                           <div class="collapse" id="sidebarAttributes">
-                                <ul class="nav sub-navbar-nav">
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="attributes-list.html">List</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="attributes-edit.html">Edit</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="attributes-add.html">Create</a>
-                                     </li>
-                                </ul>
-                           </div>
-                      </li>
+{{--                      <li class="nav-item">--}}
+{{--                           <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAttributes">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Attributes </span>--}}
+{{--                           </a>--}}
+{{--                           <div class="collapse" id="sidebarAttributes">--}}
+{{--                                <ul class="nav sub-navbar-nav">--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="attributes-list.html">List</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="attributes-edit.html">Edit</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="attributes-add.html">Create</a>--}}
+{{--                                     </li>--}}
+{{--                                </ul>--}}
+{{--                           </div>--}}
+{{--                      </li>--}}
 
-                      <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarInvoice" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarInvoice">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Invoices </span>
-                           </a>
-                           <div class="collapse" id="sidebarInvoice">
-                                <ul class="nav sub-navbar-nav">
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="invoice-list.html">List</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="invoice-details.html">Details</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="invoice-add.html">Create</a>
-                                     </li>
-                                </ul>
-                           </div>
-                      </li>
+{{--                      <li class="nav-item">--}}
+{{--                           <a class="nav-link menu-arrow" href="#sidebarInvoice" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarInvoice">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Invoices </span>--}}
+{{--                           </a>--}}
+{{--                           <div class="collapse" id="sidebarInvoice">--}}
+{{--                                <ul class="nav sub-navbar-nav">--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="invoice-list.html">List</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="invoice-details.html">Details</a>--}}
+{{--                                     </li>--}}
+{{--                                     <li class="sub-nav-item">--}}
+{{--                                          <a class="sub-nav-link" href="invoice-add.html">Create</a>--}}
+{{--                                     </li>--}}
+{{--                                </ul>--}}
+{{--                           </div>--}}
+{{--                      </li>--}}
 
                       <li class="nav-item">
                            <a class="nav-link" href="settings.html">
@@ -218,7 +218,7 @@
                                                <a class="sub-nav-link" href="{{ route('admin.roles.index') }}">List</a>
                                           </li>
                                           <li class="sub-nav-item">
-                                               <a class="sub-nav-link" href="role-add.html">Create</a>
+                                               <a class="sub-nav-link" href="{{ route('admin.roles.create') }}">Create</a>
                                           </li>
                                      </ul>
                                 </ul>
@@ -248,7 +248,9 @@
                                           <a class="sub-nav-link" href="{{ route('admin.admins.index') }}">List</a>
                                      </li>
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="{{ route('admin.admins.create') }}">Create</a>
+                                         <a data-href="{{ route('admin.admins.create') }}" data-container="#hr-table-modal" type="button" class="sub-nav-link btn-modal" >
+                                             Create
+                                         </a>
                                      </li>
                                 </ul>
                            </div>
@@ -289,8 +291,8 @@
                                      <li class="sub-nav-item">
                                         <a class="sub-nav-link" href="{{ route('admin.sellers.orders') }}">orders</a>
                                    </li>
-                                  
-                                
+
+
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.sellers.create') }}">Create</a>
                                      </li>
@@ -357,7 +359,7 @@
                            </a>
                       </li>
 
-                 
+
 
                       <li class="menu-title mt-2">Support</li>
 
@@ -388,7 +390,7 @@
                            </a>
                       </li>
 
-                     
+
                  </ul>
             </div>
        </div>
