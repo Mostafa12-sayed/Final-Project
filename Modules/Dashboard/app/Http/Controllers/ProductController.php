@@ -111,9 +111,52 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request,Product $product)
     {
-        //
+         $images = [];
+         $firstimage =null;
+         DB::beginTransaction();
+         try{
+             if( $request->file('image')) {
+                 $firstimage = FileHelper::uploadImage($request->file('image'), 'products');
+             }
+             if( $request->file('images')) {
+                 foreach ($request->file('images') as $image) {
+                     $images[] = FileHelper::uploadImage($image, 'products');
+                 }
+             }
+             $product->name = $request->name;
+             $product->description = $request->description;
+             $product->price = $request->price;
+             $product->weight = $request->weight;
+             $product->tax = $request->tax;
+             $product->discount = $request->discount;
+             $product->code = $request->code;
+             $product->quantity = $request->quantity;
+             $product->category_id = $request->category_id;
+             if( $firstimage) {
+                 $product->image = $firstimage;
+             }
+             if( $images) {
+                 $product->gallery = json_encode($images);
+             }
+             $product->slug = Str::slug($request->name);
+             $product->save();
+             if( $product) {
+                 DB::commit();
+                 flash()->success('Product updated successfully.');
+                 return back();
+             } else {
+                 $this->rollbakeImage($firstimage , $images);
+                 flash()->error('Product Filed update');
+                 return back();
+             }
+         }catch (\Exception $e) {
+             DB::rollback();
+             $this->rollbakeImage($firstimage , $images);
+             flash()->error('Error: ' . $e->getMessage());
+             return back();
+         }
     }
 
     /**

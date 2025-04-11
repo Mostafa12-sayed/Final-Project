@@ -80,6 +80,7 @@ class ProductController extends Controller
 
         return view('website::product.products', compact('products', 'categories'));
     }
+
     public function getProductDetails(Request $request): \Illuminate\Http\JsonResponse
     {
         // Validate the request
@@ -137,9 +138,9 @@ class ProductController extends Controller
     {
         $product = Product::with('reviews.user')->where('slug', $slug)->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)
-                                ->where('id', '!=', $product->id)
-                                ->limit(4)
-                                ->get();
+            ->where('id', '!=', $product->id)
+            ->limit(4)
+            ->get();
         return view('website::product.productdetailes', compact('product', 'relatedProducts'));
     }
 
@@ -185,5 +186,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showProduct(Product $product)
+    {
+
+       return view('website::product.modal', compact('product'));
     }
 }

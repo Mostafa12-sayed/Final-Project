@@ -34,11 +34,13 @@
     @include('website::layouts.header')
 
     @yield('content')
-
+    <div class="modal fade quickview" id="website-table-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
     @include('website::layouts.footer')
 
+
     <!-- JS -->
-    <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -59,7 +61,45 @@
 
     {{-- Yield custom scripts from child views --}}
     @yield('scripts')
+    <script>
+        // $(document).on('click', '.btn-modal', function (e) {
+        //     console.log($(this).data('href'));
+        //     e.preventDefault();
+        //     console.log("done");
+        //
+        //     var container = $(this).data('container');
+        //     console.log(container);
+        //
+        //     $.ajax({
+        //         url: $(this).data('href'),
+        //         dataType: 'html',
+        //         success: function (result) {
+        //             $(container)
+        //                 .html(result)
+        //                 .modal('show');
+        //         },
+        //     });
+        // });
+        $(document).on('click', '.btn-modal', function (e) {
+            e.preventDefault();
 
+            const href = $(this).data('href');
+            const container = $(this).data('container');
+
+            $.ajax({
+                url: href,
+                dataType: 'html',
+                success: function (result) {
+                    $(container).html(result);
+
+                    const modalEl = $(container).find('.modal').get(0);
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                },
+            });
+        });
+
+    </script>
     {{-- Vite JS (uncomment if needed) --}}
     {{-- {{ module_vite('build-website', 'resources/assets/js/app.js') }} --}}
 </body>

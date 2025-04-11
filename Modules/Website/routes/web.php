@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/products/modal/{product}', [ProductController::class, 'showProduct'])->name('product.modal');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -64,5 +65,4 @@ Route::get('/my-orders-details', [OrderController::class, 'details'])->name('ord
 // route::get('/delete-order/{id}', [OrderController::class,'show'])->name('order.delete');
 // Route::get('/my-orders/{id}', [OrderController::class, 'show'])->name('order.show');
 Route::get('/track-order/{trackingNumber}', [OrderController::class, 'track'])->name('order.track');
-
 });
