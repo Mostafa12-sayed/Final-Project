@@ -7,13 +7,8 @@
             <div class="col-lg-3">
                 <div class="sidebar">
                     <div class="sidebar-top">
-<<<<<<< HEAD
-                        @if (!@empty(Auth::user()->profile_image))
-                        <div class="sidebar-profile-img" style="  width: 70px;       
-=======
                         @if (@empty(Auth::user()->profile_image))
                         <div class="sidebar-profile-img" style="  width: 70px;
->>>>>>> ad2b72eaa84917df0a9d2437f959dd822f4c8e06
                             height: 70px;
                             border-radius: 50%; ">
                             <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage" style="  width: 100%;

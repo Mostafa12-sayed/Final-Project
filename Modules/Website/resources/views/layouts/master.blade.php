@@ -36,29 +36,6 @@
     @yield('content')
 
     @include('website::layouts.footer')
-<<<<<<< HEAD
-        <!-- js -->
-        <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
-        <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.appear.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.easing.min.js') }}"></script>
-        <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('assets/js/counter-up.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.nice-select.min.js') }}"></script>
-        <script src="{{ asset('assets/js/countdown.min.js') }}"></script>
-        <script src="{{ asset('assets/js/wow.min.js') }}"></script>
-        <script src="{{ asset('assets/js/main.js') }}"></script>
-        <script src="{{ asset('assets/js/quickview.js') }}"></script>
-@livewireStyles
-@livewireScripts
-=======
->>>>>>> ad2b72eaa84917df0a9d2437f959dd822f4c8e06
 
     <!-- JS -->
     <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
