@@ -20,7 +20,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins =Admin::where('store_id' , null)->paginate(10);
+        $admins =Admin::where('store_id' , null)->where('id' , '!=' , Auth::guard('admin')->user()->id)
+            ->where('type' , 'admin')->paginate(10);
         return view('dashboard::admins.index' , compact('admins'));
     }
 
@@ -82,9 +83,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Admin $admin)
     {
-        //
+        $admin->delete();
+        return back()->with('success', 'Admin Deleted Successfully');
     }
 
     public function updateStatus(Request $request)
