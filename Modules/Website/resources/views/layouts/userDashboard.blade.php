@@ -7,28 +7,15 @@
             <div class="col-lg-3">
                 <div class="sidebar">
                     <div class="sidebar-top">
-<<<<<<< HEAD
-                        @if (!@empty(Auth::user()->profile_image))
-                        <div class="sidebar-profile-img" style="  width: 70px;       
-=======
-                        @if (@empty(Auth::user()->profile_image))
-                        <div class="sidebar-profile-img" style="  width: 70px;
->>>>>>> ad2b72eaa84917df0a9d2437f959dd822f4c8e06
-                            height: 70px;
-                            border-radius: 50%; ">
-                            <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage" style="  width: 100%;
-                            height: 100%;
-                            object-fit: cover;  /* Ensures image covers container without stretching */
-                            object-position: center;">
-                            @elseif(!@empty(Auth::user()->image_url))
-                            <div class="sidebar-profile-img" style="  width: 120px;       
-                            height: 120px;
-                            border-radius: 50%; ">
-                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage2" style="  width: 100%;
-                            height: 100%;
-                            object-fit: cover;  /* Ensures image covers container without stretching */
-                            object-position: center;">
-                            @else
+                        @if(Auth::user())
+                        <div class="sidebar-profile-img" style="  width: 120px;
+                        height: 120px;
+                        border-radius: 50%; ">
+                        <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage" style="  width: 100%;
+                        height: 100%;
+                        object-fit: cover;  /* Ensures image covers container without stretching */
+                        object-position: center;">
+                        @else
                             <div class="sidebar-profile-img" style="  width: 120px;
                             height: 120px;
                             border-radius: 50%; ">
@@ -40,59 +27,7 @@
                             <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
                             <input type="file" name="profile_image" class="profile-img-file" id="profilePhotoInput" accept="image/*" onchange="uploadPhoto(this)">
                         </div>
-                        <script>
-                            function uploadPhoto(input) {
-                                if (input.files && input.files[0]) {
-                                    var formData = new FormData();
-                                    formData.append('profile_image', input.files[0]);
-                                    formData.append('_token', '{{ csrf_token() }}');
-                                    formData.append('_method', 'PUT');
 
-                                    $.ajax({
-                                        url: "{{ route('profile.update_image', Auth::user()->id) }}",
-                                        type: 'POST', // Important: Use POST with _method for file uploads
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        headers: {
-                                            'X-Requested-With': 'XMLHttpRequest'
-                                        },
-                                        success: function(response) {
-                                            if (response.success) {
-                                                $('#profileImage').attr('src', response.photo_url);
-                                                console.log('Photo uploaded successfully:', response);
-                                                console.log('src:', response.photo_url);
-                                            } else {
-                                                alert('Error: ' + (response.message || 'Unknown error'));
-                                            }
-                                        },
-                                        error: function(xhr) {
-                                            var errorMessage = 'Error uploading photo';
-                                            if (xhr.responseJSON && xhr.responseJSON.message) {
-                                                errorMessage = xhr.responseJSON.message;
-                                            } else if (xhr.responseText) {
-                                                try {
-                                                    var htmlResponse = $(xhr.responseText);
-                                                    var text = htmlResponse.filter('div.alert, div.message').text() ||
-                                                        htmlResponse.find('div.alert, div.message').text();
-                                                    if (text) errorMessage = text.trim();
-                                                } catch (e) {
-                                                    errorMessage = xhr.statusText;
-                                                }
-                                            }
-                                            alert(errorMessage);
-                                            console.error('Error details:', xhr);
-                                        }
-                                    });
-                                }
-                            }
-
-                            $(document).ready(function() {
-                                $('.profile-img-btn').on('click', function() {
-                                    $('#profilePhotoInput').click();
-                                });
-                            });
-                        </script>
                         <h5><a href="{{ route('profile.index')}}">{{ ucfirst(Auth::user()->name) }} {{ ucfirst(Auth::user()->last_name) }}</a></h5>
                         <p>{{ Auth::user()->email }}</p>
                     </div>
@@ -129,4 +64,61 @@
 </div>
 <!-- user dashboard end -->
 
+@endsection
+
+@section('scripts')
+
+<script>
+    function uploadPhoto(input) {
+        if (input.files && input.files[0]) {
+            var formData = new FormData();
+            formData.append('profile_image', input.files[0]);
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('_method', 'PUT');
+
+            $.ajax({
+                url: "{{ route('profile.update_image', Auth::user()->id) }}",
+                type: 'POST', // Important: Use POST with _method for file uploads
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#profileImage').attr('src', response.photo_url);
+                        console.log('Photo uploaded successfully:', response);
+                        console.log('src:', response.photo_url);
+                    } else {
+                        alert('Error: ' + (response.message || 'Unknown error'));
+                    }
+                },
+                error: function(xhr) {
+                    var errorMessage = 'Error uploading photo';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.responseText) {
+                        try {
+                            var htmlResponse = $(xhr.responseText);
+                            var text = htmlResponse.filter('div.alert, div.message').text() ||
+                                htmlResponse.find('div.alert, div.message').text();
+                            if (text) errorMessage = text.trim();
+                        } catch (e) {
+                            errorMessage = xhr.statusText;
+                        }
+                    }
+                    alert(errorMessage);
+                    console.error('Error details:', xhr);
+                }
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        $('.profile-img-btn').on('click', function() {
+            $('#profilePhotoInput').click();
+        });
+    });
+</script>
 @endsection

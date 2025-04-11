@@ -25,7 +25,6 @@ class CategoryFactory extends Factory
 
     public function definition()
     {
-<<<<<<< HEAD
         // $name = $this->faker->unique()->words(2, true);
         $categories = [
             'Healthcare',
@@ -56,21 +55,6 @@ class CategoryFactory extends Factory
         ];
         shuffle($categories);
         shuffle($categoryDescriptions);
-=======
-        // $name = $this->faker->randomElement([
-        //     'Electronics',
-        //     'Fashion',
-        //     'Home & Garden',
-        //     'Sports & Outdoors',
-        //     'Health & Beauty',
-        //     'Toys & Hobbies',
-        //     'Automotive',
-        //     'Books & Stationery',
-        //     'Computers & Networking',
-        //     'Jewelry & Watches',
-        // ]);
-        $name = $this->faker->unique()->words(2, true);
->>>>>>> ad2b72eaa84917df0a9d2437f959dd822f4c8e06
         return [
             'name' => array_pop($categories),
             'slug' => Str::slug(array_pop($categories)),

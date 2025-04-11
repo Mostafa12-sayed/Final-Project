@@ -11,7 +11,7 @@ use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Review;
 use Modules\Website\app\Models\Wishlist;
-
+use Illuminate\Support\Str;
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -77,5 +77,19 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    
+    public function getImageUrlAttribute()
+    {
+        if (!$this->profile_image) {
+            return asset('assets/img/account/04.jpg');
+        }
+        if (Str::startsWith($this->profile_image, ['http', 'https'])) {
+            return $this->profile_image;
+        }
+
+        return asset('assets/img/account/'.$this->profile_image);
     }
 }
