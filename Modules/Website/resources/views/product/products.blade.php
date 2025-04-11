@@ -200,12 +200,14 @@
                                                 <span class="type oos">Out Of Stock</span>
                                             @endif
                                             <a href="{{ route('product.show', $product->slug) }}">
-                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                                <img src="{{asset( 'storage/'.$product->image) }}" alt="{{ $product->name }}">
                                             </a>
                                             <div class="product-action-wrap">
                                                 <!-- Replace this in the product action section -->
                                                 <div class="product-action">
-                                                    <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a> -->
+{{--                                                     <button data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" data-bs-toggle="modal"   class=" btn-modal"><i class="far fa-eye"></i></button>--}}
+                                                    <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
+
                                                     @auth
                                                         @if (Auth::user()->wishlist()->where('product_id', $product->id)->exists())
                                                             <form action="{{ route('wishlist.remove', $product->id) }}" method="POST" class="d-inline">
@@ -302,5 +304,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- shop-area end -->
 @endsection
+

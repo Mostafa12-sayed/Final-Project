@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('coupons_tabel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('street')->nullable();
-            $table->string('city')->nullable();
-            $table->string('zip_code')->nullable();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->integer('discount');
+            $table->string('code');
+            $table->date('expiry_date');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adress');
+        Schema::dropIfExists('coupons_tabel');
     }
 };

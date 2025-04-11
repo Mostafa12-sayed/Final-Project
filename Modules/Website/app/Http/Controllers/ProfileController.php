@@ -63,14 +63,16 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
+    $social_ids=[user::find($id)->google_id,user::find($id)->facebook_id,user::find($id)->twitter_id];
+    // dd($request);
     $request->validate([
     'name' => ['required', 'string', 'max:255'],
     'last_name' => ['required', 'string', 'max:255'],
-    'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users')->ignore($id)],
-    'phone' => ['required', 'string', 'max:15'],
-    'street' => ['required', 'string', 'max:255'],
-    'city' => ['required', 'string', 'max:255'],
-    'zip_code' => ['required', 'string', 'max:10'],
+    'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users','email')->ignore($id)->where('google_id','=',$social_ids[0])->where('facebook_id','=',$social_ids[1])->where('twitter_id','=',$social_ids[2])],
+    'phone' => [ 'nullable','string', 'max:15'],
+    'street' => [ 'nullable','string', 'max:255'],
+    'city' => [ 'nullable','string', 'max:255'],
+    'zip_code' => [ 'nullable','string', 'max:10'],
     ]);
     $user = User::find($id);
     $user->name = $request->name;

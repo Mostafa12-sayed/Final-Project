@@ -1,7 +1,7 @@
 
 
     <!-- preloader -->
-    <div class="preloader">
+   <div class="preloader">
         <div class="loader-ripple">
             <div></div>
             <div></div>
@@ -27,26 +27,14 @@
                         </div>
                     </div>
                     <div class="d-none d-lg-block col-lg-6 col-xl-5">
+                        
                         <div class="header-middle-search">
                             <form action="#">
                                 <div class="search-content">
-                                    <select class="select">
-                                        <option value="">All Category</option>
-                                        <option value="1">Medicine</option>
-                                        <option value="2">Medical Equipments</option>
-                                        <option value="3">Beauty Care</option>
-                                        <option value="4">Baby & Mom Care</option>
-                                        <option value="5">Healthcare</option>
-                                        <option value="6">Food & Nutrition</option>
-                                        <option value="7">Medical Supplies</option>
-                                        <option value="8">Lab Test</option>
-                                        <option value="9">Fitness</option>
-                                        <option value="10">Vitamins & Supplement</option>
-                                        <option value="11">Pet Care</option>
-                                    </select>
-                                    <input type="text" class="form-control" placeholder="Search Here...">
+                                    @livewire('search-products')
                                     <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -67,7 +55,14 @@
                                             @else
                                                 <a href="{{route('profile.index')}}" class="list-item" style="text-decoration: none;">
                                                 <div class="list-item-icon">
-                                                    <i class="far fa-user-circle"></i>
+                                                @if (Auth::user()->profile_image)
+                                                <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage1" style="border-radius: 50%;  width: 100%;">
+                                                    
+                                                @elseif (Auth::user()->image_url)
+                                                <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage2" style="border-radius: 50%;  width: 100%;">
+                                                @else
+                                                <img src="{{ asset('assets/img/account').'/04.jpg'}}" alt="" id="profileImage3" style="border-radius: 50%;  width: 100%;">
+                                                @endif
                                                 </div>
                                                 <div class="list-item-info">
                                                 <h6 class="" role="button">{{ ucfirst(Auth::user()->name) }}</h6>

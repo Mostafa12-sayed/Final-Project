@@ -75,14 +75,13 @@ class ProductController extends Controller
             }
         });
 
-
         // $products = $query->paginate(15);
-        
         $products = $query->paginate(15)->appends(request()->query());
         $categories = Category::where('status', 'active')->get(); // Fetch categories for the sidebar
 
         return view('website::product.products', compact('products', 'categories'));
     }
+
     public function getProductDetails(Request $request): \Illuminate\Http\JsonResponse
     {
         // Validate the request
@@ -120,9 +119,9 @@ class ProductController extends Controller
     {
         $product = Product::with('reviews.user')->where('slug', $slug)->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)
-                                ->where('id', '!=', $product->id)
-                                ->limit(4)
-                                ->get();
+            ->where('id', '!=', $product->id)
+            ->limit(4)
+            ->get();
         return view('website::product.productdetailes', compact('product', 'relatedProducts'));
     }
 
@@ -149,4 +148,30 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Review submitted successfully!');
     }
 
+    public function edit($id)
+    {
+        return view('website::edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function showProduct(Product $product)
+    {
+
+       return view('website::product.modal', compact('product'));
+    }
 }

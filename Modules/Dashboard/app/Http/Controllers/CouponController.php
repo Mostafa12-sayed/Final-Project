@@ -1,23 +1,20 @@
 <?php
 
-namespace Modules\Website\app\Http\Controllers;
+namespace Modules\Dashboard\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Website\app\Models\Category;
 
-class WebsiteController extends Controller
+class CouponController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories=Category::withCount('products')->orderBy('products_count', 'desc')->get();
-        // dd($categories);
-        return view('website::index', compact('categories'));
+        return view('dashboard::index');
     }
 
     /**
@@ -25,7 +22,7 @@ class WebsiteController extends Controller
      */
     public function create()
     {
-        return view('website::create');
+        return view('dashboard::create');
     }
 
     /**
@@ -41,7 +38,7 @@ class WebsiteController extends Controller
      */
     public function show($id)
     {
-        return view('website::show');
+        return view('dashboard::show');
     }
 
     /**
@@ -49,7 +46,7 @@ class WebsiteController extends Controller
      */
     public function edit($id)
     {
-        return view('website::edit');
+        return view('dashboard::edit');
     }
 
     /**
