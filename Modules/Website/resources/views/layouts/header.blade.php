@@ -75,27 +75,31 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="list-item">
+                                    <a href="{{ auth()->check() ? route('wishlist.index') : route('login') }}" class="list-item">
                                         <div class="list-item-icon">
-                                            <i class="far fa-heart"></i><span>0</span>
+                                            <i class="far fa-heart"></i>
+                                            @auth
+                                                <span>{{ Auth::user()->wishlist()->count() }}</span>
+                                            @else
+                                                <span>0</span>
+                                            @endauth
                                         </div>
                                         <div class="list-item-info">
-                                            <h6>Wishlist</h6>
-                                            <h5>My Items</h5>
+                                            <h5>My Wishlist</h5>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="dropdown-cart">
-                                    <a href="#" class="shop-cart list-item">
+                                    <a href="{{ route('cart.index') }}" class="shop-cart list-item">
                                         <div class="list-item-icon">
-                                            <i class="far fa-shopping-bag"></i><span>5</span>
+                                            <i class="far fa-shopping-bag"></i><span>{{ count(session('cart', [])) }}</span>
                                         </div>
                                         <div class="list-item-info">
-                                            <h6>$350.00</h6>
+                                            <!-- <h6>${{ number_format($cartTotal ?? 0, 2) }}</h6> -->
                                             <h5>My Cart</h5>
                                         </div>
                                     </a>
-                                    <div class="dropdown-cart-menu">
+                                    <!-- <div class="dropdown-cart-menu">
                                         <div class="dropdown-cart-header">
                                             <span>03 Items</span>
                                             <a href="#">View Cart</a>
@@ -151,7 +155,7 @@
                                             </div>
                                             <a href="#" class="theme-btn">Checkout</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </li>
                             </ul>
                         </div>

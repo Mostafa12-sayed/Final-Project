@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Review;
+use Modules\Website\app\Models\Wishlist;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
@@ -55,6 +56,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function addresses()
     {
         return $this->hasOne(Addresses::class);
+    }
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
     }
     public function reviews()
     {

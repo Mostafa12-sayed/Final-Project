@@ -3,118 +3,129 @@
 namespace Modules\Website\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use App\Models\Product;
-use Illuminate\Support\Facades\Session;
+use Modules\Website\app\Models\Product;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private function getCartData($cart)
     {
-        return view('website::index');
-    }
-    public function add(Request $request): JsonResponse
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1'
-        ]);
+        $productIds = array_keys($cart);
+        $products = Product::whereIn('id', $productIds)->get();
+        $subtotal = 0;
 
-        $product = Product::findOrFail($request->product_id);
-
-        // Check if product is in stock
-        if ($product->stock < $request->quantity) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Not enough stock available.'
-            ]);
+        foreach ($products as $product) {
+            $quantity = $cart[$product->id];
+            $finalPrice = $product->price - ($product->discount ?? 0);
+            $subtotal += $finalPrice * $quantity;
         }
 
-        // Get or create cart session
-        $cartItems = Session::get('cart', []);
+        $discount = 0; // Placeholder for future discount logic
+        $taxRate = 0.10; // 10% tax rate
+        $taxes = $subtotal * $taxRate;
+        $total = $subtotal - $discount + $taxes;
 
-        // Check if product already in cart
-        if (isset($cartItems[$request->product_id])) {
-            // Update quantity
-            $cartItems[$request->product_id]['quantity'] += $request->quantity;
+        return [
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'taxes' => $taxes,
+            'total' => $total
+        ];
+    }
+
+    public function add(Request $request, Product $product)
+    {
+        $quantity = (int) $request->input('quantity', 1); // Ensure quantity is an integer
+        if ($product->stock < $quantity) {
+            return redirect()->back()->with('error', 'Not enough stock available.');
+        }
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$product->id])) {
+            $newQuantity = $cart[$product->id] + $quantity;
+            if ($product->stock < $newQuantity) {
+                return redirect()->back()->with('error', 'Not enough stock available.');
+            }
+            $cart[$product->id] = $newQuantity;
         } else {
-            // Add new item
-            $cartItems[$request->product_id] = [
-                'id' => $product->id,
-                'name' => $product->name,
-                'price' => $product->discount ? $product->price - $product->discount : $product->price,
-                'quantity' => $request->quantity,
-                'image' => !empty($product->gallery) ? $product->gallery[0] : 'assets/img/product/01.png'
+            $cart[$product->id] = $quantity;
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart.');
+    }
+
+    public function index()
+    {
+        $cart = session()->get('cart', []);
+        $productIds = array_keys($cart);
+        $products = Product::whereIn('id', $productIds)->get();
+
+        $cartItems = [];
+        $subtotal = 0;
+
+        foreach ($products as $product) {
+            $quantity = $cart[$product->id];
+            $finalPrice = $product->price - ($product->discount ?? 0);
+            $itemTotal = $finalPrice * $quantity;
+            $subtotal += $itemTotal;
+            $cartItems[] = [
+                'product' => $product,
+                'quantity' => $quantity,
+                'finalPrice' => $finalPrice,
+                'itemTotal' => $itemTotal,
             ];
         }
 
-        // Save cart to session
-        Session::put('cart', $cartItems);
+        $cartItems = collect($cartItems); // Convert to collection for Blade
+        $discount = 0; // Placeholder for future discount logic
+        $taxRate = 0.10; // 10% tax rate
+        $taxes = $subtotal * $taxRate;
+        $total = $subtotal - $discount + $taxes;
 
-        // Calculate cart count
-        $cartCount = 0;
-        foreach ($cartItems as $item) {
-            $cartCount += $item['quantity'];
+        return view('website::product.cart', compact('cartItems', 'subtotal', 'discount', 'taxes', 'total'));
+    }
+
+    public function update(Request $request, $productId): JsonResponse
+    {
+        $quantity = (int) $request->input('quantity'); // Ensure quantity is an integer
+        $cart = session()->get('cart', []);
+
+        // Check if the product exists and is in the cart
+        $product = Product::find($productId);
+        if (!$product || !isset($cart[$productId])) {
+            return response()->json(['success' => false, 'message' => 'Product not found in cart'], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Product added to cart successfully.',
-            'cartCount' => $cartCount
-        ]);
+        // Validate stock
+        if ($quantity > $product->stock) {
+            return response()->json(['success' => false, 'message' => 'Not enough stock available'], 400);
+        }
+
+        if ($quantity > 0) {
+            $cart[$productId] = $quantity;
+        } else {
+            unset($cart[$productId]);
+        }
+
+        session()->put('cart', $cart);
+        $cartData = $this->getCartData($cart);
+        return response()->json(['success' => true, 'cartData' => $cartData]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function remove($productId): JsonResponse
     {
-        return view('website::create');
-    }
+        $cart = session()->get('cart', []);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
+        // Check if the product exists in the cart
+        if (!isset($cart[$productId])) {
+            return response()->json(['success' => false, 'message' => 'Product not found in cart'], 404);
+        }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('website::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('website::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        unset($cart[$productId]);
+        session()->put('cart', $cart);
+        $cartData = $this->getCartData($cart);
+        return response()->json(['success' => true, 'cartData' => $cartData]);
     }
 }

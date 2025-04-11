@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Password;
 
 //email verification routs//
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
+Route::get('/home', [WebsiteController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 Route::get('/email/verify', function (Request $request) {
@@ -56,7 +57,6 @@ Route::post('/forgot-password', function (Request $request) {
 //reset password//
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('google/callback', [socialite::class, 'google_callback'])->name('google.callback');
 Route::get('google/redirect', [Socialite::class, 'google_redirect'])->name('google.redirect');

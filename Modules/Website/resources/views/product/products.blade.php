@@ -19,10 +19,10 @@
     <!-- shop-area -->
     <div class="shop-area bg py-90">
         <div class="container">
-            <!-- Unified Filters Form -->
-            <form id="filters-form" action="{{ route('products') }}" method="GET">
-                <div class="row">
-                    <div class="col-lg-3">
+            <div class="row">
+                <!-- Sidebar with Filters Form -->
+                <div class="col-lg-3">
+                    <form id="filters-form" action="{{ route('products') }}" method="GET">
                         <div class="shop-sidebar">
                             <!-- Search Widget -->
                             <div class="shop-widget">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
 
-                            <!-- Category Widget -->
+                            <!-- Category Widget (outside form since it’s links) -->
                             <div class="shop-widget">
                                 <h4 class="shop-widget-title">Category</h4>
                                 <ul class="shop-category-list">
@@ -48,19 +48,6 @@
                                     @endforeach
                                 </ul>
                             </div>
-
-                            <!-- Price Range Widget -->
-                            <!-- <div class="shop-widget">
-                                <h4 class="shop-widget-title">Price Range</h4>
-                                <div class="price-range-box">
-                                    <div class="price-range-input">
-                                        <input type="text" id="price-amount" readonly value="${{ request('price_min', 0) }} - ${{ request('price_max', 1000) }}">
-                                    </div>
-                                    <div class="price-range"></div>
-                                </div>
-                                <input type="hidden" name="price_min" id="price_min" value="{{ request('price_min', 0) }}">
-                                <input type="hidden" name="price_max" id="price_max" value="{{ request('price_max', 1000) }}">
-                            </div> -->
 
                             <!-- Sales Widget -->
                             <div class="shop-widget">
@@ -114,6 +101,7 @@
                                             </label>
                                         </div>
                                     </li>
+                                    <!-- Other rating options remain the same -->
                                     <li>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="rate2" name="rating[]" value="4"
@@ -169,121 +157,138 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </form>
+                </div>
 
-                    <div class="col-lg-9">
-                        <div class="col-md-12">
-                            <div class="shop-sort">
-                                <div class="shop-sort-box">
-                                    <div class="shop-sorty-label">Sort By:</div>
-                                    <select class="select" onchange="location = this.value;">
-                                        <option value="{{ route('products') }}">Default Sorting</option>
-                                        <option value="{{ route('products', ['sort' => 'latest']) }}">Latest Items</option>
-                                        <option value="{{ route('products', ['sort' => 'price_low']) }}">Price - Low To High</option>
-                                        <option value="{{ route('products', ['sort' => 'price_high']) }}">Price - High To Low</option>
-                                    </select>
-                                    <div class="shop-sort-show">
-                                        Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
-                                    </div>
-                                </div>
-                                <div class="shop-sort-gl">
-                                    <a href="{{ route('products') }}" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></a>
-                                    <a href="#" class="shop-sort-list"><i class="far fa-list-ul"></i></a>
+                <!-- Product List (outside the filters form) -->
+                <div class="col-lg-9">
+                    <div class="col-md-12">
+                        <div class="shop-sort">
+                            <div class="shop-sort-box">
+                                <div class="shop-sorty-label">Sort By:</div>
+                                <select class="select" onchange="location = this.value;">
+                                    <option value="{{ route('products') }}">Default Sorting</option>
+                                    <option value="{{ route('products', ['sort' => 'latest']) }}">Latest Items</option>
+                                    <option value="{{ route('products', ['sort' => 'price_low']) }}">Price - Low To High</option>
+                                    <option value="{{ route('products', ['sort' => 'price_high']) }}">Price - High To Low</option>
+                                </select>
+                                <div class="shop-sort-show">
+                                    Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
                                 </div>
                             </div>
+                            <div class="shop-sort-gl">
+                                <a href="{{ route('products') }}" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></a>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="shop-item-wrap item-4">
-                            <div class="row g-4">
-                                @forelse($products as $product)
-                                    <div class="col-md-6 col-lg-4">
-                                        <div class="product-item" data-product-id="{{ $product->id }}">
-                                            <div class="product-img">
-                                                @if($product->is_new)
-                                                    <span class="type new">New</span>
-                                                @elseif($product->discount)
-                                                    <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
-                                                @elseif($product->stock == 0)
-                                                    <span class="type oos">Out Of Stock</span>
-                                                @endif
-                                                <a href="{{ route('product.show', $product->slug) }}">
-                                                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                                                </a>
-                                                <div class="product-action-wrap">
-                                                    <div class="product-action">
-                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a>
-                                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                                                        <!-- <a href="#" data-tooltip="tooltip" title="Add To Compare"><i class="far fa-arrows-repeat"></i></a> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3 class="product-title">
-                                                    <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
-                                                </h3>
-                                                <div class="product-rate">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        @if($i <= floor($product->rating))
-                                                            <i class="fas fa-star"></i>
-                                                        @elseif($i - 0.5 <= $product->rating)
-                                                            <i class="fas fa-star-half-alt"></i>
+                    <div class="shop-item-wrap item-4">
+                        <div class="row g-4">
+                            @forelse($products as $product)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="product-item" data-product-id="{{ $product->id }}">
+                                        <div class="product-img">
+                                            @if($product->is_new)
+                                                <span class="type new">New</span>
+                                            @elseif($product->discount)
+                                                <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
+                                            @elseif($product->stock == 0)
+                                                <span class="type oos">Out Of Stock</span>
+                                            @endif
+                                            <a href="{{ route('product.show', $product->slug) }}">
+                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                            </a>
+                                            <div class="product-action-wrap">
+                                                <!-- Replace this in the product action section -->
+                                                <div class="product-action">
+                                                    <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a> -->
+                                                    @auth
+                                                        @if (Auth::user()->wishlist()->where('product_id', $product->id)->exists())
+                                                            <form action="{{ route('wishlist.remove', $product->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Remove From Wishlist">
+                                                                    <i class="fas fa-heart"></i>
+                                                                </button>
+                                                            </form>
                                                         @else
-                                                            <i class="far fa-star"></i>
+                                                            <form action="{{ route('wishlist.add', $product->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Add To Wishlist">
+                                                                    <i class="far fa-heart"></i>
+                                                                </button>
+                                                            </form>
                                                         @endif
-                                                    @endfor
-                                                </div>
-                                                <div class="product-bottom">
-                                                    <div class="product-price">
-                                                        @if($product->discount)
-                                                            <del>${{ number_format($product->price, 2) }}</del>
-                                                            <span>${{ number_format($product->price - $product->discount, 2) }}</span>
-                                                        @else
-                                                            <span>${{ number_format($product->price, 2) }}</span>
-                                                        @endif
-                                                    </div>
-                                                    <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
-                                                        <i class="far fa-shopping-bag"></i>
-                                                    </button>
+                                                    @else
+                                                        <a href="{{ route('login') }}" data-tooltip="tooltip" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a>
+                                                    @endauth
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="product-content">
+                                            <h3 class="product-title">
+                                                <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
+                                            </h3>
+                                            <div class="product-rate">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= floor($product->rating))
+                                                        <i class="fas fa-star"></i>
+                                                    @elseif($i - 0.5 <= $product->rating)
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                    @else
+                                                        <i class="far fa-star"></i>
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                            <div class="product-bottom">
+                                                <div class="product-price">
+                                                    @if($product->discount)
+                                                        <del>${{ number_format($product->price, 2) }}</del>
+                                                        <span>${{ number_format($product->price - $product->discount, 2) }}</span>
+                                                    @else
+                                                        <span>${{ number_format($product->price, 2) }}</span>
+                                                    @endif
+                                                </div>
+                                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button type="submit" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
+                                                        <i class="far fa-shopping-bag"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                @empty
-                                    <p>No products found.</p>
-                                @endforelse
-                            </div>
+                                </div>
+                            @empty
+                                <p>No products found.</p>
+                            @endforelse
                         </div>
-                        <!-- Pagination -->
-                        <div class="pagination-area mt-50">
-                            <div class="pagination">
-                                @if ($products->onFirstPage())
-                                    <span class="disabled">Previous</span>
-                                @else
-                                    <a href="{{ $products->previousPageUrl() }}">Previous</a>
-                                @endif
-                                <span class="page-indicator">
-                                    {{ $products->currentPage() }} : {{ $products->lastPage() }} : {{ $products->total() }}
-                                </span>
-                                @if ($products->hasMorePages())
-                                    <a href="{{ $products->nextPageUrl() }}">Next</a>
-                                @else
-                                    <span class="disabled">Next</span>
-                                @endif
-                            </div>
-                            <div class="entries-count">
-                                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
-                            </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="pagination-area mt-50">
+                        <div class="pagination">
+                            @if ($products->onFirstPage())
+                                <span class="disabled">Previous</span>
+                            @else
+                                <a href="{{ $products->previousPageUrl() }}">Previous</a>
+                            @endif
+                            <span class="page-indicator">
+                                {{ $products->currentPage() }} : {{ $products->lastPage() }} : {{ $products->total() }}
+                            </span>
+                            @if ($products->hasMorePages())
+                                <a href="{{ $products->nextPageUrl() }}">Next</a>
+                            @else
+                                <span class="disabled">Next</span>
+                            @endif
+                        </div>
+                        <div class="entries-count">
+                            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <!-- shop-area end -->
-@endsection
-
-@section('scripts')
-    <!-- <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('assets/js/quickview.js') }}"></script> -->
-
 @endsection
