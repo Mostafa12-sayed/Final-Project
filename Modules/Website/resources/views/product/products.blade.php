@@ -25,13 +25,17 @@
                     <form id="filters-form" action="{{ route('products') }}" method="GET">
                         <div class="shop-sidebar">
                             <!-- Search Widget -->
-                            <div class="shop-widget">
-                                <div class="shop-search-form">
+                            <div class="shop-widget row">
+                                <div class="shop-search-form col-12">
                                     <h4 class="shop-widget-title">Search</h4>
                                     <div class="form-group">
                                         <input type="text" name="search" class="form-control" placeholder="Search" value="{{ request('search') }}">
                                         <button type="submit"><i class="far fa-search"></i></button>
                                     </div>
+                                </div>
+
+                                <div class="col-12 m-2">
+                                    <button class="btn" style="width: 90%; background-color: #03a297; color: aliceblue;"> <a href="{{ route('products') }}" style="width: 100%; color: aliceblue;">Reset</a></button>
                                 </div>
                             </div>
 
@@ -266,7 +270,7 @@
                         </div>
                     </div>
                     <!-- Pagination -->
-                    <div class="pagination-area mt-50">
+                    <!-- <div class="pagination-area mt-50">
                         <div class="pagination">
                             @if ($products->onFirstPage())
                                 <span class="disabled">Previous</span>
@@ -285,7 +289,15 @@
                         <div class="entries-count">
                             Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
                         </div>
+                    </div> -->
+
+                    <!-- pagination -->
+                    <div class="pagination-area mt-50">
+                        <div aria-label="Page navigation example">
+                            {{ $products->links('website::layouts.custom-pagination') }}
+                        </div>
                     </div>
+                    <!-- pagination end -->
                 </div>
             </div>
         </div>
