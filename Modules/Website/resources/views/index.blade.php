@@ -90,162 +90,21 @@
         <div class="category-area2 pt-80 pb-100">
             <div class="container">
                 <div class="category-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
+                    @foreach ($categories as $category)
                     <div class="category-item">
-                        <a href="#">
+                        <a href="{{ route('category.index')}}">
                             <div class="category-info">
                                 <div class="icon">
-                                    <img src="assets/img/icon/medicine.svg" alt="">
+                                    <img src="{{ $category->image }}" alt="">
                                 </div>
                                 <div class="content">
-                                    <h4>Medicine</h4>
-                                    <p>30 Items</p>
+                                    <h4>{{ $category->name }}</h4>
+                                    <p>{{ $category->products->count() }} Items</p>
                                 </div>
                             </div>
                         </a>
                     </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/health-care.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Healthcare</h4>
-                                    <p>25 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/beauty-care.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Beauty Care</h4>
-                                    <p>15 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/sexual.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Sexual Wellness</h4>
-                                    <p>05 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/fitness.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Fitness</h4>
-                                    <p>30 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/lab-test.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Lab Test</h4>
-                                    <p>12 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/baby-mom-care.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Baby & Mom Care</h4>
-                                    <p>08 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/supplements.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Supplement</h4>
-                                    <p>14 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/food-nutrition.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Food & Nutrition</h4>
-                                    <p>19 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/medical-equipements.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Equipments</h4>
-                                    <p>24 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/medical-supplies.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Medical Supplies</h4>
-                                    <p>09 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="assets/img/icon/pet-care.svg" alt="">
-                                </div>
-                                <div class="content">
-                                    <h4>Pet Care</h4>
-                                    <p>16 Items</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

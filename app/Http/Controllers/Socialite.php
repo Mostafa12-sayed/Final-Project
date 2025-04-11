@@ -20,7 +20,7 @@ class Socialite extends Controller
 
     public function google_callback(){
         $user = FacadesSocialite::driver('google')->user();
-        // dd($user->user['given_name']);
+        // dd($user);
         $olduser=user::where('google_id',$user->id)->first();
         if(!isempty($olduser) && $olduser !== null){
             Auth::login($olduser);
@@ -36,7 +36,7 @@ class Socialite extends Controller
                 'password'=>null,
                 'user_type'=>'customer',
                 'email_verified_at'=>now(),
-                'image_url'=>$user->avater
+                'image_url'=>$user->avatar
             ]);
         }
 

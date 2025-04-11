@@ -7,11 +7,24 @@
             <div class="col-lg-3">
                 <div class="sidebar">
                     <div class="sidebar-top">
+<<<<<<< HEAD
+                        @if (!@empty(Auth::user()->profile_image))
+                        <div class="sidebar-profile-img" style="  width: 70px;       
+=======
                         @if (@empty(Auth::user()->profile_image))
                         <div class="sidebar-profile-img" style="  width: 70px;
+>>>>>>> ad2b72eaa84917df0a9d2437f959dd822f4c8e06
                             height: 70px;
                             border-radius: 50%; ">
-                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage" style="  width: 100%;
+                            <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage" style="  width: 100%;
+                            height: 100%;
+                            object-fit: cover;  /* Ensures image covers container without stretching */
+                            object-position: center;">
+                            @elseif(!@empty(Auth::user()->image_url))
+                            <div class="sidebar-profile-img" style="  width: 120px;       
+                            height: 120px;
+                            border-radius: 50%; ">
+                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage2" style="  width: 100%;
                             height: 100%;
                             object-fit: cover;  /* Ensures image covers container without stretching */
                             object-position: center;">
@@ -19,11 +32,11 @@
                             <div class="sidebar-profile-img" style="  width: 120px;
                             height: 120px;
                             border-radius: 50%; ">
-                            <img src="{{ 'assets/img/account/'.Auth::user()->profile_image }}" alt="" id="profileImage" style="  width: 100%;
+                            <img src="{{ asset('assets/img/account').'/04.jpg' }}" alt="" id="profileImage" style="  width: 100%;
                             height: 100%;
                             object-fit: cover;  /* Ensures image covers container without stretching */
                             object-position: center;">
-                            @endif
+                        @endif
                             <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
                             <input type="file" name="profile_image" class="profile-img-file" id="profilePhotoInput" accept="image/*" onchange="uploadPhoto(this)">
                         </div>

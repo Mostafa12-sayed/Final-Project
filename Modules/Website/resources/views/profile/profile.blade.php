@@ -16,6 +16,9 @@
                                         <label>First Name</label>
                                         <input name="name" type="text" class="form-control" value="{{Auth::user()->name}}"
                                             placeholder="First Name">
+                                            @error('name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -23,6 +26,9 @@
                                         <label>Last Name</label>
                                         <input name="last_name" type="text" class="form-control" value="{{Auth::user()->last_name}}"
                                             placeholder="Last Name">
+                                            @error('last_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -30,6 +36,9 @@
                                         <label>Email</label>
                                         <input name="email" type="text" class="form-control"
                                             value="{{Auth::user()->email}}" placeholder="Email">
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -37,6 +46,9 @@
                                         <label>Phone</label>
                                         <input name="phone" type="text" class="form-control"
                                             value="{{Auth::user()->phone}}" placeholder="Phone">
+                                            @error('phone')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -47,6 +59,9 @@
                                             value="{{$address->street}}"
                                             @endif
                                             placeholder="Street">
+                                            @error('street')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -57,6 +72,9 @@
                                         value="{{ $address->city }}"
                                         @endif
                                         placeholder="City">
+                                        @error('city')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -67,6 +85,9 @@
                                         value="{{ $address->zip_code }}"
                                         @endif
                                             placeholder="Zip Code">
+                                            @error('zip_code')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div>
                             </div>
