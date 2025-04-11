@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Website\app\Models\Category;
 
 class WebsiteController extends Controller
 {
@@ -14,7 +15,9 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        return view('website::index');
+        $categories=Category::withCount('products')->orderBy('products_count', 'desc')->get();
+        // dd($categories);
+        return view('website::index', compact('categories'));
     }
 
     /**

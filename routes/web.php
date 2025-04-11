@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Password;
 
 
 //email verification routs//
-Route::get('/', function () {
-    return view('website::index');
-})->middleware(['auth', 'verified']);
+Route::get('/', [WebsiteController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 Route::get('/email/verify', function (Request $request) {
