@@ -7,6 +7,7 @@ use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\CategoryController;
 use Modules\Website\app\Http\Controllers\OrderController;
+use Modules\Website\app\Http\Controllers\WishlistController;
 
 
 
@@ -41,7 +42,16 @@ Route::post('/products/{product}/reviews', [ProductController::class, 'storeRevi
     ->name('products.reviews.store')
     ->middleware('auth');
 // Cart Routes
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+//Wishlist Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+});
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 

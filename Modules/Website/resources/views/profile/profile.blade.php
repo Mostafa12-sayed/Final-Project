@@ -44,7 +44,7 @@
                                         <label>street</label>
                                         <input name="street" type="text" class="form-control"
                                             @if(isset($address) && $address->street != null)
-                                            value="{{$address->street}}" 
+                                            value="{{$address->street}}"
                                             @endif
                                             placeholder="Street">
                                     </div>
@@ -64,7 +64,7 @@
                                         <label>Zip Code</label>
                                         <input name="zip_code" type="text" class="form-control"
                                         @if (isset($address->zip_code) && $address->zip_code !=null)
-                                        value="{{ $address->zip_code }}" 
+                                        value="{{ $address->zip_code }}"
                                         @endif
                                             placeholder="Zip Code">
                                     </div>
