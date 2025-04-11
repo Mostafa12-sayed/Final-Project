@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Review;
+use Modules\Website\app\Models\Wishlist;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -26,6 +28,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'profile_image',
+        'image_url',
         'password',
         'user_type',
         'google_id',
@@ -53,6 +56,10 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasOne(Addresses::class);
+    }
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
     }
     public function reviews()
     {

@@ -199,9 +199,29 @@
                                                 <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
                                             </a>
                                             <div class="product-action-wrap">
+                                                <!-- Replace this in the product action section -->
                                                 <div class="product-action">
-                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a>
-                                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
+                                                    <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a> -->
+                                                    @auth
+                                                        @if (Auth::user()->wishlist()->where('product_id', $product->id)->exists())
+                                                            <form action="{{ route('wishlist.remove', $product->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Remove From Wishlist">
+                                                                    <i class="fas fa-heart"></i>
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('wishlist.add', $product->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Add To Wishlist">
+                                                                    <i class="far fa-heart"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ route('login') }}" data-tooltip="tooltip" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a>
+                                                    @endauth
                                                 </div>
                                             </div>
                                         </div>

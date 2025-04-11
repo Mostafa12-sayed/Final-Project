@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::paginate(5);
         return view('dashboard::category.category-list' ,compact('categories')) ;
     }
 
@@ -35,7 +35,7 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CategoryRequest $request)
-    {   
+    {
         if ($request->hasFile('image')) {
             $imagePath = FileHelper::uploadImage($request->file('image'), 'category');
         }
@@ -48,6 +48,7 @@ class CategoryController extends Controller
             'code' => $request->code,
             'created_by' => auth()->guard('admin')->user()->name,
         ]);
+
         if ($category) {
             flash()->success('Category created successfully.');
             return back();
@@ -55,7 +56,7 @@ class CategoryController extends Controller
             flash()->success('Category Filed Create.');
             return back();
         }
-        
+
     }
 
     /**
@@ -102,7 +103,7 @@ class CategoryController extends Controller
             return back();
         }
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */

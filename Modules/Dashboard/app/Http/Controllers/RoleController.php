@@ -6,62 +6,127 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Modules\Dashboard\app\Models\Role;
+use Modules\Dashboard\app\Models\Permission;
+use Modules\Dashboard\app\Http\Requests\StoreRoleRequest;
+use Illuminate\Support\Facades\DB;
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $model;
+
+    public function __construct(Role $model)
+    {
+        $this->model = $model;
+
+        // $this->middleware('permission:acct_read-roles')->only('index');
+        // $this->middleware('permission:acct_create-roles')->only(['create', 'store']);
+        // $this->middleware('permission:acct_update-roles')->only(['edit', 'update']);
+        // $this->middleware('permission:acct_delete-roles')->only('destroy');
+    }
+ 
     public function index()
     {
-        return view('dashboard::index');
+        // $this->setSessionDelete();
+        return view('dashboard::roles.role-list', [
+            'data' => $this->model->paginate(20),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        return view('dashboard::create');
+        return view('dashboard::roles.role-add', [
+            'resource' => $this->model,
+            'permissions' => Permission::get()->groupBy('path'),
+
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRoleRequest $request)
     {
-        //
+        $inputs = $request->validated();
+        // dd($inputs['role_status']);
+
+
+        try {
+            DB::beginTransaction();
+            $resource = Role::create([
+                'name'          =>  $inputs['name'],
+                'display_name'  => $inputs['display_name'],
+                'description'   => $inputs['description'],
+                'role_status'   => $inputs['role_status']
+            ]);
+            // dd($resource);
+            $resource->syncPermissions($inputs['permissions']);
+            DB::commit();
+
+            flash()->success('Role Created Successfully');
+
+            return redirect()->back();
+        } catch (\Exception $th) {
+            // toast(__('admin.stored'),'success','top-right')->hideCloseButton();
+            // alert()->error('', $th->getMessage());
+            flash()->error( "thiserr".$th->getMessage());
+
+            return back();
+        }
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('dashboard::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
-        return view('dashboard::edit');
+        $resource = $this->model->findOrFail($id);
+        return view('dashboard::roles.role-add', [
+            'permissions' => Permission::get()->groupBy('path'),
+            'resource' => $resource,
+            'rolePermissions' => $resource->permissions->pluck('id')->all(),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(StoreRoleRequest $request, $id)
     {
-        //
+        $inputs = $request->validated();
+
+        try {
+            $resource = $this->model->findOrFail($id);
+            $resource->update([
+                'name'  => $inputs['name'],
+                'display_name'  => $inputs['display_name'],
+                'description'  => $inputs['description'],
+                'role_status' =>$inputs['role_status'],
+            ]);
+            $resource->syncPermissions($inputs['permissions']);
+            flash()->success('Role Updated Successfully');
+
+            return redirect()->back();
+        } catch (\Exception $th) {
+            flash()->error('error'.$th->getMessage());
+
+            return back();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
-        //
+        $this->model->findOrFail($id)->delete();
+        flash()->success('Role Deleted Successfully');
+
+        return back();
+    }
+
+
+    public function updateStatus(Request $request)
+    {   
+            $role = Role::findOrFail($request->id);
+            $role->role_status = $request->status;
+            $role->save();
+
+        return response()->json(['success' => true]);
     }
 }

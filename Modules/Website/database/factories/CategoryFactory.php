@@ -25,6 +25,18 @@ class CategoryFactory extends Factory
 
     public function definition()
     {
+        // $name = $this->faker->randomElement([
+        //     'Electronics',
+        //     'Fashion',
+        //     'Home & Garden',
+        //     'Sports & Outdoors',
+        //     'Health & Beauty',
+        //     'Toys & Hobbies',
+        //     'Automotive',
+        //     'Books & Stationery',
+        //     'Computers & Networking',
+        //     'Jewelry & Watches',
+        // ]);
         $name = $this->faker->unique()->words(2, true);
         return [
             'name' => $name,
@@ -40,6 +52,7 @@ class CategoryFactory extends Factory
                 'assets/img/icon/supplements.svg',
             ]),
             'status' => $this->faker->randomElement(['active', 'nactive']),
+            'code' => Str::random(10),
         ];
     }
 

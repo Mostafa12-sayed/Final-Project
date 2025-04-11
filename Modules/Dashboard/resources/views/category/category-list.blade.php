@@ -7,7 +7,7 @@
                <!-- Start Container Fluid -->
                <div class="container-xxl">
 
-                 
+
 
                     <div class="row">
                          <div class="col-xl-12">
@@ -23,7 +23,7 @@
                                              <table class="table align-middle mb-0 table-hover table-centered">
                                                   <thead class="bg-light-subtle">
                                                        <tr>
-                                                            
+
                                                             <th>Categories</th>
                                                             <th>Create by</th>
                                                             <th>Parent</th>
@@ -36,8 +36,8 @@
                                                        @if($categories->count()>0)
                                                        @foreach ($categories as $category )
                                                        <tr>
-                                                                 
-                                                 
+
+
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
@@ -57,12 +57,13 @@
                                                                  <div class="d-flex gap-2">
                                                                       <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                       <a href="{{ route('admin.category.edit' , ['category'=>$category->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <form action="{{ route('admin.category.destroy' ,['category'=>$category->id]) }}" method="POST" class="d-inline">
+                                                                      <form id="delete-form-category-{{ $category->id }}" action="{{ route('admin.category.destroy' ,['category'=>$category->id]) }}" method="POST" class="d-inline">
                                                                            @csrf
                                                                            @method('DELETE')
-                                                                           <button type="submit" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></button>
                                                                       </form>
-                                                                     
+                                                                     <button type="submit" class="btn btn-soft-danger btn-sm delete-item" data-form="delete-form-category-{{ $category->id }}"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></button>
+
+
                                                                  </div>
                                                             </td>
                                                        </tr>
@@ -77,40 +78,8 @@
                                         </div>
                                         <!-- end table-responsive -->
                                    </div>
-                                   @if ($categories->hasPages())
-                                   <nav aria-label="Page navigation example" class="mt-3 text-center d-flex justify-content-center">
-                                       <ul class="pagination pagination-rounded">
-                               
-                                           {{-- Previous Page Link --}}
-                                           @if ($categories->onFirstPage())
-                                               <li class="page-item disabled"><span class="page-link">Previous</span></li>
-                                           @else
-                                               <li class="page-item"><a class="page-link" href="{{ $categories->previousPageUrl() }}">Previous</a></li>
-                                           @endif
-                               
-                                           @foreach ($categories->links()->elements as $element)
-                                               @if (is_string($element))
-                                                   <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
-                                               @endif
-                                               @if (is_array($element))
-                                                   @foreach ($element as $page => $url)
-                                                       @if ($page == $categories->currentPage())
-                                                           <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
-                                                       @else
-                                                           <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
-                                                       @endif
-                                                   @endforeach
-                                               @endif
-                                           @endforeach
-                                           @if ($categories->hasMorePages())
-                                               <li class="page-item"><a class="page-link" href="{{ $categories->nextPageUrl() }}">Next</a></li>
-                                           @else
-                                               <li class="page-item disabled"><span class="page-link">Next</span></li>
-                                           @endif
-                               
-                                       </ul>
-                                   </nav>
-                               @endif
+                                   <x-dashboard::paginate :items="$categories" />
+
                               </div>
                          </div>
                     </div>
@@ -118,7 +87,7 @@
                </div>
                <!-- End Container Fluid -->
 
-              
+
 
           </div>
 @endsection

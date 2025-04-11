@@ -21,8 +21,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        return view('dashboard::product.product-list');
+        $products= Product::with('category:id,name')->paginate(2);
+        return view('dashboard::product.product-list' ,compact('products'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ProductController extends Controller
         $firstimage =null;
         DB::beginTransaction();
         try{
-        
+
             if( $request->file('image')) {
                 $firstimage = FileHelper::uploadImage($request->file('image'), 'products');
             }
@@ -67,7 +67,6 @@ class ProductController extends Controller
                 'image' => $firstimage,
                 'gallery' => json_encode($images),
                 'slug'=> Str::slug($request->name),
-                'weight'=> $request->weight
             ]);
 
                 if( $product) {
@@ -86,25 +85,28 @@ class ProductController extends Controller
             flash()->error('Error: ' . $e->getMessage());
             return back();
         }
-            
-        
+
+
     }
 
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        return view('dashboard::show');
+        $categories = Category::select('id', 'name')->get();
+
+        return view('dashboard::product.product-add' , compact('categories', 'product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        return view('dashboard::edit');
-    }
+      $categories = Category::select('id', 'name')->get();
+
+        return view('dashboard::product.product-add' , compact('categories', 'product'));    }
 
     /**
      * Update the specified resource in storage.
@@ -117,9 +119,11 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        flash()->success('Product deleted successfully.');
+        return back();
     }
 
 

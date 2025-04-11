@@ -7,15 +7,18 @@
             <div class="col-lg-3">
                 <div class="sidebar">
                     <div class="sidebar-top">
-                        <div class="sidebar-profile-img" style="  width: 120px;       
-                            height: 120px;
+                        @if (@empty(Auth::user()->profile_image))
+                        <div class="sidebar-profile-img" style="  width: 70px;
+                            height: 70px;
                             border-radius: 50%; ">
-                            @if (@empty(Auth::user()->profile_image))
-                            <img src="{{ 'assets/img/account/04.jpg' }}" alt="" id="profileImage" style="  width: 100%;
+                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage" style="  width: 100%;
                             height: 100%;
                             object-fit: cover;  /* Ensures image covers container without stretching */
                             object-position: center;">
                             @else
+                            <div class="sidebar-profile-img" style="  width: 120px;
+                            height: 120px;
+                            border-radius: 50%; ">
                             <img src="{{ 'assets/img/account/'.Auth::user()->profile_image }}" alt="" id="profileImage" style="  width: 100%;
                             height: 100%;
                             object-fit: cover;  /* Ensures image covers container without stretching */
@@ -84,7 +87,16 @@
                         <li><a href="user-dashboard.html"><i class="far fa-gauge-high"></i> Dashboard</a></li>
                         <li><a class="active" href="{{ route('profile.index') }}"><i class="far fa-user"></i> My Profile</a></li>
                         <li><a href="order-list.html"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
-                        <li><a href="wishlist.html"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
+                        <li>
+                            <a href="{{ auth()->check() ? route('wishlist.index') : route('login') }}">
+                                <i class="far fa-heart"></i> My Wishlist
+                                @auth
+                                    <span class="badge badge-danger">{{ Auth::user()->wishlist()->count() }}</span>
+                                @else
+                                    <span class="badge badge-danger">0</span>
+                                @endauth
+                            </a>
+                        </li>
                         <li><a href="address-list.html"><i class="far fa-location-dot"></i> Address List</a></li>
                         <li><a href="support-ticket.html"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
                         <li><a href="track-order.html"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
@@ -92,7 +104,7 @@
                         <li><a href="user-notification.html"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
                         <li><a href="user-message.html"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
                         <li><a href="user-setting.html"><i class="far fa-gear"></i> Settings</a></li>
-                        <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
+                        <li><a href="{{ route('logout') }}"><i class="far fa-sign-out"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>

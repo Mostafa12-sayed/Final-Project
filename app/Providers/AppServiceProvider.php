@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +21,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        $client = new Client(['verify' => false]);
+        $this->app->instance('guzzle', $client);
+        \Illuminate\Support\Facades\Http::withOptions([
+            'verify' => false
+        ]);
     }
 }

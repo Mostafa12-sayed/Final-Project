@@ -3,7 +3,7 @@
 @section('content')
     <!-- breadcrumb -->
     <div class="site-breadcrumb">
-        <div class="site-breadcrumb-bg" style="background: url('{{ asset('assets/img/breadcrumb/01.jpg') }}')"></div>
+        <div class="site-breadcrumb-bg" style="background: url("{{ asset('assets/img/breadcrumb/01.jpg') }}")></div>
         <div class="container">
             <div class="site-breadcrumb-wrap">
                 <h4 class="breadcrumb-title">{{ $product->name }}</h4>
@@ -21,28 +21,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-lg-6 col-xxl-5">
-                    <div class="shop-single-gallery">
-                        @if ($product->video_url ?? false)
-                            <a class="shop-single-video popup-youtube" href="{{ $product->video_url }}" data-tooltip="tooltip" title="Watch Video">
-                                <i class="far fa-play"></i>
-                            </a>
-                        @endif
-                        <div class="flexslider-thumbnails">
-                            <ul class="slides">
-                                @if (is_array($product->gallery) && !empty($product->gallery))
-                                    @foreach ($product->gallery as $image)
-                                        <li data-thumb="{{ asset($image) }}">
-                                            <img src="{{ asset($image) }}" alt="{{ $product->name }}">
-                                        </li>
-                                    @endforeach
-                                @else
-                                    <li data-thumb="{{ asset($product->image ?? 'assets/img/product/01.png') }}">
-                                        <img src="{{ asset($product->image ?? 'assets/img/product/01.png') }}" alt="{{ $product->name }}">
-                                    </li>
-                                @endif
-                            </ul>
+                <div class="shop-single-gallery">
+                    @if ($product->video_url ?? false)
+                        <a class="shop-single-video popup-youtube" href="{{ $product->video_url }}" data-tooltip="tooltip" title="Watch Video">
+                            <i class="far fa-play"></i>
+                        </a>
+                    @endif
+                    <div class="simple-slider">
+                        <div class="slider-container">
+                            @if (is_array($product->gallery) && !empty($product->gallery))
+                                @foreach ($product->gallery as $image)
+                                    <div class="slide">
+                                        <img src="{{ asset($image) }}" alt="{{ $product->name }}">
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="slide">
+                                    <img src="{{ asset($product->image ?? 'assets/img/product/01.png') }}" alt="{{ $product->name }}">
+                                </div>
+                            @endif
                         </div>
+                        <button class="slider-prev">❮</button>
+                        <button class="slider-next">❯</button>
                     </div>
+                </div>
                 </div>
                 <div class="col-md-12 col-lg-6 col-xxl-6">
                     <div class="shop-single-info">
@@ -75,7 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-lg-4 col-xl-3">
+                                <!-- <div class="col-md-3 col-lg-4 col-xl-3">
                                     <div class="shop-single-size">
                                         <h6>Size</h6>
                                         <select class="select">
@@ -85,7 +87,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="shop-single-sortinfo">
@@ -99,14 +101,34 @@
                         <div class="shop-single-action">
                             <div class="row align-items-center">
                                 <div class="col-md-6 col-lg-12 col-xl-6">
+                                    <!-- Replace this in the shop-single-action section -->
                                     <div class="shop-single-btn d-flex">
                                         <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="quantity" class="hidden-quantity" value="1">
                                             <button type="submit" class="theme-btn"><span class="far fa-shopping-bag"></span> Add To Cart</button>
                                         </form>
-                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Wishlist"><span class="far fa-heart"></span></a>
-                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Compare"><span class="far fa-arrows-repeat"></span></a>
+                                        @auth
+                                            @if (Auth::user()->wishlist()->where('product_id', $product->id)->exists())
+                                                <form action="{{ route('wishlist.remove', $product->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Remove From Wishlist">
+                                                        <span class="fas fa-heart"></span>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('wishlist.add', $product->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Wishlist">
+                                                        <span class="far fa-heart"></span>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @else
+                                            <a href="{{ route('login') }}" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Login to Add to Wishlist"><span class="far fa-heart"></span></a>
+                                        @endauth
+                                        <!-- <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip" title="Add To Compare"><span class="far fa-arrows-repeat"></span></a> -->
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-12 col-xl-6">
@@ -232,12 +254,31 @@
                                             <img src="{{ asset($related->image ?? 'assets/img/product/01.png') }}" alt="{{ $related->name }}">
                                         </a>
                                         <div class="product-action-wrap">
-                                            <div class="product-action">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                                                <a href="#" data-tooltip="tooltip" title="Add To Compare"><i class="far fa-arrows-repeat"></i></a>
+                                                <!-- Replace this in the product action section -->
+                                                <div class="product-action">
+                                                    <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View" class="quick-view-btn"><i class="far fa-eye"></i></a> -->
+                                                    @auth
+                                                        @if (Auth::user()->wishlist()->where('product_id', $related->id)->exists())
+                                                            <form action="{{ route('wishlist.remove', $related->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Remove From Wishlist">
+                                                                    <i class="fas fa-heart"></i>
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('wishlist.add', $related->id) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-link p-0" data-tooltip="tooltip" title="Add To Wishlist">
+                                                                    <i class="far fa-heart"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ route('login') }}" data-tooltip="tooltip" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a>
+                                                    @endauth
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="product-content">
                                         <h3 class="product-title"><a href="{{ route('product.show', $related->slug) }}">{{ $related->name }}</a></h3>
@@ -250,10 +291,13 @@
                                                     <span>${{ number_format($related->price, 2) }}</span>
                                                 @endif
                                             </div>
-                                            <button type="button" class="product-cart-btn" data-tooltip="tooltip" title="Add To Cart">
-                                                <i class="far fa-shopping-bag"></i>
-                                                <a href="{{ route('cart.add', $related->id) }}" class="btn btn-primary">Add to Cart</a>
-                                            </button>
+                                            <form action="{{ route('cart.add', $product->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button type="submit" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
+                                                        <i class="far fa-shopping-bag"></i>
+                                                    </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -269,33 +313,39 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            // Ensure only one event listener is attached
-            $('.minus-btn').off('click').on('click', function(e) {
-                e.preventDefault();
-                var $input = $(this).closest('.shop-cart-qty').find('.quantity');
-                var $hiddenInput = $(this).closest('.shop-single-cs').siblings('.shop-single-action').find('.hidden-quantity');
-                var currentVal = parseInt($input.val());
-                if (currentVal > 1) {
-                    $input.val(currentVal - 1);
-                    $hiddenInput.val(currentVal - 1);
-                }
-            });
+<script>
+    // Add this to your JS file (e.g., resources/js/app.js) or in a <script> tag in your layout
+    document.addEventListener('DOMContentLoaded', function () {
+        const slider = document.querySelector('.slider-container');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.querySelector('.slider-prev');
+        const nextBtn = document.querySelector('.slider-next');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
 
-            $('.plus-btn').off('click').on('click', function(e) {
-                e.preventDefault();
-                var $input = $(this).closest('.shop-cart-qty').find('.quantity');
-                var $hiddenInput = $(this).closest('.shop-single-cs').siblings('.shop-single-action').find('.hidden-quantity');
-                var currentVal = parseInt($input.val());
-                var maxStock = {{ $product->stock }};
-                if (currentVal < maxStock) {
-                    $input.val(currentVal + 1);
-                    $hiddenInput.val(currentVal + 1);
-                } else {
-                    alert('Maximum stock reached');
-                }
-            });
+        if (totalSlides <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            return;
+        }
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        prevBtn.addEventListener('click', function () {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
+            updateSlider();
         });
-    </script>
+
+        nextBtn.addEventListener('click', function () {
+            currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+            updateSlider();
+        });
+        setInterval(function () {
+            currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+            updateSlider();
+        }, 3000);
+    });
+</script>
 @endsection
