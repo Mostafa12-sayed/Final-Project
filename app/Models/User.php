@@ -79,8 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         ];
     }
 
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'coupons_users', 'user_id', 'coupon_id')
+                    ->withTimestamps();
+    }
 
-    
     public function getImageUrlAttribute()
     {
         if (!$this->profile_image) {
