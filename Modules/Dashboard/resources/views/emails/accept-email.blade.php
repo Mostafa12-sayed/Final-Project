@@ -1,77 +1,94 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>Verify Email</title>
-    <meta name="description" content="Verify Email.">
-    <style type="text/css">
-        a:hover {
-            text-decoration: underline !important;
+    <meta charset="UTF-8">
+    <title>Account Approved</title>
+    <meta name="description" content="Your account has been approved.">
+    <style>
+        body {
+            margin: 0;
+            background-color: #f2f3f8;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .container {
+            max-width: 670px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .heading {
+            font-size: 26px;
+            font-weight: 600;
+            color: #1e1e2d;
+            margin-bottom: 10px;
+        }
+        .subtext {
+            font-size: 15px;
+            color: #455056;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            font-weight: 500;
+            color: #1e1e2d;
+        }
+        .divider {
+            width: 100px;
+            height: 1px;
+            background-color: #cecece;
+            margin: 20px auto;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #20e277;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-top: 25px;
         }
     </style>
 </head>
 
-<body style="margin: 0px; background-color: #f2f3f8;">
-    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
-        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
-        <tr>
-            <td>
-                <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
-                    align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                style="max-width:670px;background:#fff; border-radius:3px; text-align:center;
-                                -webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);
-                                -moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);
-                                box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;
-                                        font-size:32px;font-family:'Rubik',sans-serif;">
-                                            You have requested to Verify your Email
-                                        </h1>
-                                        <span
-                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; 
-                                            border-bottom:1px solid #cecece; width:100px;">
-                                        </span>
-                                        <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            Please click the button below to verify your email address.
-                                        </p>
-                                        <a href="{{ route('activate.user', ['id' => $id, 'token' => $token]) }}"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:500; 
-                                            margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;
-                                            padding:10px 24px;display:inline-block;border-radius:50px;">
-                                            Verify Email
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
+<body>
+<table width="100%" bgcolor="#f2f3f8">
+    <tr>
+        <td>
+            <div style="height: 60px;"></div>
+            <div class="container">
+                <h1 class="heading">Welcome, {{ $admin->name }}!</h1>
+                <p class="subtext">
+                    Thank you for registering. Your store has been <span class="highlight">successfully approved</span>.
+                </p>
 
+                <div class="divider"></div>
+
+                <p class="subtext">
+                    You can now log in using your email address or username:
+                    <br>
+                    <strong>Email:</strong> {{ $admin->email }}<br>
+                    <strong>Username:</strong> {{ $admin->username }}
+                </p>
+
+                <p class="subtext">
+                    The password is the one you provided during registration.
+                </p>
+
+                <p class="subtext">
+                    Click the button below to access your dashboard.
+                </p>
+
+                <a href="{{ route('admin.login') }}" class="btn">Go to Dashboard</a>
+            </div>
+            <div style="height: 60px;"></div>
+        </td>
+    </tr>
+</table>
+</body>
 </html>

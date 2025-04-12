@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Modules\Dashboard\app\Models\Admin;
 
 
-class SellerAcceptedMail extends Mailable
+class SellerRejectMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,7 +20,7 @@ class SellerAcceptedMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Your Store Has Been Approved')
-            ->view('dashboard::emails.accept-email');
+        return $this->subject('Your Store Has Been rejected')
+            ->view('dashboard::emails.reject-email');
     }
 }

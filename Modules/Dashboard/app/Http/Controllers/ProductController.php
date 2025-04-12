@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products= Product::with('category:id,name')->paginate(2);
+        $products= Product::with('category:id,name')->paginate(10);
         return view('dashboard::product.product-list' ,compact('products'));
     }
 
@@ -41,47 +41,52 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $images = [];
-        $firstimage =null;
-        DB::beginTransaction();
-        try{
+        $firstImage = null;
 
-            if( $request->file('image')) {
-                $firstimage = FileHelper::uploadImage($request->file('image'), 'products');
+        DB::beginTransaction();
+
+        try {
+            // ✅ رفع صورة رئيسية إن وجدت
+            if ($request->hasFile('image')) {
+                $firstImage = FileHelper::uploadImage($request->file('image'), 'products');
             }
-            if( $request->file('images')) {
+
+            // ✅ رفع صور المعرض إن وجدت
+            if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $images[] = FileHelper::uploadImage($image, 'products');
                 }
             }
-            $product = Product::create([
 
-                'name' => $request->name,
-                'description' => $request->description,
-                'price' => $request->price,
-                'weight' => $request->wight,
-                'tax' => $request->tax,
-                'discount' => $request->discount,
-                'code'=> $request->code,
-                'quantity' => $request->quantity,
-                'category_id' => $request->category_id,
-                'image' => $firstimage,
-                'gallery' => json_encode($images),
-                'slug'=> Str::slug($request->name),
+            // ✅ إنشاء المنتج
+            $product = Product::create([
+                'name'         => $request->name,
+                'description'  => $request->description,
+                'price'        => $request->price,
+                'weight'       => $request->weight,
+                'tax'          => $request->tax,
+                'discount'     => $request->discount,
+                'code'         => $request->code,
+                'quantity'     => $request->quantity,
+                'category_id'  => $request->category_id,
+                'image'        => $firstImage,
+                'gallery'      => json_encode($images),
+                'slug'         => Str::slug($request->name),
             ]);
 
-                if( $product) {
-                    DB::commit();
-                    flash()->success('Product created successfully.');
-                    return back();
-                } else {
-                    $this->rollbakeImage($firstimage , $images);
+            if ($product) {
+                DB::commit();
+                flash()->success('Product created successfully.');
+            } else {
+                $this->rollbackImage($firstImage, $images);
+                flash()->error('Failed to create product.');
+            }
 
-                    flash()->error('Product Filed create');
-                    return back();
-                }
-        }catch (\Exception $e) {
-            DB::rollback();
-            $this->rollbakeImage($firstimage , $images);
+            return back();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->rollbackImage($firstImage, $images);
             flash()->error('Error: ' . $e->getMessage());
             return back();
         }
@@ -111,52 +116,73 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Product $product)
+    public function update(ProductRequest $request,Product $product)
     {
-         $images = [];
-         $firstimage =null;
-         DB::beginTransaction();
-         try{
-             if( $request->file('image')) {
-                 $firstimage = FileHelper::uploadImage($request->file('image'), 'products');
-             }
-             if( $request->file('images')) {
-                 foreach ($request->file('images') as $image) {
-                     $images[] = FileHelper::uploadImage($image, 'products');
-                 }
-             }
-             $product->name = $request->name;
-             $product->description = $request->description;
-             $product->price = $request->price;
-             $product->weight = $request->weight;
-             $product->tax = $request->tax;
-             $product->discount = $request->discount;
-             $product->code = $request->code;
-             $product->quantity = $request->quantity;
-             $product->category_id = $request->category_id;
-             if( $firstimage) {
-                 $product->image = $firstimage;
-             }
-             if( $images) {
-                 $product->gallery = json_encode($images);
-             }
-             $product->slug = Str::slug($request->name);
-             $product->save();
-             if( $product) {
-                 DB::commit();
-                 flash()->success('Product updated successfully.');
-                 return back();
-             } else {
-                 $this->rollbakeImage($firstimage , $images);
-                 flash()->error('Product Filed update');
-                 return back();
-             }
-         }catch (\Exception $e) {
-             DB::rollback();
-             $this->rollbakeImage($firstimage , $images);
-             flash()->error('Error: ' . $e->getMessage());
-             return back();
-         }
+        $images = [];
+        $firstImage = null;
+
+        DB::beginTransaction();
+
+        try {
+
+            if ($request->hasFile('image')) {
+                // حذف الصورة القديمة إذا كانت موجودة
+                if ($product->image) {
+                    FileHelper::deleteImage($product->image); // تأكد من وجود دالة لحذف الصورة القديمة
+                }
+
+                // رفع الصورة الجديدة
+                $firstImage = FileHelper::uploadImage($request->file('image'), 'products');
+            } else {
+                // إذا لم تكن هناك صورة جديدة، استخدم الصورة القديمة
+                $firstImage = $product->image;
+            }
+
+            // ✅ تحديث صور المعرض إن وجدت
+            if ($request->hasFile('images')) {
+                // حذف الصور القديمة إذا كانت موجودة
+                $oldImages = json_decode($product->gallery, true);
+                foreach ($oldImages as $oldImage) {
+                    FileHelper::deleteImage($oldImage); // تأكد من وجود دالة لحذف الصور القديمة
+                }
+
+                // رفع الصور الجديدة
+                foreach ($request->file('images') as $image) {
+                    $images[] = FileHelper::uploadImage($image, 'products');
+                }
+            } else {
+                // إذا لم تكن هناك صور جديدة، استخدم الصور القديمة
+                $images = json_decode($product->gallery, true);
+            }
+
+            // ✅ تحديث المنتج
+            $product->update([
+                'name'         => $request->name,
+                'description'  => $request->description,
+                'price'        => $request->price,
+                'weight'       => $request->weight,
+                'tax'          => $request->tax,
+                'discount'     => $request->discount,
+                'code'         => $request->code,
+                'quantity'     => $request->quantity,
+                'category_id'  => $request->category_id,
+                'image'        => $firstImage,
+                'gallery'      => json_encode($images),
+                'slug'         => Str::slug($request->name),
+            ]);
+
+            DB::commit();
+            flash()->success('Product updated successfully.');
+
+            return back();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->rollbackImage($firstImage, $images);
+            flash()->error('Error: ' . $e->getMessage());
+            return back();
+        }
+
     }
 
     /**
@@ -170,7 +196,7 @@ class ProductController extends Controller
     }
 
 
-    public function rollbakeImage($firstimage , $images){
+    public function rollbackImage($firstimage , $images){
         if (isset($firstimage)) {
             // Delete the main image
             Storage::disk('public')->delete($firstimage);
@@ -180,4 +206,29 @@ class ProductController extends Controller
             Storage::disk('public')->delete($imagePath);
         }
     }
+
+    public function deleteImage(Request $request)
+    {
+
+        $productId = $request->input('product_id');
+        $imagePath = $request->input('image_path');
+        $product = Product::find($productId);
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Product not found!']);
+        }
+        $images = json_decode($product->gallery, true);
+        if (($key = array_search($imagePath, $images)) !== false) {
+            if (Storage::exists($imagePath)) {
+                Storage::delete($imagePath);
+            }
+            unset($images[$key]);
+            $product->gallery = json_encode(array_values($images));  // تحديث القيمة
+            $product->save();
+            return response()->json(['success' => true, 'image_id' => $productId]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Image not found in product!']);
+    }
+
+
 }

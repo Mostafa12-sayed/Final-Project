@@ -25,10 +25,14 @@ class Admin extends Authenticatable
     */
 
 
-    protected static function newFactory(): AdminFactory
-    {
-        //return AdminFactory::new();
-    }
+//    protected static function booted()
+//    {
+//        static::created(function ($admin) {
+//            $admin->username = 'seller' . $admin->id  . $admin->stores->id;
+//            $admin->save();
+//        });
+//    }
+
 
     public function stores()
     {
@@ -37,5 +41,10 @@ class Admin extends Authenticatable
 
     public function role(){
         return $this->belongsTo(Role::class);
+    }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
     }
 }
