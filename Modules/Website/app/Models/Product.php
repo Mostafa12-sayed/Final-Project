@@ -65,11 +65,11 @@ class Product extends Model
     }
 
 
-    
+
     public function toSearchableArray(): array
     {
         // Eager load relationships
-        $this->load('category', 'reviews'); 
+        $this->load('category', 'reviews');
 
         return [
             'id' => $this->id,

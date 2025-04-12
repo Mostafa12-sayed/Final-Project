@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Dashboard\app\Models\Coupon;
 use Modules\Website\app\Models\Addresses;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Review;
@@ -80,7 +81,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
 
-    
+
     public function getImageUrlAttribute()
     {
         if (!$this->profile_image) {
@@ -92,4 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
         return asset('assets/img/account/'.$this->profile_image);
     }
+
+
+
 }

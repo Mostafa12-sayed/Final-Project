@@ -56,7 +56,8 @@
                                                        <p class="mb-0 text-muted">{{ $product->stock }} Sold</p>
                                                   </td>
                                                   <td> {{ optional($product->category)->name}}</td>
-                                                  <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span> 55 Review</td>
+                                                  <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{$product->average_rating}}</span>
+                                                      {{$product->reviews->count()}} Review</td>
                                                   <td>
                                                        <div class="d-flex gap-2">
                                                             <a href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
@@ -91,18 +92,7 @@
      </div>
      <!-- End Container Fluid -->
 
-     <!-- ========== Footer Start ========== -->
-     <footer class="footer">
-         <div class="container-fluid">
-             <div class="row">
-                 <div class="col-12 text-center">
-                     <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon> <a
-                         href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-                 </div>
-             </div>
-         </div>
-     </footer>
-     <!-- ========== Footer End ========== -->
+
 
 </div>
 @endsection

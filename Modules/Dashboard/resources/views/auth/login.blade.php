@@ -4,18 +4,18 @@
      <div class="d-flex flex-column h-100 p-3">
           <div class="d-flex flex-column flex-grow-1">
                <div class="row h-100">
-          
+
                     <div class="col-xxl-12">
-             
+
                          <div class="row justify-content-center h-100">
-                              
+
                               <div class="col-lg-6 py-lg-5">
                                                @if(session()->has('success'))
                                    @component('dashboard::component.alert-success')
                                         @slot('type', 'success')
                                         @slot('bg', 'success ')
                                         @slot('title',session('success'))
-                    
+
                                    @endcomponent
                               @endif
                                    <div class="d-flex flex-column h-100 justify-content-center">
@@ -38,9 +38,9 @@
                                                   @csrf
                                                   <div class="mb-3">
                                                        <label class="form-label" for="example-email">Email</label>
-                                                       <input type="email" id="example-email" name="email" class="form-control bg-" placeholder="Enter your email" value="{{ old('email') }}">
-                                                       @if($errors->has('email'))
-                                                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                       <input type="text" id="example-email" name="login" class="form-control bg-" placeholder="Enter your email" value="{{ old('email') }}">
+                                                       @if($errors->has('login'))
+                                                            <span class="text-danger">{{ $errors->first('login') }}</span>
                                                        @endif
                                                   </div>
                                                   <div class="mb-3">
@@ -63,14 +63,14 @@
                                                   </div>
                                              </form>
 
-                                        
+
                                         </div>
 
                                         <p class="text-danger text-center">Don't have an account? <a href="{{ route('admin.register') }}" class="text-dark fw-bold ms-1">Sign Up</a></p>
                                    </div>
                               </div>
                          </div>
-                    </div>  
+                    </div>
                </div>
           </div>
      </div>

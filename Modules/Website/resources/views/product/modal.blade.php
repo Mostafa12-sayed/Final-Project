@@ -1,5 +1,5 @@
 <!-- modal quick shop-->
-<div class=" modal modal-dialog modal-lg modal-dialog-centered" role="document">
+<!-- <div class=" modal modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
                 class="far fa-xmark"></i></button>
@@ -46,5 +46,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- modal quick shop end -->
