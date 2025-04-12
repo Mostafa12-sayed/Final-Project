@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Dashboard\app\Http\Controllers\CouponController;
 use Modules\Dashboard\app\Http\Controllers\DashboardController;
 use Modules\Dashboard\app\Http\Controllers\AuthAdminController;
 use Modules\Dashboard\app\Http\Controllers\ProductController;
@@ -42,7 +43,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.' , ''], function () {
 Route::middleware('auth.admin')->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+    //products routes
     Route::resource('/admin/products', ProductController::class)->names('admin.products');
+    Route::post('/admin/products/delete-image', [ProductController::class, 'deleteImage'])->name('admin.products.delete-image');
+
     Route::get('/admin/sellers/orders', [SellersController::class, 'sellersOrders'])->name('admin.sellers.orders');
     Route::resource('/admin/sellers', SellersController::class)->names('admin.sellers');
     Route::get('/admin/sellers/{seller}/accept', [SellersController::class , 'accept'])->name('admin.sellers.accept');
@@ -62,6 +66,10 @@ Route::middleware('auth.admin')->group(function () {
     Route::Resource('/admin/permissions',PermissionsController::class)->names('admin.permissions');
     Route::post('/admin/roles/update-status', [RoleController::class, 'updateStatus']);
 
+
+    // routes of coupons
+    Route::Resource('/admin/coupons',CouponController::class)->names('admin.coupons');
+    Route::post('/admin/coupons/update-status', [CouponController::class, 'updateStatus']);
 
 
     Route::get('/admin/profile/edit', [ProfileController::class , 'index'])->name('admin.profile.edit');

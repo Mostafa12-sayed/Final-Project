@@ -33,8 +33,14 @@ class Coupon extends Model
         return $this->belongsToMany(User::class, 'coupons_users', 'coupon_id', 'user_id')
                     ->withTimestamps();
     }
-    protected static function newFactory(): CouponFactory
+
+    protected $guarded = [];
+
+    public  function user()
     {
-        //return CouponFactory::new();
+        return $this->belongsTo(Admin::class);
+
     }
+
+
 }

@@ -21,7 +21,7 @@ class AuthAdminController extends Controller
 
     public function showRegisterForm()
     {
-        
+
         return view('dashboard::auth.register');
     }
 
@@ -30,19 +30,28 @@ class AuthAdminController extends Controller
     {
         // dd(Admin::all());
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'login' => 'required',
             'password' => 'required',
         ]);
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->login,
+            'password' => $request->password,
+        ];
 
         if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
-            if (Auth::guard('admin')->user()->status == 'pending' || Auth::guard('admin')->user()->status == 'inactive') {
+            $admin = Auth::guard('admin')->user();
+            if ($admin->status === 'pending' || $admin->status === 'inactive') {
                 Auth::guard('admin')->logout();
-                return back()->withErrors(['email' => 'Your account is not active. Please contact support.']);
+                return back()->withErrors(['login' => 'Your account is not active. Please contact support.']);
             }
+
             return redirect()->intended('/admin/dashboard');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials.']);
+        return back()->withErrors(['login' => 'Invalid credentials.']);
+
     }
 
     public function logout()
@@ -66,16 +75,17 @@ class AuthAdminController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'address' => $request->address,
-            'username' => Str::slug($request->name) . '-' . uniqid(),
         ]);
         // dd($admin);
-        $admin->stores()->create([
+          $store =$admin->stores()->create([
             'name' => $request->store_name,
             'description' => $request->description,
             'slug' => Str::slug($request->store_name),
 
         ]);
-        DB::commit();
+          $admin->username = 'seller' . $admin->id . $store->id;
+          $admin->save();
+          DB::commit();
 
         return redirect()->route('admin.login')->with('success', 'Your Data Send Successfully and after review data we will send email accept or reject store Thanck You !.');
         }catch(\Exception $e){
@@ -84,10 +94,10 @@ class AuthAdminController extends Controller
             // dd($e);
             return redirect()->back()->with('error', $e->getMessage());
         }
-       
+
 
         // Auth::guard('admin')->login($admin);
 
-     
+
     }
 }

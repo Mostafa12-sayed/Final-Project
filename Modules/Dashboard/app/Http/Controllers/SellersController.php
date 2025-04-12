@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Modules\Dashboard\app\Models\Admin;
 use Modules\Dashboard\app\Models\Store;
+use Modules\Dashboard\Jobs\SendSellerAcceptedEmail;
 
 class SellersController extends Controller
 {
@@ -17,9 +18,8 @@ class SellersController extends Controller
      */
     public function index()
     {
-        $sellers = Store::with('admin')
-        ->paginate(1);
-     
+        $sellers = Store::with('admin')->where('status', 'active')
+        ->paginate(3);
         return view('dashboard::sellers.sellers-list' ,compact('sellers'));
     }
 
@@ -30,9 +30,9 @@ class SellersController extends Controller
         ->select('id', 'name')
         ->where('status', 'pending')
         ->paginate(1);
-  
+
     return view('dashboard::sellers.sellers-orders' , compact('sellers'));
-    
+
 
     }
     /**
@@ -86,12 +86,16 @@ class SellersController extends Controller
 
     public function accept($id)
     {
-        
-    
+
+
         $seller = Admin::find($id);
         if ($seller) {
             $seller->status = 'active';
+            $seller->stores->status = 'active';
+            $seller->stores->save();
             $seller->save();
+            dispatch(new SendSellerAcceptedEmail($seller , 'accepted')); // ← Job من داخل الموديول
+
             flash()->success('Seller accepted successfully.');
             return back();
         }
@@ -99,13 +103,15 @@ class SellersController extends Controller
 
         return back();
     }
-    public function reject(Request $request)
+    public function reject($id)
     {
-        $sellerId = $request->input('id');
-        $seller = Admin::find($sellerId);
+
+        $seller = Admin::find($id);
         if ($seller) {
             $seller->status = 'inactive';
             $seller->save();
+            dispatch(new SendSellerAcceptedEmail($seller , 'rejected')); // ← Job من داخل الموديول
+
             return redirect()->back()->with('success', 'Seller rejected successfully.');
         }
         return redirect()->back()->with('error', 'Seller not found.');

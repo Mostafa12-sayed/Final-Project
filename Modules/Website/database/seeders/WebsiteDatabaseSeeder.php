@@ -16,7 +16,7 @@ class WebsiteDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Step 1: Create 10 categories first
-        Category::factory()->count(11)->create();
+//        Category::factory()->count(11)->create();
 
         // Step 2: Create 100 products, assigning them to existing categories
         Product::factory()->count(100)->create([
