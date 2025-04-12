@@ -21,7 +21,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'wight' => 'nullable|numeric|min:0',
             'tax' => 'nullable|numeric|min:0',
-            'discount' => ['nullable', 'numeric', 'min:0'],
+            'discount' => ['nullable', 'numeric', 'min:0', Rule::lt('price')],
             'code'=> 'required|string|max:255|unique:products,code,'.$id,
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',

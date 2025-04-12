@@ -13,10 +13,14 @@ class Coupon extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
-    
-    protected static function newFactory(): CouponFactory
+    protected $table = 'coupons_tabel';
+    protected $guarded = [];
+
+    public  function user()
     {
-        //return CouponFactory::new();
+        return $this->belongsTo(Admin::class);
+
     }
+
+
 }
