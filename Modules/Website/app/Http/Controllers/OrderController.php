@@ -51,7 +51,7 @@ class OrderController extends Controller
             DB::commit();
             session()->forget('cart');
 
-            return redirect()->route('order.list')->with('success', 'done');
+            return redirect()->route('order.complete', ['id' => $order->id]);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', ' error occurred');
@@ -75,7 +75,12 @@ class OrderController extends Controller
     }
     
 
-
+    public function complete($id)
+    {
+        $order = Order::where('user_id', Auth::id())->findOrFail($id);
+        return view('website::order.complete', compact('order'));
+    }
+    
     public function track($trackingNumber)
     {
         $order = Order::where('tracking_number', $trackingNumber)->firstOrFail();

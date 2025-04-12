@@ -483,8 +483,8 @@
                                         </li>
                                         <li><a class="dropdown-item" href="shop-search.html">Shop Search</a></li>
                                         <li><a class="dropdown-item" href="shop-cart.html">Shop Cart</a></li>
-                                        <li><a class="dropdown-item" href="shop-checkout.html">Checkout</a></li>
-                                        <li><a class="dropdown-item" href="shop-checkout-complete.html">Checkout
+                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout
                                                 Complete</a></li>
                                         <li><a class="dropdown-item" href="shop-single.html">Shop Single</a></li>
                                         <li><a class="dropdown-item" href="shop-compare.html">Shop Compare</a></li>
