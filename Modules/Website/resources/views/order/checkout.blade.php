@@ -925,7 +925,7 @@
 
                             </ul>
                             <div class="text-end mt-40">
-                                <a href="{{ route('order.complete') }}" class="theme-btn">Checkout Complete<i class="fas fa-arrow-right"></i></a>
+                                <a href="{{ route('order.checkout') }}" class="theme-btn">Checkout Now<i class="fas fa-arrow-right"></i></a>
                             </div>
                     </div>
                     </div>
