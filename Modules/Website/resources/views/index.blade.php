@@ -465,10 +465,10 @@
                             @foreach ($on_sale_products->take(3) as $product)
                             <div class="product-list-item">
                                 <div class="product-list-img">
-                                    <a href="{{route('products', $product->slug)}}"><img src="{{ $product->image }}" alt="#"></a>
+                                    <a href="{{route('product.show', $product->slug)}}"><img src="{{ $product->image }}" alt="#"></a>
                                 </div>
                                 <div class="product-list-content product-item">
-                                    <h4><a href="{{ route('products', $product->slug) }}">{{ $product->name }}</a></h4>
+                                    <h4><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h4>
                                         <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
                                     <div class="product-list-rate">
                                         @for($i = 1; $i <= 5; $i++)
@@ -496,10 +496,10 @@
                             @foreach ($top_products->take(3) as $product)
                             <div class="product-list-item">
                                 <div class="product-list-img">
-                                    <a href="{{ route('products', $product->slug) }}"><img src="{{ $product->image }}" alt="#"></a>
+                                    <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->image }}" alt="#"></a>
                                 </div>
                                 <div class="product-list-content product-item">
-                                    <h4><a href="shop-single.html">{{ ucfirst($product->name) }}</a></h4>
+                                    <h4><a href="{{ route('product.show', $product->slug) }}">{{ ucfirst($product->name) }}</a></h4>
                                     @if($product->discount)
                                         <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
                                     @endif
@@ -532,10 +532,10 @@
                             @foreach ($top_rated as $product)
                             <div class="product-list-item">
                                 <div class="product-list-img">
-                                    <a href="{{ route('products', $product->slug) }}"><img src="{{ $product->image }}" alt="#"></a>
+                                    <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->image }}" alt="#"></a>
                                 </div>
                                 <div class="product-list-content product-item">
-                                    <h4><a href="shop-single.html">{{ ucfirst($product->name) }}</a></h4>
+                                    <h4><a href="{{ route('product.show', $product->slug) }}">{{ ucfirst($product->name) }}</a></h4>
                                     @if($product->discount)
                                         <span class="type discount">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
                                     @endif
@@ -574,37 +574,39 @@
             <div class="container">
                 <div class="deal-wrap wow fadeInUp" data-wow-delay=".25s">
                     <div class="deal-slider owl-carousel owl-theme">
+                        @foreach ($on_sale_products as $product)
+                            
+
                         <div class="deal-item">
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <div class="deal-content">
                                         <div class="deal-info">
-                                            <span>Weekly Deal</span>
+                                            <span>Limmited Deal</span>
                                             <h1>Best Deal For This Week</h1>
-                                            <p>There are many variations of passages available but the majority have
-                                                suffered alteration in some form
-                                                by injected humour, or randomised words which don't look even slightly
-                                                believable.</p>
+                                            <p>{{$product->ddescription}}</p>
                                         </div>
                                         <div class="deal-countdown">
                                             <div class="countdown" data-countdown="2025/12/30"></div>
                                         </div>
-                                        <a href="#" class="theme-btn theme-btn2">Shop Now <i
+                                        <a href="{{ route('product.show', $product->slug) }}" class="theme-btn theme-btn2">Shop Now <i
                                                 class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="deal-img">
-                                        <img src="assets/img/deal/01.png" alt="">
+                                        <img src="{{$product->image}}" alt="">
                                         <div class="deal-discount">
-                                            <span>35%</span>
+                                            <span>{{round($product->discount, 1)}}%</span>
                                             <span>off</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="deal-item">
+                        @endforeach
+
+                        <!-- <div class="deal-item">
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <div class="deal-content">
@@ -663,7 +665,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -671,304 +673,12 @@
         <!-- deal area end -->
 
 
-        <!-- gallery-area -->
-        <div class="gallery-area py-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline">Our Gallery</span>
-                            <h2 class="site-title">Let's Check Our Photo <span>Gallery</span></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4 popup-gallery">
-                    <div class="col-md-12 col-lg-6">
-                        <div class="gallery-item gallery-btn-active wow fadeInUp" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/01.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/01.jpg"><i
-                                    class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3">
-                        <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/02.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/02.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3">
-                        <div class="gallery-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/03.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/03.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3">
-                        <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/04.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/04.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3">
-                        <div class="gallery-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/05.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/05.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-lg-6">
-                        <div class="gallery-item wow fadeInDown" data-wow-delay=".25s">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/06.jpg" alt="">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/06.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- gallery-area end -->
 
 
-        <!-- testimonial area -->
-        <div class="testimonial-area ts-bg py-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-delay=".25s">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline">Testimonials</span>
-                            <h2 class="site-title text-white">What Our Client Say's <span>About Us</span></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/01.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Sylvia H Green</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/02.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Gordo Novak</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/03.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Reid E Butt</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/04.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Parker Jimenez</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/05.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Heruli Nez</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- testimonial area end -->
 
 
-        <!-- blog area -->
-        <div class="blog-area py-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline">Our Blog</span>
-                            <h2 class="site-title">Our Latest News & <span>Blog</span></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="blog-item-img">
-                                <img src="assets/img/blog/01.jpg" alt="Thumb">
-                                <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 12, 2024</span>
-                            </div>
-                            <div class="blog-item-info">
-                                <div class="blog-item-meta">
-                                    <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 2.5k Comments</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="blog-title">
-                                    <a href="#">There are many variations of passage available majority suffered.</a>
-                                </h4>
-                                <p>There are many variations available the majority have suffered alteration randomised
-                                    words.</p>
-                                <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="blog-item wow fadeInDown" data-wow-delay=".25s">
-                            <div class="blog-item-img">
-                                <img src="assets/img/blog/02.jpg" alt="Thumb">
-                                <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 15, 2024</span>
-                            </div>
-                            <div class="blog-item-info">
-                                <div class="blog-item-meta">
-                                    <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 3.1k Comments</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="blog-title">
-                                    <a href="#">Contrary to popular belief making simply random text latin.</a>
-                                </h4>
-                                <p>There are many variations available the majority have suffered alteration randomised
-                                    words.</p>
-                                <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="blog-item-img">
-                                <img src="assets/img/blog/03.jpg" alt="Thumb">
-                                <span class="blog-date"><i class="far fa-calendar-alt"></i> Aug 18, 2024</span>
-                            </div>
-                            <div class="blog-item-info">
-                                <div class="blog-item-meta">
-                                    <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 1.6k Comments</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="blog-title">
-                                    <a href="#"> If you are going use passage you need sure there middle
-                                        text.</a>
-                                </h4>
-                                <p>There are many variations available the majority have suffered alteration randomised
-                                    words.</p>
-                                <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- blog area end -->
+
+
 
     </main>
 @endsection
