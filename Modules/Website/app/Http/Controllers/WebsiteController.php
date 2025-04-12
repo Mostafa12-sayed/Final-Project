@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Website\app\Models\Category;
+use Modules\Website\app\Models\Product;
 
 class WebsiteController extends Controller
 {
@@ -15,9 +16,25 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        $categories=Category::withCount('products')->orderBy('products_count', 'desc')->get();
-        // dd($categories);
-        return view('website::index', compact('categories'));
+        $categories = Category::where('status', 'active')
+            ->whereHas('products', function ($query) {
+                $query->where('status', 'active');
+            })->withCount([
+                'products' => function ($query) {
+                    $query->where('status', 'active');
+                }
+            ])->orderBy('products_count', 'desc')
+            ->get();
+
+        $categories_products = Category::with('products')->where ('status', 'active')->get();
+        
+        $products = Product::where('status', 'active') ->inRandomOrder()->take(40)->get();
+        $top_rated=$products->sortByDesc('rating')->take(3);
+        $on_sale_products= Product::where('status', 'active')->where('discount', '>', 0)->inRandomOrder()->take(15)->orderBy('discount', 'desc')->get();
+        $top_products = $products->sortByDesc(function ($product) {
+            return $product->trending_items;
+        })->take(10);
+        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated'));
     }
 
     /**
