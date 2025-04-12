@@ -75,7 +75,8 @@ class ProductController extends Controller
             }
         });
 
-        $products = $query->paginate(15);
+        // $products = $query->paginate(15);
+        $products = $query->paginate(15)->appends(request()->query());
         $categories = Category::where('status', 'active')->get(); // Fetch categories for the sidebar
 
         return view('website::product.products', compact('products', 'categories'));
@@ -114,26 +115,6 @@ class ProductController extends Controller
         ]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('website::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-
-    }
-
-    /**
-     * Show the specified resource.
-     */
     public function show($slug)
     {
         $product = Product::with('reviews.user')->where('slug', $slug)->firstOrFail();
