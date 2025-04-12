@@ -21,7 +21,7 @@
                 <div class="row align-items-center">
                     <div class="col-5 col-lg-3 col-xl-3">
                         <div class="header-middle-logo">
-                            <a class="navbar-brand" href="index-2.html">
+                            <a class="navbar-brand" href="{{ route('home') }}">
                                 <img src="assets/img/logo/logo.png" alt="logo">
                             </a>
                         </div>
@@ -274,13 +274,7 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-end flex-grow-1">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle active" href="#"
-                                        data-bs-toggle="dropdown">Home</a>
-                                    <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="index-2.html">Home Demo 01</a></li>
-                                        <li><a class="dropdown-item" href="index-3.html">Home Demo 02</a></li>
-                                        <li><a class="dropdown-item" href="index-4.html">Home Demo 03</a></li>
-                                    </ul>
+                                    <a class="nav-link " href="{{ route('home') }}">Home</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                                 <li class="nav-item dropdown">

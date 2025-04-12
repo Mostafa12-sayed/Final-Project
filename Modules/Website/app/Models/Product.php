@@ -79,5 +79,21 @@ class Product extends Model
             'reviews' => $this->reviews->pluck('content'), // Example: getting review content as an array
         ];
     }
-
+    public function getDiscountedPriceAttribute()
+    {
+        return $this->price - ($this->price * $this->discount / 100); // Example for percentage discount
+    }
+    
+    public function getTrendingItemsAttribute()
+    {
+        $quantity = (int)($this->quantity ?? 0);
+        $stock = (int)($this->stock ?? 0);
+        $rating = ($this->rating ?? 0);  
+        $sold = $quantity - $stock;
+        $daysOld = now()->diffInHours($this->created_at);
+        // Calculate the trending score
+        $score = ($sold * 2) + ($rating * 3) - ($daysOld * 0.5);
+    
+        return $score; 
+    }
 }
