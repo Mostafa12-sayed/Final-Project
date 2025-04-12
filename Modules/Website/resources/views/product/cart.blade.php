@@ -128,7 +128,7 @@
                                 <li class="shop-cart-total"><strong>Total:</strong> <span id="total">${{ number_format($total, 2) }}</span></li>
                             </ul>
                             <div class="text-end mt-40">
-                                <a href="#" class="theme-btn">Checkout Now<i class="fas fa-arrow-right"></i></a>
+                                <a href="{{ route('order.checkout') }}" class="theme-btn">Checkout Now<i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

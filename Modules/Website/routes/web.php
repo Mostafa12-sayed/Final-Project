@@ -62,6 +62,7 @@ Route::get('/products/modal/{product}', [ProductController::class, 'showProduct'
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+Route::get('/checkout/complete/{id}', [OrderController::class, 'complete'])->name('order.complete');
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
 Route::get('/my-orders-details', [OrderController::class, 'details'])->name('order.details');
