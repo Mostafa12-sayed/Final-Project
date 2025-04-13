@@ -19,11 +19,14 @@ class WebsiteDatabaseSeeder extends Seeder
 //        Category::factory()->count(11)->create();
 
         // Step 2: Create 100 products, assigning them to existing categories
-        Product::factory()->count(100)->create([
-            'category_id' => function () {
-                // Randomly pick an existing category
-                return Category::inRandomOrder()->first()->id;
-            },
-        ]);
+        // Product::factory()->count(100)->create([
+        //     'category_id' => function () {
+        //         // Randomly pick an existing category
+        //         return Category::inRandomOrder()->first()->id;
+        //     },
+        // ]);
+
+        // Step 3: Create 10 stores
+        Stores::factory()->count(15)->create();
     }
 }

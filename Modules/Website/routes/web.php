@@ -58,15 +58,17 @@ Route::get('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->name
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/products/modal/{product}', [ProductController::class, 'showProduct'])->name('product.modal');
+Route::get('/stores', [WebsiteController::class, 'stores'])->name('stores');
+Route::get('/contact_us', [WebsiteController::class, 'contact_us'])->name('contact.index');
+Route::post('/contact_us/message', [WebsiteController::class, 'contact_store'])->name('contact.store');
+
 
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
-Route::get('/checkout/complete/{id}', [OrderController::class, 'complete'])->name('order.complete');
+Route::get('/order/complete/{id}', [OrderController::class, 'complete'])->name('order.complete');
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
-Route::get('/my-orders-details', [OrderController::class, 'details'])->name('order.details');
-// route::get('/delete-order/{id}', [OrderController::class,'show'])->name('order.delete');
-// Route::get('/my-orders/{id}', [OrderController::class, 'show'])->name('order.show');
+Route::get('/my-orders/{id}', [OrderController::class, 'details'])->name('order.details');
 Route::get('/track-order/{trackingNumber}', [OrderController::class, 'track'])->name('order.track');
 });

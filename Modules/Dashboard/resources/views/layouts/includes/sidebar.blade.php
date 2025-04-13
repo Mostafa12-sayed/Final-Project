@@ -42,16 +42,23 @@
                            </a>
                            <div class="collapse" id="sidebarProducts">
                                 <ul class="nav sub-navbar-nav">
-                                     <li class="sub-nav-item">
+                                    @if(auth()->guard('admin')->user()->hasPermission('read-products'))
+
+                                    <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.products.index') }}">List</a>
                                      </li>
+                                    @endif
+
+                                    @if(auth()->guard('admin')->user()->hasPermission('create-products'))
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.products.create') }}">Create</a>
                                      </li>
+                                        @endif
                                 </ul>
                            </div>
                       </li>
                       {{-- category --}}
+                     @if(auth()->guard('admin')->user()->hasPermission('read-categories'))
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCategory">
                                 <span class="nav-icon">
@@ -59,17 +66,19 @@
                                 </span>
                                 <span class="nav-text"> Category </span>
                            </a>
-                           <div class="collapse" id="sidebarCategory">
+                          <div class="collapse" id="sidebarCategory">
                                 <ul class="nav sub-navbar-nav">
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.category.index') }}">List</a>
                                      </li>
-
+                                    @if(auth()->guard('admin')->user()->hasPermission('create-categories'))
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.category.create') }}">Create</a>
                                      </li>
+                                    @endif
                                 </ul>
                            </div>
+                          @endif
                       </li>
 
 {{--                      <li class="nav-item">--}}
@@ -183,7 +192,7 @@
 {{--                                </ul>--}}
 {{--                           </div>--}}
 {{--                      </li>--}}
-
+                    @if(auth()->guard('admin')->user()->hasPermission('read-settings'))
                       <li class="nav-item">
                            <a class="nav-link" href="settings.html">
                                 <span class="nav-icon">
@@ -192,17 +201,19 @@
                                 <span class="nav-text"> Settings </span>
                            </a>
                       </li>
+                         @endif
 
                       <li class="menu-title mt-2">Users</li>
 
                       <li class="nav-item">
-                           <a class="nav-link" href="pages-profile.html">
+                           <a class="nav-link" href="{{route('admin.profile.edit')}}">
                                 <span class="nav-icon">
                                      <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                 </span>
                                 <span class="nav-text"> Profile </span>
                            </a>
                       </li>
+                         @if(auth()->guard('admin')->user()->hasPermission('read-roles'))
 
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarRoles" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarRoles">
@@ -214,17 +225,22 @@
                            <div class="collapse" id="sidebarRoles">
                                 <ul class="nav sub-navbar-nav">
                                      <ul class="nav sub-navbar-nav">
+                                         @if(auth()->guard('admin')->user()->hasPermission('read-roles'))
                                           <li class="sub-nav-item">
                                                <a class="sub-nav-link" href="{{ route('admin.roles.index') }}">List</a>
                                           </li>
+                                         @endif
+                                             @if(auth()->guard('admin')->user()->hasPermission('create-roles'))
                                           <li class="sub-nav-item">
                                                <a class="sub-nav-link" href="{{ route('admin.roles.create') }}">Create</a>
                                           </li>
+                                         @endif
                                      </ul>
                                 </ul>
                            </div>
                       </li>
-
+                         @endif
+                     @if(auth()->guard('admin')->user()->hasPermission('read-roles'))
                       <li class="nav-item">
                            <a class="nav-link" href="{{ route('admin.permissions.index') }}">
                                 <span class="nav-icon">
@@ -233,8 +249,11 @@
                                 <span class="nav-text"> Permissions </span>
                            </a>
                       </li>
+                         @endif
 
-                      <li class="nav-item">
+                         @if(auth()->guard('admin')->user()->hasPermission('read-admins'))
+
+                         <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCustomers">
                                 <span class="nav-icon">
                                      <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
@@ -243,19 +262,20 @@
                            </a>
                            <div class="collapse" id="sidebarCustomers">
                                 <ul class="nav sub-navbar-nav">
-
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.admins.index') }}">List</a>
                                      </li>
-                                     <li class="sub-nav-item">
+                                    @if(auth()->guard('admin')->user()->hasPermission('create-admins'))
+                                    <li class="sub-nav-item">
                                          <a data-href="{{ route('admin.admins.create') }}" data-container="#hr-table-modal" type="button" class="sub-nav-link btn-modal" >
                                              Create
                                          </a>
                                      </li>
+                                    @endif
                                 </ul>
                            </div>
                       </li>
-
+                      @endif
                       <li class="nav-item">
                          <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCustomers">
                               <span class="nav-icon">
@@ -275,7 +295,7 @@
                               </ul>
                          </div>
                     </li>
-
+                     @if(auth()->guard('admin')->user()->hasPermission('read-sellers'))
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarSellers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSellers">
                                 <span class="nav-icon">
@@ -285,23 +305,28 @@
                            </a>
                            <div class="collapse" id="sidebarSellers">
                                 <ul class="nav sub-navbar-nav">
+                                    @if(auth()->guard('admin')->user()->hasPermission('read-sellers'))
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.sellers.index') }}">List</a>
                                      </li>
-                                     <li class="sub-nav-item">
-                                        <a class="sub-nav-link" href="{{ route('admin.sellers.orders') }}">orders</a>
-                                   </li>
+                                    @endif
+                                     @if(auth()->guard('admin')->user()->hasPermission('read-orders-sellers'))
+                                         <li class="sub-nav-item">
+                                            <a class="sub-nav-link" href="{{ route('admin.sellers.orders') }}">orders</a>
+                                            </li>
+                                        @endif
 
-
+                                    @if(auth()->guard('admin')->user()->hasPermission('create-sellers'))
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.sellers.create') }}">Create</a>
                                      </li>
+                                        @endif
                                 </ul>
                            </div>
                       </li>
-
+                     @endif
                       <li class="menu-title mt-2">Other</li>
-
+                       @if(auth()->guard('admin')->user()->hasPermission('read-coupons'))
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarCoupons" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCoupons">
                                 <span class="nav-icon">
@@ -311,16 +336,24 @@
                            </a>
                            <div class="collapse" id="sidebarCoupons">
                                 <ul class="nav sub-navbar-nav">
-                                     <li class="sub-nav-item">
+                                    @if(auth()->guard('admin')->user()->hasPermission('read-coupons'))
+
+                                    <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{route('admin.coupons.index')}}">List</a>
                                      </li>
-                                     <li class="sub-nav-item">
-                                         <a data-href="{{ route('admin.coupons.create') }}" data-container="#hr-table-modal" type="button" class="sub-nav-link btn-modal" >
-                                             Create
-                                         </a>                                     </li>
+                                    @endif
+                                        @if(auth()->guard('admin')->user()->hasPermission('create-coupons'))
+
+                                            <li class="sub-nav-item">
+                                             <a data-href="{{ route('admin.coupons.create') }}" data-container="#hr-table-modal" type="button" class="sub-nav-link btn-modal" >
+                                                 Create
+                                             </a>
+                                            </li>
+                                        @endif
                                 </ul>
                            </div>
                       </li>
+                      @endif
 
                       <li class="nav-item">
                            <a class="nav-link" href="pages-review.html">

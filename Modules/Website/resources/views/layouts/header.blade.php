@@ -316,7 +316,7 @@
                                         <li><a class="dropdown-item" href="team.html">Our Team</a></li>
                                         <li><a class="dropdown-item" href="affiliate.html">Affiliate</a></li>
                                         <li><a class="dropdown-item" href="gallery.html">Our Gallery</a></li>
-                                        <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('contact.index') }}">Contact Us</a></li>
                                         <li><a class="dropdown-item" href="help.html">Help</a></li>
                                         <li><a class="dropdown-item" href="invoice.html">Invoices</a></li>
                                         <li><a class="dropdown-item" href="faq.html">Faq</a></li>
@@ -333,7 +333,7 @@
                                             <a class="dropdown-item dropdown-toggle" href="#">Orders</a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="{{ route('order.list') }}">Orders List</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('order.details') }}">Order Details</a></li>
+                                                <li><a class="dropdown-item">Order Details</a></li>
                                             </ul>
                                         </li>
                                         <li><a class="dropdown-item" href="wishlist.html">My Wishlist</a></li>
@@ -495,7 +495,7 @@
                                                 Sidebar</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Contact</a></li>
                             </ul>
                             <!-- nav-right -->
                             <div class="nav-right">

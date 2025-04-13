@@ -53,7 +53,7 @@
                                                        @endforeach
                                                   @else
                                                        <tr>
-                                                            <td colspan="4">No Permission Found</td>
+                                                            <td colspan="4" class="text-center p-4">No Permission Found</td>
                                                        </tr>
                                                   @endif
                                                   </tbody>
