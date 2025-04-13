@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/products/modal/{product}', [ProductController::class, 'showProduct'])->name('product.modal');
+Route::get('/stores', [WebsiteController::class, 'stores'])->name('stores');
+Route::get('/contact_us', [WebsiteController::class, 'contact_us'])->name('contact.index');
+Route::post('/contact_us/message', [WebsiteController::class, 'contact_store'])->name('contact.store');
+
 
 
 Route::middleware(['auth'])->group(function () {
