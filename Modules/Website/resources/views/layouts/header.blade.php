@@ -355,7 +355,7 @@
                                                         Details</a></li>
                                             </ul>
                                         </li>
-                                        <li><a class="dropdown-item" href="track-order.html">Track My Order</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('order.track') }}">Track My Order</a></li>
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle" href="#">Payment Methods</a>
                                             <ul class="dropdown-menu">
@@ -500,7 +500,7 @@
                             <!-- nav-right -->
                             <div class="nav-right">
                                 <a class="nav-right-link" href="#"><i class="fal fa-star"></i> Recently Viewed</a>
-                                <a class="nav-right-link" href="track-order.html"><i class="fal fa-truck-fast"></i> Track My Order</a>
+                                <a class="nav-right-link" href="{{ route('order.track') }}"><i class="fal fa-truck-fast"></i> Track My Order</a>
                             </div>
                         </div>
                     </div>
