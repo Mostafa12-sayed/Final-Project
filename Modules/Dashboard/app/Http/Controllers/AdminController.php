@@ -15,6 +15,15 @@ use Modules\Dashboard\app\Models\Role;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+        $this->middleware('permission:read-admins', ['only' => ['index']]);
+        $this->middleware('permission:create-admins', ['only' => ['create','store']]);
+        $this->middleware('permission:update-admins', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete-admins', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */

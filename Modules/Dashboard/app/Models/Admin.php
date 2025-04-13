@@ -33,10 +33,13 @@ class Admin extends Authenticatable
 //        });
 //    }
 
-
-    public function stores()
+    public function permissions()
     {
-        return $this->hasOne(Store::class);
+        return $this->morphToMany(Permission::class, 'user', 'permission_user');
+    }
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function role(){
@@ -46,5 +49,19 @@ class Admin extends Authenticatable
     public function coupons()
     {
         return $this->hasMany(Coupon::class);
+    }
+
+    public function hasPermission($permission, $team = null, $requireAll = false)
+    {
+        $role = $this->roles()->first();
+        if (auth('admin')->user()->id == 1) {
+            return true;
+        }
+
+        return $this->laratrustUserChecker()->currentUserHasPermission(
+            $permission,
+            $team,
+            $requireAll
+        );
     }
 }

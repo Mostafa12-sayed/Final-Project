@@ -15,85 +15,90 @@ class PermissionSeeder extends Seeder
         $perfix = "dash_";
 
         $this->permissions = [
-            ['name' => $perfix . 'read-accounting','display_name' => 'Read Accounting Module','description' => 'عرض  مديول الحسابات','path' => 'modules'],
 
             //settings
-            ['name' => $perfix . 'read-settings', 'display_name' => 'Read settings', 'description' => 'عرض الاعدادات   ', 'path' => 'settings'],
-            ['name' => $perfix . 'update-settings', 'display_name' => 'Update settings', 'description' => 'تعديل الاعدادات   ', 'path' => 'settings'],
+            ['name' =>  'read-settings', 'display_name' => 'Read settings', 'description' => 'عرض الاعدادات   ', 'path' => 'settings'],
+            ['name' =>  'update-settings', 'display_name' => 'Update settings', 'description' => 'تعديل الاعدادات   ', 'path' => 'settings'],
 
             //admins
-            ['name' => $perfix . 'read-admins', 'display_name' => 'Read Admins', 'description' => 'عرض المشرفين', 'path' => 'admins'],
-            ['name' => $perfix . 'create-admins', 'display_name' => 'Create Admins', 'description' => 'اضافة المشرفين', 'path' => 'admins'],
-            ['name' => $perfix . 'update-admins', 'display_name' => 'Update Admins', 'description' => 'تعديل المشرفين', 'path' => 'admins'],
-            ['name' => $perfix . 'delete-admins', 'display_name' => 'Delete Admins', 'description' => 'حذف المشرفين', 'path' => 'admins'],
+            ['name' =>  'read-admins', 'display_name' => 'Read Admins', 'description' => 'عرض المشرفين', 'path' => 'admins'],
+            ['name' =>  'create-admins', 'display_name' => 'Create Admins', 'description' => 'اضافة المشرفين', 'path' => 'admins'],
+            ['name' =>  'update-admins', 'display_name' => 'Update Admins', 'description' => 'تعديل المشرفين', 'path' => 'admins'],
+            ['name' =>  'delete-admins', 'display_name' => 'Delete Admins', 'description' => 'حذف المشرفين', 'path' => 'admins'],
 
 
             //admins
-            ['name' => $perfix . 'read-sellers', 'display_name' => 'Read sellers', 'description' => 'عرض البائين', 'path' => 'sellers'],
-            ['name' => $perfix . 'create-sellers', 'display_name' => 'Create sellers', 'description' => 'اضافة البائين', 'path' => 'sellers'],
-            ['name' => $perfix . 'update-sellers', 'display_name' => 'Update sellers', 'description' => 'تعديل البائين', 'path' => 'sellers'],
-            ['name' => $perfix . 'delete-sellers', 'display_name' => 'Delete sellers', 'description' => 'حذف البائين', 'path' => 'sellers'],
+            ['name' =>  'read-sellers', 'display_name' => 'Read sellers', 'description' => 'عرض البائين', 'path' => 'sellers'],
+            ['name' =>  'create-sellers', 'display_name' => 'Create sellers', 'description' => 'اضافة البائين', 'path' => 'sellers'],
+            ['name' =>  'update-sellers', 'display_name' => 'Update sellers', 'description' => 'تعديل البائين', 'path' => 'sellers'],
+            ['name' =>  'delete-sellers', 'display_name' => 'Delete sellers', 'description' => 'حذف البائين', 'path' => 'sellers'],
 
 
             //orders
-            ['name' => $perfix . 'read-orders', 'display_name' => 'Read orders', 'description' => 'عرض البائين', 'path' => 'orders'],
-            ['name' => $perfix . 'create-orders', 'display_name' => 'Create orders', 'description' => 'اضافة البائين', 'path' => 'orders'],
-            ['name' => $perfix . 'update-orders', 'display_name' => 'Update orders', 'description' => 'تعديل البائين', 'path' => 'orders'],
-            ['name' => $perfix . 'delete-orders', 'display_name' => 'Delete orders', 'description' => 'حذف البائين', 'path' => 'orders'],
-            ['name' => $perfix . 'accept-orders', 'display_name' => 'Accept orders', 'description' => 'الموافقة على الاوردر', 'path' => 'orders'],
-            ['name' => $perfix . 'Reject-orders', 'display_name' => 'Reject orders', 'description' => 'رفض الاوردر', 'path' => 'orders'],
+            ['name' =>  'read-orders', 'display_name' => 'Read orders', 'description' => 'عرض البائين', 'path' => 'orders'],
+            ['name' =>  'create-orders', 'display_name' => 'Create orders', 'description' => 'اضافة البائين', 'path' => 'orders'],
+            ['name' =>  'update-orders', 'display_name' => 'Update orders', 'description' => 'تعديل البائين', 'path' => 'orders'],
+            ['name' =>  'delete-orders', 'display_name' => 'Delete orders', 'description' => 'حذف البائين', 'path' => 'orders'],
+            ['name' =>  'accept-orders', 'display_name' => 'Accept orders', 'description' => 'الموافقة على الاوردر', 'path' => 'orders'],
+            ['name' =>  'Reject-orders', 'display_name' => 'Reject orders', 'description' => 'رفض الاوردر', 'path' => 'orders'],
 
 
             //coupons
-            ['name' => $perfix . 'read-coupons', 'display_name' => 'Read coupons', 'description' => 'عرض الكوبانات', 'path' => 'coupons'],
-            ['name' => $perfix . 'create-coupons', 'display_name' => 'Create coupons', 'description' => 'اضافة الكوبانات', 'path' => 'coupons'],
-            ['name' => $perfix . 'update-coupons', 'display_name' => 'Update coupons', 'description' => 'تعديل الكوبانات', 'path' => 'coupons'],
-            ['name' => $perfix . 'delete-coupons', 'display_name' => 'Delete coupons', 'description' => 'حذف الكوبانات', 'path' => 'coupons'],
-         
+            ['name' =>  'read-coupons', 'display_name' => 'Read coupons', 'description' => 'عرض الكوبانات', 'path' => 'coupons'],
+            ['name' =>  'create-coupons', 'display_name' => 'Create coupons', 'description' => 'اضافة الكوبانات', 'path' => 'coupons'],
+            ['name' =>  'update-coupons', 'display_name' => 'Update coupons', 'description' => 'تعديل الكوبانات', 'path' => 'coupons'],
+            ['name' =>  'delete-coupons', 'display_name' => 'Delete coupons', 'description' => 'حذف الكوبانات', 'path' => 'coupons'],
+
 
 
 
             //roles
-            ['name' => $perfix . 'read-roles', 'display_name' => 'Read roles', 'description' => 'عرض الصلاحيات', 'path' => 'roles'],
-            ['name' => $perfix . 'create-roles', 'display_name' => 'Create roles', 'description' => 'اضافة الصلاحيات', 'path' => 'roles'],
-            ['name' => $perfix . 'update-roles', 'display_name' => 'Update roles', 'description' => 'تعديل الصلاحيات', 'path' => 'roles'],
-            ['name' => $perfix . 'delete-roles', 'display_name' => 'Delete roles', 'description' => 'حذف الصلاحيات', 'path' => 'roles'],
+            ['name' =>  'read-roles', 'display_name' => 'Read roles', 'description' => 'عرض الصلاحيات', 'path' => 'roles'],
+            ['name' =>  'create-roles', 'display_name' => 'Create roles', 'description' => 'اضافة الصلاحيات', 'path' => 'roles'],
+            ['name' =>  'update-roles', 'display_name' => 'Update roles', 'description' => 'تعديل الصلاحيات', 'path' => 'roles'],
+            ['name' =>  'delete-roles', 'display_name' => 'Delete roles', 'description' => 'حذف الصلاحيات', 'path' => 'roles'],
 
+
+            //permissions
+            ['name' =>  'read-permissions', 'display_name' => 'Read permissions', 'description' => ' عرض الأذونات', 'path' => 'permissions'],
+            ['name' =>  'create-permissions', 'display_name' => 'Create permissions', 'description' => 'اضافة الأذونات', 'path' => 'permissions'],
+            ['name' =>  'update-permissions', 'display_name' => 'Update permissions', 'description' => 'تعديل الأذونات', 'path' => 'permissions'],
+            ['name' =>  'delete-permissions', 'display_name' => 'Delete permissions', 'description' => 'حذف الأذونات', 'path' => 'permissions'],
 
 
             //categories
-            ['name' => $perfix . 'read-categories', 'display_name' => 'Read categories', 'description' => 'عرض  التصنيفات  ', 'path' => 'categories'],
-            ['name' => $perfix . 'create-categories', 'display_name' => 'Create categories', 'description' => 'اضافة  التصنيفات  ', 'path' => 'categories'],
-            ['name' => $perfix . 'update-categories', 'display_name' => 'Update categories', 'description' => 'تعديل  التصنيفات  ', 'path' => 'categories'],
-            ['name' => $perfix . 'delete-categories', 'display_name' => 'Delete categories', 'description' => 'حذف  التصنيفات  ', 'path' => 'categories'],
+            ['name' =>  'read-categories', 'display_name' => 'Read categories', 'description' => 'عرض  التصنيفات  ', 'path' => 'categories'],
+            ['name' =>  'create-categories', 'display_name' => 'Create categories', 'description' => 'اضافة  التصنيفات  ', 'path' => 'categories'],
+            ['name' =>  'update-categories', 'display_name' => 'Update categories', 'description' => 'تعديل  التصنيفات  ', 'path' => 'categories'],
+            ['name' =>  'delete-categories', 'display_name' => 'Delete categories', 'description' => 'حذف  التصنيفات  ', 'path' => 'categories'],
 
             //products
-            ['name' => $perfix . 'read-products', 'display_name' => 'Read products', 'description' => 'عرض المنتجات  ', 'path' => 'products'],
-            ['name' => $perfix . 'create-products', 'display_name' => 'Create products', 'description' => 'اضافة  المنتجات  ', 'path' => 'products'],
-            ['name' => $perfix . 'update-products', 'display_name' => 'Update products', 'description' => 'تعديل  المنتجات  ', 'path' => 'products'],
-            ['name' => $perfix . 'delete-products', 'display_name' => 'Delete products', 'description' => 'حذف  المنتجات  ', 'path' => 'products'],
-
-            
-
-           
+            ['name' =>  'read-products', 'display_name' => 'Read products', 'description' => 'عرض المنتجات  ', 'path' => 'products'],
+            ['name' =>  'create-products', 'display_name' => 'Create products', 'description' => 'اضافة  المنتجات  ', 'path' => 'products'],
+            ['name' =>  'update-products', 'display_name' => 'Update products', 'description' => 'تعديل  المنتجات  ', 'path' => 'products'],
+            ['name' =>  'delete-products', 'display_name' => 'Delete products', 'description' => 'حذف  المنتجات  ', 'path' => 'products'],
 
 
-            
+
+
+
+
+
             //accounts
-            ['name' => $perfix . 'read-customers', 'display_name' => 'Read customers', 'description' => 'عرض  الزبائن  ', 'path' => 'customers'],
-            ['name' => $perfix . 'create-customers', 'display_name' => 'Create customers', 'description' => 'اضافة  الزبائن  ', 'path' => 'customers'],
-            ['name' => $perfix . 'update-customers', 'display_name' => 'Update customers', 'description' => 'تعديل  الزبائن  ', 'path' => 'customers'],
-            ['name' => $perfix . 'delete-customers', 'display_name' => 'Delete customers', 'description' => 'حذف  الزبائن  ', 'path' => 'customers'],
+            ['name' =>  'read-customers', 'display_name' => 'Read customers', 'description' => 'عرض  الزبائن  ', 'path' => 'customers'],
+            ['name' =>  'create-customers', 'display_name' => 'Create customers', 'description' => 'اضافة  الزبائن  ', 'path' => 'customers'],
+            ['name' =>  'update-customers', 'display_name' => 'Update customers', 'description' => 'تعديل  الزبائن  ', 'path' => 'customers'],
+            ['name' =>  'delete-customers', 'display_name' => 'Delete customers', 'description' => 'حذف  الزبائن  ', 'path' => 'customers'],
 
 
 
-            
-
-          
 
 
-           
-           
+
+
+
+
+
 
 
 
