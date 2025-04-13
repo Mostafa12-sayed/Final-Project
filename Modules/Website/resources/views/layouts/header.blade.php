@@ -21,7 +21,7 @@
                 <div class="row align-items-center">
                     <div class="col-5 col-lg-3 col-xl-3">
                         <div class="header-middle-logo">
-                            <a class="navbar-brand" href="index-2.html">
+                            <a class="navbar-brand" href="{{ route('home') }}">
                                 <img src="assets/img/logo/logo.png" alt="logo">
                             </a>
                         </div>
@@ -274,13 +274,7 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-end flex-grow-1">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle active" href="#"
-                                        data-bs-toggle="dropdown">Home</a>
-                                    <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="index-2.html">Home Demo 01</a></li>
-                                        <li><a class="dropdown-item" href="index-3.html">Home Demo 02</a></li>
-                                        <li><a class="dropdown-item" href="index-4.html">Home Demo 03</a></li>
-                                    </ul>
+                                    <a class="nav-link " href="{{ route('home') }}">Home</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                                 <li class="nav-item dropdown">
@@ -322,7 +316,7 @@
                                         <li><a class="dropdown-item" href="team.html">Our Team</a></li>
                                         <li><a class="dropdown-item" href="affiliate.html">Affiliate</a></li>
                                         <li><a class="dropdown-item" href="gallery.html">Our Gallery</a></li>
-                                        <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('contact.index') }}">Contact Us</a></li>
                                         <li><a class="dropdown-item" href="help.html">Help</a></li>
                                         <li><a class="dropdown-item" href="invoice.html">Invoices</a></li>
                                         <li><a class="dropdown-item" href="faq.html">Faq</a></li>
@@ -339,7 +333,7 @@
                                             <a class="dropdown-item dropdown-toggle" href="#">Orders</a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="{{ route('order.list') }}">Orders List</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('order.details') }}">Order Details</a></li>
+                                                <li><a class="dropdown-item">Order Details</a></li>
                                             </ul>
                                         </li>
                                         <li><a class="dropdown-item" href="wishlist.html">My Wishlist</a></li>
@@ -483,8 +477,8 @@
                                         </li>
                                         <li><a class="dropdown-item" href="shop-search.html">Shop Search</a></li>
                                         <li><a class="dropdown-item" href="shop-cart.html">Shop Cart</a></li>
-                                        <li><a class="dropdown-item" href="shop-checkout.html">Checkout</a></li>
-                                        <li><a class="dropdown-item" href="shop-checkout-complete.html">Checkout
+                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout
                                                 Complete</a></li>
                                         <li><a class="dropdown-item" href="shop-single.html">Shop Single</a></li>
                                         <li><a class="dropdown-item" href="shop-compare.html">Shop Compare</a></li>
@@ -501,7 +495,7 @@
                                                 Sidebar</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Contact</a></li>
                             </ul>
                             <!-- nav-right -->
                             <div class="nav-right">

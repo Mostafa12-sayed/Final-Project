@@ -27,9 +27,9 @@
                             <div class="text-center mt-40">
                                 <a href="{{ route('products') }}" class="theme-btn">Continue Shopping</a>
                             </div>
-
                         @else
                             <div class="cart-table">
+                                <!-- Existing cart table content remains unchanged -->
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -57,9 +57,6 @@
                                                             <h5 class="shop-cart-name">
                                                                 <a href="{{ route('product.show', $item['product']->slug) }}">{{ $item['product']->name }}</a>
                                                             </h5>
-                                                            <div class="shop-cart-info">
-                                                                <!-- Add product options if available -->
-                                                            </div>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -91,12 +88,25 @@
                             <div class="shop-cart-footer">
                                 <div class="row">
                                     <div class="col-md-7 col-lg-6">
-                                        <div class="shop-cart-coupon">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Your Coupon Code">
-                                                <button class="theme-btn" type="submit">Apply Coupon</button>
+                                        <!-- Display applied coupon with remove option -->
+                                        @if(session('coupon'))
+                                            <p>Applied Coupon: {{ session('coupon') }}
+                                                <a href="{{ route('cart.removeCoupon') }}" class="text-danger">Remove</a>
+                                            </p>
+                                        @endif
+                                        <!-- Coupon application form -->
+                                        <form action="{{ route('cart.applyCoupon') }}" method="POST">
+                                            @csrf
+                                            <div class="shop-cart-coupon">
+                                                <div class="form-group">
+                                                    <input type="text" name="coupon_code" class="form-control" placeholder="Your Coupon Code" required>
+                                                    <button class="theme-btn" type="submit">Apply Coupon</button>
+                                                </div>
+                                                @error('coupon_code')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                     <div class="col-md-5 col-lg-6">
                                         <div class="shop-cart-btn text-md-end">
@@ -118,7 +128,7 @@
                                 <li class="shop-cart-total"><strong>Total:</strong> <span id="total">${{ number_format($total, 2) }}</span></li>
                             </ul>
                             <div class="text-end mt-40">
-                                <a href="#" class="theme-btn">Checkout Now<i class="fas fa-arrow-right"></i></a>
+                                <a href="{{ route('order.checkout') }}" class="theme-btn">Checkout Now<i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
