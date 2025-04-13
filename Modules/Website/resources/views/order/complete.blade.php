@@ -27,8 +27,9 @@
                         <div class="checkout-complete-icon"><i class="far fa-check"></i></div>
                         <h3>Thank you for your order!</h3>
                         <p>Your order has been placed and will be processed as soon as possible.<br>
-                        Your tracking number is: <b>{{ $order->tracking_number }}</b>.<br>
-                        You will receive an email shortly with confirmation of your order.</p>
+                            Your order number is: <b>{{ $order->number }}</b>.<br>
+                            You will receive an email shortly with confirmation of your order.</p>
+
                         <a href="{{ route('products') }}" class="theme-btn mt-3">Go Back Shopping <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>

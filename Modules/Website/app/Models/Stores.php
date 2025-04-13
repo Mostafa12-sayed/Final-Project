@@ -1,5 +1,5 @@
-<?php
 
+<?php
 namespace Modules\Website\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +28,14 @@ class Stores extends Model
     protected static function newFactory(): StoresFactoryFactory
     {
         return StoresFactoryFactory::new();
+    }
+      protected static function boot()
+    {
+        parent::boot();
+    
+        static::creating(function ($store) {
+            $store->slug = $store->slug ?? Str::slug($store->name);
+        });
     }
 
     public function admin()

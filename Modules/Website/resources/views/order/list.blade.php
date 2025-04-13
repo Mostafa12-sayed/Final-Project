@@ -104,8 +104,14 @@
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('order.show', $order->id) }}" class="btn btn-outline-secondary btn-sm rounded-2" data-tooltip="tooltip" title="Details"><i class="far fa-eye"></i></a>
-                                                        </td>
+                                                               
+                                                                <a href="{{ route('order.details', $order->id) }}" 
+                                                                class="btn btn-outline-secondary btn-sm rounded-2" 
+                                                                data-tooltip="tooltip" 
+                                                                title="Details">
+                                                                <i class="far fa-eye"></i>
+                                                                </a>
+                                                            </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

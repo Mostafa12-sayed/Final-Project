@@ -54,78 +54,74 @@
                 <div class="col-lg-9">
                     <div class="user-wrapper">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="user-card user-order-detail">
-                                    <div class="user-card-header">
-                                      <h4 class="user-card-title">Order Details </h4>
-                                    </div>
+                        <div class="user-wrapper">
+                        <div class="user-card user-order-detail">
+                            <div class="user-card-header">
+                                <h4 class="user-card-title">Order Details</h4>
+                                <div class="order-status-badge">
+                                    Status: <span class="badge bg-{{ $order->status == 'completed' ? 'success' : 'warning' }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </div>
+                            </div>
 
+                            <div class="order-item">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($order->items as $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="product-info">
+                                                        <img src="{{ $item->product->image ?? asset('images/placeholder.png') }}" width="60">
+                                                        <div>
+                                                            <h6>{{ $item->product->name }}</h6>
+                                                            <small>SKU: {{ $item->product->sku }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>${{ number_format($item->price, 2) }}</td>
+                                                <td>{{ $item->quantity }}</td>
+                                                <td>${{ number_format($item->price * $item->quantity, 2) }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                    @foreach($orders as $order)
-                                    <div class="order-item">
-                                        <div class="order-header">
-                                            <h4>Order ID: {{ $order->tracking_number }}</h4>
-                                            <a href="{{ route('order.show', $order->id) }}" class="theme-btn">View Details</a>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table class="table table-borderless text-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Product</th>
-                                                        <th>Brand</th>
-                                                        <th>Quantity</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($order->orderItems as $item)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="table-list-info">
-                                                                    <a href="#">
-                                                                        <div class="table-list-img">
-                                                                            <img src="{{ asset($item->product->image ?? 'assets/img/placeholder.png') }}" alt="">
-                                                                        </div>
-                                                                        <div class="table-list-content">
-                                                                            <h6>{{ $item->product->name ?? 'Product Deleted' }}</h6>
-                                                                            <span>Item ID: #{{ $item->product->id ?? 'N/A' }}</span>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                            <td>{{ $item->product->brand ?? 'N/A' }}</td>
-                                                            <td>{{ $item->quantity }} {{ $item->unit ?? 'pcs' }}</td>
-                                                            <td>${{ number_format($item->price * $item->quantity, 2) }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="order-summary">
+                                            <h5>Order Summary</h5>
+                                            <table class="table">
+                                                <tr>
+                                                    <td>Subtotal</td>
+                                                    <td>${{ number_format($order->subtotal, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Shipping</td>
+                                                    <td>${{ number_format($order->shipping, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tax</td>
+                                                    <td>${{ number_format($order->tax, 2) }}</td>
+                                                </tr>
+                                                <tr class="total">
+                                                    <td>Total</td>
+                                                    <td>${{ number_format($order->total, 2) }}</td>
+                                                </tr>
                                             </table>
                                         </div>
-
-                                        <!-- Shipping Address and Order Summary -->
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="order-detail-content">
-                                                    <h5>Shipping Address</h5>
-                                                    <p><i class="far fa-location-dot"></i> {{ $order->shipping_address }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="order-detail-content">
-                                                    <h5>Order Summary</h5>
-                                                    <ul>
-                                                        <li>Subtotal<span>${{ number_format($order->total_price, 2) }}</span></li>
-                                                        <li>Shipping<span>Free</span></li>
-                                                        <li>Discount<span>$0.00</span></li>
-                                                        <li>Tax<span>$0.00</span></li>
-                                                        <li>Total<span>${{ number_format($order->total_price, 2) }}</span></li>
-                                                    </ul>
-                                                    <p class="mt-4">Paid by {{ $order->payment_method ?? 'N/A' }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,6 +129,5 @@
             </div>
         </div>
     </div>
-    <!-- user dashboard end -->
 </main>
 @endsection
