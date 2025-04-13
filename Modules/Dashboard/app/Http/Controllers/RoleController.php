@@ -17,13 +17,13 @@ class RoleController extends Controller
     public function __construct(Role $model)
     {
         $this->model = $model;
-
-        // $this->middleware('permission:acct_read-roles')->only('index');
-        // $this->middleware('permission:acct_create-roles')->only(['create', 'store']);
-        // $this->middleware('permission:acct_update-roles')->only(['edit', 'update']);
-        // $this->middleware('permission:acct_delete-roles')->only('destroy');
+        $this->middleware('auth:admin');
+         $this->middleware('permission:read-roles')->only('index');
+         $this->middleware('permission:create-roles')->only(['create', 'store']);
+         $this->middleware('permission:update-roles')->only(['edit', 'update']);
+         $this->middleware('permission:delete-roles')->only('destroy');
     }
- 
+
     public function index()
     {
         // $this->setSessionDelete();
@@ -122,7 +122,7 @@ class RoleController extends Controller
 
 
     public function updateStatus(Request $request)
-    {   
+    {
             $role = Role::findOrFail($request->id);
             $role->role_status = $request->status;
             $role->save();

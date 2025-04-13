@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+//        $this->middleware('permission:read-products')->only('index');
+        $this->middleware('permission:read-products')->only('index');
+        $this->middleware('permission:create-products')->only(['create','store']);
+        $this->middleware('permission:update-products')->only(['edit', 'update']);
+        $this->middleware('permission:delete-products')->only(['destroy']);
+
+
+
+    }
     /**
      * Display a listing of the resource.
      */

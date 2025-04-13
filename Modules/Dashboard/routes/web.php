@@ -47,10 +47,14 @@ Route::middleware('auth.admin')->group(function () {
     Route::resource('/admin/products', ProductController::class)->names('admin.products');
     Route::post('/admin/products/delete-image', [ProductController::class, 'deleteImage'])->name('admin.products.delete-image');
 
+
+    // sellers routes
     Route::get('/admin/sellers/orders', [SellersController::class, 'sellersOrders'])->name('admin.sellers.orders');
     Route::resource('/admin/sellers', SellersController::class)->names('admin.sellers');
     Route::get('/admin/sellers/{seller}/accept', [SellersController::class , 'accept'])->name('admin.sellers.accept');
     Route::get('/admin/sellers/{seller}/reject', [SellersController::class , 'reject'])->name('admin.sellers.reject');
+    Route::post('/admin/sellers/update-status-role/{id}', [SellersController::class , 'UpdateStatusRole'])->name('admin.sellers.UpdateStatusRole');
+
 
     Route::resource('/admin/category', CategoryController::class)->names('admin.category');
     Route::resource('codes', CodesController::class)->names('admin.codes');

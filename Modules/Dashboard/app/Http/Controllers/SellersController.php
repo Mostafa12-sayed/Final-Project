@@ -8,19 +8,29 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Modules\Dashboard\app\Models\Admin;
+use Modules\Dashboard\app\Models\Role;
 use Modules\Dashboard\app\Models\Store;
 use Modules\Dashboard\Jobs\SendSellerAcceptedEmail;
 
 class SellersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function __construct(){
+        $this->middleware('auth:admin');
+        $this->middleware('permission:read-sellers', ['only' => ['index']]);
+        $this->middleware('permission:accept-sellers', ['only' => ['accept']]);
+        $this->middleware('permission:reject-sellers', ['only' => ['reject']]);
+        $this->middleware('permission:delete-sellers', ['only' => ['destroy']]);
+        $this->middleware('permission:read-orders-sellers', ['only' => ['sellersOrders']]);
+
+    }
     public function index()
     {
-        $sellers = Store::with('admin')->where('status', 'active')
-        ->paginate(3);
-        return view('dashboard::sellers.sellers-list' ,compact('sellers'));
+        $sellers = Store::with('admin')->orderBy('created_at', 'desc')
+        ->paginate(10);
+        $roles = Role::select('id', 'name')->get();
+//        dd($sellers);
+        return view('dashboard::sellers.sellers-list' ,compact('sellers' , 'roles'));
     }
 
 
@@ -31,7 +41,7 @@ class SellersController extends Controller
         ->where('status', 'pending')
         ->paginate(1);
 
-    return view('dashboard::sellers.sellers-orders' , compact('sellers'));
+         return view('dashboard::sellers.sellers-orders' , compact('sellers'));
 
 
     }
@@ -116,4 +126,19 @@ class SellersController extends Controller
         }
         return redirect()->back()->with('error', 'Seller not found.');
     }
+
+    public function UpdateStatusRole(Request $request , $id)
+    {
+        $seller =Store::where('admin_id' , $id)->first();
+         $seller->status = $request->status;
+         $seller->admin->role_id = $request->role_id;
+         $seller->admin->status = $request->status;
+         $seller->admin->save();
+            $seller->admin->syncRoles([$request->role_id]);
+         $seller->save();
+         return response()->json(['success' => 'Status updated successfully.']);
+
+
+    }
+
 }
