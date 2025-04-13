@@ -91,7 +91,7 @@
                                             <tbody>
                                                 @foreach($orders as $order)
                                                     <tr>
-                                                        <td><span class="table-list-code">{{ $order->tracking_number }}</span></td>
+                                                        <td><span class="table-list-code">{{ $order->number }}</span></td>
                                                         <td>{{ $order->created_at->format('F d, Y') }}</td>
                                                         <td>${{ number_format($order->total_price, 2) }}</td>
                                                         <td>

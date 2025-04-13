@@ -70,5 +70,6 @@ Route::get('/order/complete/{id}', [OrderController::class, 'complete'])->name('
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
 Route::get('/my-orders/{id}', [OrderController::class, 'details'])->name('order.details');
-Route::get('/track-order/{trackingNumber}', [OrderController::class, 'track'])->name('order.track');
+Route::get('/track-order', [OrderController::class, 'track'])->name('order.track');
+Route::get('/track-order/{order}', [OrderController::class, 'trackOrder'])->name('order.track.show');
 });
