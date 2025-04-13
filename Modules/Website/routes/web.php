@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
+//coupon Routes
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+Route::get('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->name('cart.removeCoupon');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/products/modal/{product}', [ProductController::class, 'showProduct'])->name('product.modal');
@@ -63,6 +66,7 @@ Route::post('/contact_us/message', [WebsiteController::class, 'contact_store'])-
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+Route::get('/checkout/complete/{id}', [OrderController::class, 'complete'])->name('order.complete');
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 Route::get('/my-orders', [OrderController::class, 'index'])->name('order.list');
 Route::get('/my-orders-details', [OrderController::class, 'details'])->name('order.details');
