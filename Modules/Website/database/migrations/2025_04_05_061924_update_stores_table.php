@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('admin_id')->after('id')->constrained('admins')->onDelete('cascade');
             $table->decimal('commission_rate', 5, 2)->default(0);
             $table->enum('is_approved', ['yes', 'no'])->default('no');
+            $table->decimal('rate', 4, 2)->after('status')->default(0);
         });
     }
 
