@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Website\app\Models\Order;
-use Modules\Website\app\Models\OrderItem;
+use Modules\Website\app\Models\Orderitem;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\OrderAddress;
@@ -118,21 +118,26 @@ class OrderController extends Controller
         }
     }
 
-       public function index()
-       {
-           $orders = Order::where('user_id', Auth::id())->latest()->paginate(10);
-           return view('website::order.list', compact('orders'));
-       }
-   
-       public function details()
-       {
-           $orders = Order::where('user_id', Auth::id())
-                          ->with('items.product') 
-                          ->latest()
-                          ->get();
-           
-           return view('website::order.details', compact('orders'));
-       }
+    public function index()
+    {
+        $orders = Order::where('user_id', Auth::id())
+                   ->with(['items.product']) 
+                   ->latest()
+                   ->paginate(10);
+        
+        return view('website::order.list', compact('orders'));
+    }
+    
+    public function details($id)
+    {
+        $order = Order::with([
+                'items.product', 
+            ])
+            ->where('user_id', Auth::id())
+            ->findOrFail($id);
+        
+        return view('website::order.details', compact('order'));
+    }
    
        public function complete($id)
        {
@@ -145,11 +150,7 @@ class OrderController extends Controller
            return view('website::order.complete', compact('order'));
        }
 
-        public function show($id)
-         {
-              $order = Order::findOrFail($id);
-              return view('website::order.show', compact('order'));
-         }
+
    
         public function track($trackingNumber)
        {
