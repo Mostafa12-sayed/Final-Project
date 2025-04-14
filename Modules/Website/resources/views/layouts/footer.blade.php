@@ -7,19 +7,17 @@
                 <div class="row footer-widget-wrapper pt-100 pb-40">
                     <div class="col-md-6 col-lg-3">
                         <div class="footer-widget-box about-us">
-                            <a href="index-2.html" class="footer-logo">
-                                <img src="assets/img/logo/logo-light.png" alt="">
+                            <a href="{{route('home')}}" class="footer-logo">
+                                <img src="{{ \App\Helpers\Site_Info::site_info()->logo_path }}" alt="">
                             </a>
                             <p class="mb-3">
-                                We are many variations of the passages available but the majoro have suffered alteration
-                                injected.
+                            {{ \App\Helpers\Site_Info::site_info()->about }}
                             </p>
                             <ul class="footer-contact">
-                                <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+2 123 654 7898</a></li>
-                                <li><i class="far fa-map-marker-alt"></i>25/B Milford Road, New York</li>
-                                <li><a href="https://live.themewild.com/cdn-cgi/l/email-protection#0d64636b624d68756c607d6168236e6260"><i
-                                            class="far fa-envelope"></i><span class="__cf_email__" data-cfemail="d4bdbab2bb94b1acb5b9a4b8b1fab7bbb9">[email&#160;protected]</span></a></li>
-                                <li><i class="far fa-clock"></i>Mon-Fri (9.00AM - 8.00PM)</li>
+                                <li><a href="tel:{{ \App\Helpers\Site_Info::site_info()->phone1 }}"><i class="far fa-phone"></i>+2 {{ \App\Helpers\Site_Info::site_info()->phone1 }}</a></li>
+                                <li><i class="far fa-map-marker-alt"></i>{{ \App\Helpers\Site_Info::site_info()->address }}</li>
+                                <li><a href=""><i class="far fa-envelope"></i><span class="" >{{ \App\Helpers\Site_Info::site_info()->email }}</span></a></li>
+                                <li><i class="far fa-clock"></i>{{ \App\Helpers\Site_Info::site_info()->opening_time }}</li>
                             </ul>
                         </div>
                     </div>
@@ -27,9 +25,9 @@
                         <div class="footer-widget-box list">
                             <h4 class="footer-widget-title">Quick Links</h4>
                             <ul class="footer-list">
-                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="{{route('about.index')}}">About Us</a></li>
                                 <li><a href="help.html">Delivery Info</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="{{route('contact.index')}}">Contact Us</a></li>
                                 <li><a href="blog.html">Update News</a></li>
                                 <li><a href="testimonial.html">Our Testimonials</a></li>
                                 <li><a href="terms.html">Terms Of Service</a></li>
@@ -41,17 +39,14 @@
                         <div class="footer-widget-box list">
                             <h4 class="footer-widget-title">Browse Category</h4>
                             <ul class="footer-list">
-                                <li><a href="shop-grid.html">Medicine</a></li>
-                                <li><a href="shop-grid.html">Medical Equipments</a></li>
-                                <li><a href="shop-grid.html">Beauty Care</a></li>
-                                <li><a href="shop-grid.html">Baby & Mom Care</a></li>
-                                <li><a href="shop-grid.html">Healthcare</a></li>
-                                <li><a href="shop-grid.html">Food & Nutrition</a></li>
-                                <li><a href="shop-grid.html">Medical Supplies</a></li>
+                                @foreach (\App\Helpers\Site_Info::categories() as $category)
+                                <li><a href="{{ route('products') }}?category={{ $category->slug }}">{{$category->name}}</a></li>
+                                @endforeach
+
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-2">
+                    <!-- <div class="col-md-6 col-lg-2">
                         <div class="footer-widget-box list">
                             <h4 class="footer-widget-title">Support Center</h4>
                             <ul class="footer-list">
@@ -64,30 +59,10 @@
                                 <li><a href="contact.html">Sitemap</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-6 col-lg-3">
                         <div class="footer-widget-box list">
-                            <h4 class="footer-widget-title">Get Mobile App</h4>
-                            <p>Medica App is now available on App Store & Google Play.</p>
-                            <div class="footer-download">
-                                <h5>Download Our Mobile App</h5>
-                                <div class="footer-download-btn">
-                                    <a href="#">
-                                        <i class="fab fa-google-play"></i>
-                                        <div class="download-btn-info">
-                                            <span>Get It On</span>
-                                            <h6>Google Play</h6>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <i class="fab fa-app-store"></i>
-                                        <div class="download-btn-info">
-                                            <span>Get It On</span>
-                                            <h6>App Store</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            <h4 class="footer-widget-title">Payment Methods</h4>
                             <div class="footer-payment mt-20">
                                 <span>We Accept:</span>
                                 <img src="assets/img/payment/visa.svg" alt="">
@@ -107,16 +82,16 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 align-self-center">
                             <p class="copyright-text">
-                                &copy; Copyright <span id="date"></span> <a href="index-2.html"> Medion </a> All Rights Reserved.
+                                &copy; Copyright <span id="date"></span> <a href="{{ route('home') }}"> Medion </a> All Rights Reserved.
                             </p>
                         </div>
                         <div class="col-12 col-lg-6 align-self-center">
                             <div class="footer-social">
                                 <span>Follow Us:</span>
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="{{ \App\Helpers\Site_Info::site_info()->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="{{ \App\Helpers\Site_Info::site_info()->twitter }}"><i class="fab fa-x-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
+                                <a href="{{ \App\Helpers\Site_Info::site_info()->phone1 }}"><i class="fab fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
