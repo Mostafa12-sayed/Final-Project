@@ -40,7 +40,8 @@
             
         },
         "files": [
-            "app/Helpers/FileHelper.php"
+            "app/Helpers/FileHelper.php",
+            "app/Helpers/Site_Info.php"
             
         ]
     },

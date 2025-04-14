@@ -112,7 +112,7 @@
 
 
     <!-- small banner -->
-    <div class="small-banner pb-100">
+    <!-- <div class="small-banner pb-100">
         <div class="container wow fadeInUp" data-wow-delay=".25s">
             <div class="row g-4">
                 <div class="col-12 col-md-6 col-lg-4">
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- small banner end -->
 
 
@@ -274,10 +274,7 @@
                                                 </a>
                                                 <div class="product-action-wrap">
                                                     <div class="product-action">
-                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview-{{ $product->id }}"
-                                                            data-bs-placement="top" data-tooltip="tooltip" title="Quick View">
-                                                            <i class="far fa-eye"></i>
-                                                        </a>
+                                                        <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
                                                         <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                                             <i class="
                                                                     @auth
@@ -350,8 +347,8 @@
                             <a href="shop-single.html"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
                             <div class="product-action-wrap">
                                 <div class="product-action">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                        data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
+                                    <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
+
                                     <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                         <i class="
                                                                     @auth
@@ -399,8 +396,8 @@
                             <a href="shop-single.html"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
                             <div class="product-action-wrap">
                                 <div class="product-action">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                        data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
+                                    <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
+
                                     <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                         <i class="
                                                                     @auth
