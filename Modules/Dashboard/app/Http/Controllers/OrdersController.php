@@ -6,15 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Website\app\Models\Order;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $order;
+    public function __construct(Order $order)
+    {
+        $this->order = $order;
+
+    }
+
     public function index()
     {
-        return view('dashboard::index');
+        if (auth('admin')->user()->type == 'admin') {
+            $orders = $this->order->paginate(10);
+
+            return view('dashboard::order.orders-list' , compact('orders'));
+        }
+        $orders = $this->order->where('store_id', auth('admin')->user()->store_id)->paginate(10);
+        return view('dashboard::order.orders-list' , compact('orders'));
     }
 
     /**

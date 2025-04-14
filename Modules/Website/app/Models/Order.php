@@ -113,4 +113,9 @@ class Order extends Model
     {
         return OrderFactory::new();
     }
+
+    public function getOrderCountAttribute()
+    {
+        return $this->items()->count();
+    }
 }
