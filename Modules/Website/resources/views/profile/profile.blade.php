@@ -1,5 +1,7 @@
 @extends('website::layouts.userDashboard')
+
 @section('main-content')
+
 <div class="col-lg-9">
     <div class="user-wrapper">
         <div class="row">
