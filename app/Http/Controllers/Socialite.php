@@ -36,8 +36,11 @@ class Socialite extends Controller
                 'password'=>null,
                 'user_type'=>'customer',
                 'email_verified_at'=>now(),
-                'image_url'=>$user->avatar
             ]);
+            if(!$olduser->profile_image){
+                $newuser->profile_image=$user->avatar;
+                $newuser->save();
+            }
         }
 
 
@@ -85,7 +88,7 @@ class Socialite extends Controller
                 'name'=>$first_name,
                 'last_name'=>$last_name,
                 'email'=>$user->email,
-                'image_url'=>$user->avatar,
+                'profile_image'=>$user->avatar,
                 'email_verified_at'=>now(),
             ]);
         }
