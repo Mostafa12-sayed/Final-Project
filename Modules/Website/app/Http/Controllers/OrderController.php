@@ -152,11 +152,43 @@ class OrderController extends Controller
 
 
    
-        public function track($trackingNumber)
+       public function track(Request $request)
        {
-           $order = Order::where('number', $trackingNumber)->firstOrFail();
+           $order = null;
+           
+           if ($request->has('order_number')) {
+               $order = Order::where('number', $request->order_number)
+                            ->where('user_id', auth()->id())
+                            ->first();
+           }
+       
            return view('website::order.track', compact('order'));
        }
+       
+       public function trackOrder(Order $order)
+       {
+           if ($order->user_id !== auth()->id()) {
+               abort(403, 'Unauthorized');
+           }
+       
+           return view('website::order.track', compact('order'));
+       }
+
+       public function getShippingMethodAttribute()
+        {
+            return $this->shipping_method ?? 'Standard Shipping';
+        }
+
+        public function getExpectedDeliveryDateAttribute()
+        {
+            if ($this->status === 'completed' && $this->delivered_at) {
+                return $this->delivered_at;
+            }
+    
+                return $this->created_at->addDays(
+                    $this->shipping_method === 'express' ? 3 : 7
+                );
+        }
 
 
     private function getCartData($cart)
