@@ -7,7 +7,7 @@ Version         : 1.0
 
 
 (function ($) {
-    
+
     "use strict";
 
     // preloader
@@ -26,7 +26,7 @@ Version         : 1.0
     });
 
 
-    // category all 
+    // category all
     $('.category-btn').on('click',function(){
         $(".main-category").toggle();
     });
@@ -66,10 +66,10 @@ Version         : 1.0
             ndr.removeClass("dropdown-right");
         }
     });
-    
 
 
-    // data-background    
+
+    // data-background
     $(document).on('ready', function () {
         $("[data-background]").each(function () {
             $(this).css("background-image", "url(" + $(this).attr("data-background") + ")");
@@ -310,7 +310,7 @@ Version         : 1.0
             }
         }
     });
-    
+
 
 
     // fun fact counter
@@ -389,14 +389,16 @@ Version         : 1.0
 
 
     //cart quantity
-    $(".plus-btn").on("click", function () {
-        var i = $(this).closest(".shop-cart-qty").children(".quantity").get(0).value++,
-            c = $(this).closest(".shop-cart-qty").children(".minus-btn");
-        i > 0 && c.removeAttr("disabled");
-    }),
-    $(".minus-btn").on("click", function () {
-        2 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
-    })
+    // $(".plus-btn").on("click", function () {
+    //     var i = $(this).closest(".shop-cart-qty").children(".quantity").get(0).value++,
+    //         c = $(this).closest(".shop-cart-qty").children(".minus-btn");
+    //     i > 0 && c.removeAttr("disabled");
+    // }),
+    // $(".minus-btn").on("click", function () {
+    //     2 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
+    // })
+
+    
 
 
     // flexslider
@@ -417,10 +419,10 @@ Version         : 1.0
 
     // profile image btn
     $(".profile-img-btn").on('click', function () {
-        $(".profile-img-file").click(); 
+        $(".profile-img-file").click();
     });
-    
-    
+
+
     // message bottom scroll
     if ($('.message-content-info').length) {
         $(function () {

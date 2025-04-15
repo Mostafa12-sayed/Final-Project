@@ -129,8 +129,8 @@
 
         <!-- jquery cdn link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    
+
+
     <!-- add to cart ajax -->
     <script>
         console.log('document ready');
@@ -167,7 +167,7 @@
                     // Show success message
                     if (response.success) {
                         alert('Product added to cart successfully!');
-                     } 
+                     }
                     //  else {
                     //     alert('Failed to add product to cart: ' + (response.message || 'Unknown error'));
                     // }
@@ -261,9 +261,9 @@
                     if(method=='POST'){
                         button.find('i').removeClass('far').addClass('fas');
                     }
-                    
-                    
-                    
+
+
+
                     var toastEl = document.getElementById('add_to_wish_list_toast');
                     var toast = new bootstrap.Toast(toastEl);
                     toast.show();
