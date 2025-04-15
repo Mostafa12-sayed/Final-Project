@@ -117,7 +117,9 @@ class WebsiteController extends Controller
         }else{
             return redirect()->back()->with('error', 'Contact us has not been sent successfully');
         }
-
-
+    }
+    public function about_us(){
+        return view('website::about');
+        
     }
 }

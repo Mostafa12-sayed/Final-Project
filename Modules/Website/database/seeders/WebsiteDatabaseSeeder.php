@@ -16,6 +16,7 @@ class WebsiteDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Step 1: Create 10 categories first
+
         Category::factory()->count(11)->create();
 
         // Step 2: Create 100 products, assigning them to existing categories
@@ -26,7 +27,8 @@ class WebsiteDatabaseSeeder extends Seeder
              },
          ]);
 
+
         // Step 3: Create 10 stores
-        Stores::factory()->count(15)->create();
+        // Stores::factory()->count(15)->create();
     }
 }

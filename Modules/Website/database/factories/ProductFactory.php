@@ -242,6 +242,7 @@ class ProductFactory extends Factory
             'weight'      => $this->faker->randomFloat(2, 0.1, 10), // weight between 0.1 and 10
             'price'       => $this->faker->randomFloat(2, 10, 1000),
             'discount'    => $this->faker->boolean(30) ? $this->faker->randomFloat(2, 1, 100) : 0,
+
              'gallery'     => $this->faker->randomElements([
                  'assets/img/product/01.png',
                  'assets/img/product/02.png',
@@ -294,6 +295,7 @@ class ProductFactory extends Factory
              ]),
 //            'gallery'     => $galleryImages, // Gallery starts with main image
 //            'image'       => $mainImage,     // Main image matches first gallery image
+
             'code'        => strtoupper($this->faker->bothify('??###')),
             'tax'         => $this->faker->randomFloat(2, 0, 0.3), // e.g., 0 to 30% tax
             'rating'      => $this->faker->randomFloat(1, 0, 5),    // rating between 0 and 5

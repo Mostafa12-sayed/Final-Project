@@ -54,6 +54,22 @@ class WishlistController extends Controller
         return redirect()->back()->with('success', 'Product added to wishlist');
     }
 
+    public function add_ajax(Request $request, $productId)
+    {
+        // $user = Auth::user();
+        $user = User::find(Auth::id());
+        $product = Product::findOrFail($productId);
+
+        if ($user->wishlist()->where('product_id', $product->id)->exists()){
+            return redirect()->back();
+        }
+        $wishlist = new Wishlist();
+        $wishlist->user_id = $user->id;
+        $wishlist->product_id = $product->id;
+        $wishlist->save();
+        return redirect()->back();
+    }
+
     public function remove($productId){
         $user = User::find(Auth::id());
         $wishlistItem = $user->wishlist()->where('product_id', $productId)->first();
@@ -64,5 +80,18 @@ class WishlistController extends Controller
         }
 
         return redirect()->back()->with('error', 'Product not found in your wishlist.');
+    }
+
+
+    public function remove_ajax($productId){
+        $user = User::find(Auth::id());
+        $wishlistItem = $user->wishlist()->where('product_id', $productId)->first();
+
+        if ($wishlistItem) {
+            $wishlistItem->delete();
+            return redirect()->back();
+        }
+
+        return redirect()->back();
     }
 }

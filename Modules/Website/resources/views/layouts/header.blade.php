@@ -276,7 +276,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('home') }}">Home</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('about.index') }}">About</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pages</a>
                                     <ul class="dropdown-menu fade-down">
@@ -328,7 +328,7 @@
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Account</a>
                                     <ul class="dropdown-menu fade-down">
                                         <li><a class="dropdown-item" href="user-dashboard.html">Dashboard</a></li>
-                                        <li><a class="dropdown-item" href="user-profile.html">My Profile</a></li>
+                                        <li><a class="dropdown-item" href="{{route('profile.index')}}">My Profile</a></li>
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle" href="#">Orders</a>
                                             <ul class="dropdown-menu">

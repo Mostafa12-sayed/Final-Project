@@ -105,6 +105,7 @@
 
         $(document).on('click', '.btn-modal', function (e) {
             e.preventDefault();
+            console.log("clicked");
 
             const href = $(this).data('href');
             const container = $(this).data('container');
@@ -190,7 +191,7 @@
             button.prop('disabled', true);
 
             $.ajax({
-                url: '{{ route("cart.add", ["product" => ":productId"]) }}'.replace(':productId', productId), // Dynamically replace the placeholder
+                url: '{{ route("cart.add_ajax", ["product" => ":productId"]) }}'.replace(':productId', productId), // Dynamically replace the placeholder
                 method: 'POST',
                 data: {
                     quantity: 1 // You can still send quantity in the body if needed
@@ -251,8 +252,8 @@
             var isInWishlist = icon.hasClass('fas'); // Check if it's already filled (in wishlist)
 
             // Define base URLs (these should match your Laravel routes)
-            var baseAddUrl = '/wishlist/add';
-            var baseRemoveUrl = '/wishlist/remove';
+            var baseAddUrl = '/wishlist/aj/add';
+            var baseRemoveUrl = '/wishlist/aj/remove';
 
             if (!window.isAuthenticated) {
                 Toastify({

@@ -3,6 +3,23 @@
 
 
 
+<!-- breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="site-breadcrumb-bg" style="background: url(assets/img/breadcrumb/01.jpg)"></div>
+
+    <div class="container">
+        <div class="site-breadcrumb-wrap">
+            <h4 class="breadcrumb-title">Register</h4>
+            <ul class="breadcrumb-menu">
+                <li><a href="{{ route('home') }}"><i class="far fa-home"></i> Home</a></li>
+                <li class="active">Register</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+
 <div class="login-area py-100">
     <div class="container">
         <div class="col-md-7 mx-auto">
@@ -107,8 +124,7 @@
                                 class="form-check-input"
                                 type="checkbox"
                                 value=""
-                                id="agree_customer"
-                                 />
+                                id="agree_customer" />
                             <label class="form-check-label" for="agree_customer">
                                 I agree with the <a href="#">Terms Of Service.</a>
                             </label>

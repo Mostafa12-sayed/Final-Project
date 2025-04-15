@@ -72,7 +72,7 @@
                                         <h6>Quantity</h6>
                                         <div class="shop-cart-qty">
                                             <button type="button" class="minus-btn"><i class="fal fa-minus"></i></button>
-                                            <input class="quantity" type="text" value="1" disabled>
+                                            <input class="quantity" type="text" value="1" readonly>
                                             <button type="button" class="plus-btn"><i class="fal fa-plus"></i></button>
                                         </div>
                                     </div>
@@ -173,7 +173,12 @@
                                 <div class="blog-comments-wrap">
                                     @foreach ($product->reviews as $review)
                                         <div class="blog-comments-item {{ $loop->first ? 'mt-0' : '' }}">
-                                            <img src="{{ asset('assets/img/blog/com-' . ($loop->iteration % 3 + 1) . '.jpg') }}" alt="thumb">
+                                            <!-- <img src="{{ asset('assets/img/blog/com-' . ($loop->iteration % 3 + 1) . '.jpg') }}" alt="thumb"> -->
+                                            @if(Auth::user())
+                                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage" >
+                                            @else
+                                            <img src="{{ asset('assets/img/account').'/04.jpg' }}" alt="" id="profileImage" >
+                                            @endif
                                             <div class="blog-comments-content">
                                                 <h5>{{ $review->user->name }}</h5>
                                                 <span><i class="far fa-clock"></i> {{ $review->created_at->format('F d, Y') }}</span>
@@ -190,34 +195,52 @@
                                 <div class="blog-comments-form">
                                     <h4 class="mb-4">Leave A Review</h4>
                                     @if (auth()->check())
-                                        @if (session('success'))
-                                            <div class="alert alert-success">{{ session('success') }}</div>
-                                        @endif
-                                        <form action="{{ route('products.reviews.store', $product->slug) }}" method="POST">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select name="rating" class="form-control form-select" required>
-                                                            <option value="">Your Rating</option>
-                                                            <option value="5">5 Stars</option>
-                                                            <option value="4">4 Stars</option>
-                                                            <option value="3">3 Stars</option>
-                                                            <option value="2">2 Stars</option>
-                                                            <option value="1">1 Star</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <textarea name="comment" class="form-control" rows="5" placeholder="Your Review"></textarea>
-                                                    </div>
-                                                    <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Submit Review</button>
-                                                </div>
+
+                                        @php
+                                            $existingReview = $product->reviews->where('user_id', auth()->id())->first();
+                                        @endphp
+                                        @if ($existingReview)
+                                            <div class="alert alert-info">
+                                                You have already submitted a review for this product. Thank you for your feedback!
                                             </div>
-                                        </form>
+                                        @else
+                                            @if (session('success'))
+                                                <div class="alert alert-success">{{ session('success') }}</div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger">{{ session('error') }}</div>
+                                            @endif
+                                             <!-- @if (session('success'))
+                                            <div class="alert alert-success">{{ session('success') }}</div>
+                                        @endif -->
+                                            <form action="{{ route('products.reviews.store', $product->slug) }}" method="POST">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <select name="rating" class="form-control form-select" required>
+                                                                <option value="">Your Rating</option>
+                                                                <option value="5">5 Stars</option>
+                                                                <option value="4">4 Stars</option>
+                                                                <option value="3">3 Stars</option>
+                                                                <option value="2">2 Stars</option>
+                                                                <option value="1">1 Star</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <textarea name="comment" class="form-control" rows="5" placeholder="Your Review"></textarea>
+                                                        </div>
+                                                        <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Submit Review</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        @endif
                                     @else
-                                        <p>Please <a href="{{ route('login') }}" class="theme-btn">log in</a> to submit a review.</p>
+                                        <p>Please <a href="{{ route('login') }}" class="theme-btn ">
+                                            log in
+                                        </a> to submit a review.</p>
                                     @endif
                                 </div>
                             </div>
@@ -346,6 +369,39 @@
             currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
             updateSlider();
         }, 3000);
+
+        // Quantity control functionality
+    const minusBtn = document.querySelector('.minus-btn');
+    const plusBtn = document.querySelector('.plus-btn');
+    const quantityInput = document.querySelector('.quantity');
+    const hiddenQuantityInput = document.querySelector('.hidden-quantity');
+
+    if (minusBtn && plusBtn && quantityInput && hiddenQuantityInput) {
+        // Initialize with default value
+        let quantity = 1;
+        quantityInput.value = quantity;
+        hiddenQuantityInput.value = quantity;
+
+        // Decrease quantity
+        minusBtn.addEventListener('click', function() {
+            if (quantity > 1) {
+                quantity--;
+                updateQuantity();
+            }
+        });
+
+        // Increase quantity
+        plusBtn.addEventListener('click', function() {
+            quantity++;
+            updateQuantity();
+        });
+
+        // Update both visible and hidden inputs
+        function updateQuantity() {
+            quantityInput.value = quantity;
+            hiddenQuantityInput.value = quantity;
+        }
+    }
     });
 </script>
 @endsection
