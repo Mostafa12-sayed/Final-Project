@@ -63,6 +63,8 @@
 
     {{-- Yield custom scripts from child views --}}
     @yield('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // $(document).on('click', '.btn-modal', function (e) {
         //     console.log($(this).data('href'));
@@ -82,6 +84,25 @@
         //         },
         //     });
         // });
+        // $(document).on('click', '.btn-modal', function (e) {
+        //     e.preventDefault();
+        //
+        //     const href = $(this).data('href');
+        //     const container = $(this).data('container');
+        //
+        //     $.ajax({
+        //         url: href,
+        //         dataType: 'html',
+        //         success: function (result) {
+        //             $(container).html(result);
+        //
+        //             const modalEl = $(container).find('.modal').get(0);
+        //             const modal = new bootstrap.Modal(modalEl);
+        //             modal.show();
+        //         },
+        //     });
+        // });
+
         $(document).on('click', '.btn-modal', function (e) {
             e.preventDefault();
             console.log("clicked");
@@ -93,14 +114,31 @@
                 url: href,
                 dataType: 'html',
                 success: function (result) {
+                    // حط المحتوى في الكونتينر
                     $(container).html(result);
 
+                    // احصل على العنصر الحقيقي للمودال (مش jQuery object)
                     const modalEl = $(container).find('.modal').get(0);
-                    const modal = new bootstrap.Modal(modalEl);
-                    modal.show();
+
+                    if (modalEl instanceof HTMLElement) {
+                        // أنشئ المودال بشكل صحيح
+                        const modal = new bootstrap.Modal(modalEl, {
+                            backdrop: 'static',
+                            keyboard: true
+                        });
+
+                        // modal.show();
+                    } else {
+                        console.warn('Modal element not found or invalid.');
+                    }
                 },
+                error: function () {
+                    console.error('Error loading modal content.');
+                }
             });
         });
+
+
 
     </script>
     <!-- Toast for add to cart-->

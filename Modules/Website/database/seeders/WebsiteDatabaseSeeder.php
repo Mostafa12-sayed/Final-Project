@@ -16,13 +16,17 @@ class WebsiteDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Step 1: Create 10 categories first
-    //    Category::factory()->count(11)->create();
+
+        Category::factory()->count(11)->create();
 
         // Step 2: Create 100 products, assigning them to existing categories
-        Product::factory()->count(100)->make()->each(function ($product) {
-            $product->category_id = Category::inRandomOrder()->value('id');
-            $product->save();
-        });
+         Product::factory()->count(100)->create([
+             'category_id' => function () {
+                 // Randomly pick an existing category
+                 return Category::inRandomOrder()->first()->id;
+             },
+         ]);
+
 
         // Step 3: Create 10 stores
         // Stores::factory()->count(15)->create();

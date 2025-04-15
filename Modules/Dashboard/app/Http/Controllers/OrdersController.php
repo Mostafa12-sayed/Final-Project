@@ -21,7 +21,6 @@ class OrdersController extends Controller
     {
         if (auth('admin')->user()->type == 'admin') {
             $orders = $this->order->paginate(10);
-
             return view('dashboard::order.orders-list' , compact('orders'));
         }
         $orders = $this->order->where('store_id', auth('admin')->user()->store_id)->paginate(10);
@@ -49,7 +48,12 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        return view('dashboard::show');
+        $order = $this->order->with('items' ,'store', 'user', 'address')->findOrFail($id);
+
+        if(auth('admin')->user()->store_id == $order->store_id || auth('admin')->user()->type == 'admin'){
+            return view('dashboard::order.order-detail' , compact('order'));
+        }
+        abort(404);
     }
 
     /**
@@ -74,5 +78,21 @@ class OrdersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function accept($id): RedirectResponse
+    {
+        $order = $this->order->find($id);
+        $order->status = 'accepted';
+        $order->save();
+        return redirect()->back()->with('success', 'Order accepted successfully');
+    }
+
+    public function editStatus($id , $status){
+        $order = $this->order->find($id);
+        $order->status = $status;
+        $order->save();
+        return back()->with('success' , 'Status updated successfully');
     }
 }
