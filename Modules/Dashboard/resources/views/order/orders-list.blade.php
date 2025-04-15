@@ -198,7 +198,7 @@
                                                             </td>
                                                             <td> ${{$order->total}}</td>
                                                             <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13">{{$order->payment_status}}</span></td>
-                                                            <td> {{$order->items->count()}}</td>
+                                                            <td> {{$order->items_count}}</td>
                                                             <td> {{$order->number}}</td>
                                                             <td> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13">{{$order->status}}</span></td>
                                                             <td>

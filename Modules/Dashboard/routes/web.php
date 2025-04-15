@@ -91,9 +91,6 @@ Route::middleware('auth.admin')->group(function () {
     Route::post('/admin/orders/update/{order}', [OrdersController::class, 'show'])->name('admin.order.update');
     Route::get('/admin/orders/delete/{order}', [OrdersController::class, 'destroy'])->name('admin.order.delete');
 
-    Route::get('/admin/orders/edit-order-status/{order}/{status}', [OrdersController::class, 'editStatus'])->name('admin.order.edit.change.status');
-
-
 
     Route::post('/admin/orders/update-status/{order}', [OrdersController::class, 'updateStatus'])->name('admin.order.update-status');
     Route::post('/admin/orders/update-payment-status/{order}', [OrdersController::class, 'updatePaymentStatus'])->name('admin.order.update-payment-status');
