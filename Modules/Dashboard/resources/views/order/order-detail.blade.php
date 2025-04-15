@@ -14,8 +14,9 @@
                                    <div class="card-body">
                                         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
                                              <div>
-                                                  <h4 class="fw-medium text-dark d-flex align-items-center gap-2">#0758267/90 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Paid</span><span class="border border-warning text-warning fs-13 px-2 py-1 rounded">In Progress</span></h4>
-                                                  <p class="mb-0">Order / Order Details / #0758267/90 - April 23 , 2024 at 6:23 pm</p>
+                                                  <h4 class="fw-medium text-dark d-flex align-items-center gap-2">#{{$order->id}}/{{optional($order->store)->id}} <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$order->payment_status == 'paid'? 'Paid': 'Unpaid'}}</span><span class="border border-warning text-warning fs-13 px-2 py-1 rounded">{{$order->status}}</span></h4>
+                                                  <p class="mb-0">Order / Order Details / #{{$order->id}}/{{optional($order->store)->id}} -
+                                                      {{$order->created_at->format('d M Y h:i A')}}</p>
                                              </div>
                                              <div>
                                                   <a href="#!" class="btn btn-outline-secondary">Refund</a>
@@ -28,53 +29,78 @@
                                         <div class="mt-4">
                                              <h4 class="fw-medium text-dark">Progress</h4>
                                         </div>
-                                        <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
-                                             <div class="col">
-                                                  <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="70">
+                                       <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
+
+                                           {{-- Step 1: Order Confirming --}}
+                                           @if(in_array($order->status, ['pending', 'confirmed', 'processing', 'delivered', 'completed']))
+                                               <div class="col">
+                                                   <div class="progress mt-3" style="height: 10px;">
+                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                                        </div>
-                                                  </div>
-                                                  <p class="mb-0 mt-2">Order Confirming</p>
-                                             </div>
-                                             <div class="col">
-                                                  <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="70">
+                                                   </div>
+                                                   <p class="mb-0 mt-2">Order Confirming</p>
+                                               </div>
+                                           @endif
+
+                                           {{-- Step 2: Payment Pending --}}
+                                           @if(in_array($order->status, ['pending', 'processing', 'delivered', 'completed']))
+                                               <div class="col">
+                                                   <div class="progress mt-3" style="height: 10px;">
+                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                                        </div>
-                                                  </div>
-                                                  <p class="mb-0 mt-2">Payment Pending</p>
-                                             </div>
-                                             <div class="col">
-                                                  <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 60%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="70">
-                                                       </div>
-                                                  </div>
-                                                  <div class="d-flex align-items-center gap-2 mt-2">
-                                                       <p class="mb-0">Processing</p>
+                                                   </div>
+                                                   <p class="mb-0 mt-2">Payment Pending</p>
+                                               </div>
+                                           @endif
+
+                                           {{-- Step 3: Processing --}}
+                                           <div class="col">
+                                               <div class="progress mt-3" style="height: 10px;">
+                                                   <div class="progress-bar progress-bar-striped progress-bar-animated
+                {{ $order->status == 'processing' ? 'bg-warning' : 'bg-light' }}"
+                                                        style="width: {{ $order->status == 'processing' ? '50%' : '0%' }}"
+                                                        role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                                   </div>
+                                               </div>
+                                               <div class="d-flex align-items-center gap-2 mt-2">
+                                                   <p class="mb-0">Processing</p>
+                                                   @if($order->status == 'processing')
                                                        <div class="spinner-border spinner-border-sm text-warning" role="status">
-                                                            <span class="visually-hidden">Loading...</span>
+                                                           <span class="visually-hidden">Loading...</span>
                                                        </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col">
-                                                  <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="70">
-                                                       </div>
-                                                  </div>
-                                                  <p class="mb-0 mt-2">Shipping</p>
-                                             </div>
-                                             <div class="col">
-                                                  <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="70">
-                                                       </div>
-                                                  </div>
-                                                  <p class="mb-0 mt-2">Delivered</p>
-                                             </div>
-                                        </div>
+                                                   @endif
+                                               </div>
+                                           </div>
+
+                                           {{-- Step 4: Shipping --}}
+                                           <div class="col">
+                                               <div class="progress mt-3" style="height: 10px;">
+                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                                                        style="width: {{ $order->status == 'shipping' || $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"
+                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                   </div>
+                                               </div>
+                                               <p class="mb-0 mt-2">Shipping</p>
+                                           </div>
+
+                                           {{-- Step 5: Delivered --}}
+                                           <div class="col">
+                                               <div class="progress mt-3" style="height: 10px;">
+                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                                                        style="width: {{ $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"
+                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                   </div>
+                                               </div>
+                                               <p class="mb-0 mt-2">Delivered</p>
+                                           </div>
+
+                                       </div>
+
                                    </div>
                                    <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                         <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Estimated shipping date : <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
                                         <div>
-                                             <a href="#!" class="btn btn-primary">Make As Ready To Ship</a>
+                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
                                         </div>
                                    </div>
                               </div>
@@ -96,14 +122,15 @@
                                                        </tr>
                                                   </thead>
                                                   <tbody>
+                                                        @foreach($order->items as $item)
                                                        <tr>
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-1.png" alt="" class="avatar-md">
+                                                                           <img src="{{asset('storage/' .$item->product->image)}}" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">Men Black Slim Fit T-shirt</a>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">{{$item->product->name}}</a>
                                                                            <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>M</p>
                                                                       </div>
                                                                  </div>
@@ -111,91 +138,17 @@
                                                             </td>
 
                                                             <td>
-                                                                 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Ready</span>
+                                                                 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$item->product->status}}</span>
                                                             </td>
-                                                            <td> 1</td>
-                                                            <td>$80.00</td>
-                                                            <td> $3.00</td>
+                                                            <td>${{$item->quantity}}</td>
+                                                            <td>${{$item->price}}</td>
+                                                            <td> ${{$item->product->tax * $item->price * $item->quantity}}</td>
                                                             <td>
-                                                                 $83.00
+                                                                 ${{$item->price * $item->quantity + $item->product->tax * $item->price * $item->quantity}}
                                                             </td>
                                                        </tr>
+                                                        @endforeach
 
-
-                                                       <tr>
-                                                            <td>
-                                                                 <div class="d-flex align-items-center gap-2">
-                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-5.png" alt="" class="avatar-md">
-                                                                      </div>
-                                                                      <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">Dark Green Cargo Pent</a>
-                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>M</p>
-                                                                      </div>
-                                                                 </div>
-
-                                                            </td>
-
-                                                            <td>
-                                                                 <span class="badge bg-light text-dark  px-2 py-1 fs-13">Packaging</span>
-                                                            </td>
-                                                            <td> 3</td>
-                                                            <td>$330.00</td>
-                                                            <td> $4.00</td>
-                                                            <td>
-                                                                 $334.00
-                                                            </td>
-                                                       </tr>
-
-                                                       <tr>
-                                                            <td>
-                                                                 <div class="d-flex align-items-center gap-2">
-                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-8.png" alt="" class="avatar-md">
-                                                                      </div>
-                                                                      <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">Men Dark Brown Wallet</a>
-                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S</p>
-                                                                      </div>
-                                                                 </div>
-
-                                                            </td>
-
-                                                            <td>
-                                                                 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Ready</span>
-                                                            </td>
-                                                            <td> 1</td>
-                                                            <td>$132.00</td>
-                                                            <td> $5.00</td>
-                                                            <td>
-                                                                 $137.00
-                                                            </td>
-                                                       </tr>
-
-                                                       <tr>
-                                                            <td>
-                                                                 <div class="d-flex align-items-center gap-2">
-                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-10.png" alt="" class="avatar-md">
-                                                                      </div>
-                                                                      <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">Kid's Yellow T-shirt</a>
-                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S </p>
-                                                                      </div>
-                                                                 </div>
-
-                                                            </td>
-
-                                                            <td>
-                                                                 <span class="badge bg-light text-dark  px-2 py-1 fs-13">Packaging</span>
-                                                            </td>
-                                                            <td> 2</td>
-                                                            <td>$220.00</td>
-                                                            <td> $3.00</td>
-                                                            <td>
-                                                                 $223.00
-                                                            </td>
-                                                       </tr>
                                                   </tbody>
                                              </table>
                                         </div>
