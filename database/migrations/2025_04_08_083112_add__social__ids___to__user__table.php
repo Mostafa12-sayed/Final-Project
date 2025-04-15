@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('google_id')->unique()->nullable();
             $table->string('facebook_id')->unique()->nullable();
             $table->string('twitter_id')->unique()->nullable();
-            $table->string('image_url')->after('profile_image')->nullable();
         });
     }
 
@@ -28,7 +27,6 @@ return new class extends Migration
             $table->dropColumn('google_id');
             $table->dropColumn('facebook_id');
             $table->dropColumn('twitter_id');
-            $table->dropColumn('image_url');
         });
     }
 };

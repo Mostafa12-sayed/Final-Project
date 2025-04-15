@@ -26,7 +26,7 @@
                                 </form>
                             </div>
                             <div class="login-footer">
-                                <p>Have a Problem? <a href="">Contact Us.</a></p>
+                                <p>Have a Problem? <a href="{{route('contact.index')}}">Contact Us.</a></p>
                             <div class="social-login">
                         </div>
                     </div>

@@ -63,6 +63,8 @@
 
     {{-- Yield custom scripts from child views --}}
     @yield('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // $(document).on('click', '.btn-modal', function (e) {
         //     console.log($(this).data('href'));
@@ -82,6 +84,25 @@
         //         },
         //     });
         // });
+        // $(document).on('click', '.btn-modal', function (e) {
+        //     e.preventDefault();
+        //
+        //     const href = $(this).data('href');
+        //     const container = $(this).data('container');
+        //
+        //     $.ajax({
+        //         url: href,
+        //         dataType: 'html',
+        //         success: function (result) {
+        //             $(container).html(result);
+        //
+        //             const modalEl = $(container).find('.modal').get(0);
+        //             const modal = new bootstrap.Modal(modalEl);
+        //             modal.show();
+        //         },
+        //     });
+        // });
+
         $(document).on('click', '.btn-modal', function (e) {
             e.preventDefault();
 
@@ -92,14 +113,31 @@
                 url: href,
                 dataType: 'html',
                 success: function (result) {
+                    // حط المحتوى في الكونتينر
                     $(container).html(result);
 
+                    // احصل على العنصر الحقيقي للمودال (مش jQuery object)
                     const modalEl = $(container).find('.modal').get(0);
-                    const modal = new bootstrap.Modal(modalEl);
-                    modal.show();
+
+                    if (modalEl instanceof HTMLElement) {
+                        // أنشئ المودال بشكل صحيح
+                        const modal = new bootstrap.Modal(modalEl, {
+                            backdrop: 'static',
+                            keyboard: true
+                        });
+
+                        // modal.show();
+                    } else {
+                        console.warn('Modal element not found or invalid.');
+                    }
                 },
+                error: function () {
+                    console.error('Error loading modal content.');
+                }
             });
         });
+
+
 
     </script>
     <!-- Toast for add to cart-->
@@ -128,8 +166,8 @@
 
         <!-- jquery cdn link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    
+
+
     <!-- add to cart ajax -->
     <script>
         console.log('document ready');
@@ -166,7 +204,7 @@
                     // Show success message
                     if (response.success) {
                         alert('Product added to cart successfully!');
-                     } 
+                     }
                     //  else {
                     //     alert('Failed to add product to cart: ' + (response.message || 'Unknown error'));
                     // }
@@ -260,9 +298,9 @@
                     if(method=='POST'){
                         button.find('i').removeClass('far').addClass('fas');
                     }
-                    
-                    
-                    
+
+
+
                     var toastEl = document.getElementById('add_to_wish_list_toast');
                     var toast = new bootstrap.Toast(toastEl);
                     toast.show();

@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Modules\Website\app\Models\Category;
+use Modules\Website\app\Models\ContactUs;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
+use App\Mail\ContactMail;
+
 
 class WebsiteController extends Controller
 {
@@ -98,5 +102,22 @@ class WebsiteController extends Controller
 
     public function contact_us(){
         return view('website::contact');
+    }
+    public function contact_store(Request $request){
+        $data=$request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'email' => ['required', 'email'],
+            'subject' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'max:600'],
+        ]);
+        $new_contact=ContactUs::create($request->all());
+        if($new_contact){
+            Mail::to('your@email.com')->send(new ContactMail($data));
+            return redirect()->back()->with('success', 'Contact us has been sent successfully');
+        }else{
+            return redirect()->back()->with('error', 'Contact us has not been sent successfully');
+        }
+
+
     }
 }

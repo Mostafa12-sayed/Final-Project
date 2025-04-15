@@ -84,10 +84,10 @@
                     </div>
                     <ul class="sidebar-list">
                         <li><a href="user-dashboard.html"><i class="far fa-gauge-high"></i> Dashboard</a></li>
-                        <li><a class="active" href="{{ route('profile.index') }}"><i class="far fa-user"></i> My Profile</a></li>
+                        <li><a class="{{request()->routeIs('profile.index') ? 'active' : ''}}" href="{{ route('profile.index') }}"><i class="far fa-user"></i> My Profile</a></li>
                         <li><a href="order-list.html"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
                         <li>
-                            <a href="{{ auth()->check() ? route('wishlist.index') : route('login') }}">
+                            <a class="{{request()->routeIs('wishlist.index') ? 'active' : ''}}" href="{{ auth()->check() ? route('wishlist.index') : route('login') }}">
                                 <i class="far fa-heart"></i> My Wishlist
                                 @auth
                                     <span class="badge badge-danger">{{ Auth::user()->wishlist()->count() }}</span>
