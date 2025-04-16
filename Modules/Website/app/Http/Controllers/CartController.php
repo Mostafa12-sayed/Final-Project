@@ -72,28 +72,28 @@ class CartController extends Controller
     }
 
 
-    public function add_ajax(Request $request, Product $product)
-    {
-        // Existing add method remains unchanged
-        $quantity = (int) $request->input('quantity', 1);
-        if ($product->stock < $quantity) {
-            return redirect()->back()->with('error', 'Not enough stock available.');
-        }
-        $cart = session()->get('cart', []);
+    // public function add_ajax(Request $request, Product $product)
+    // {
+    //     // Existing add method remains unchanged
+    //     $quantity = (int) $request->input('quantity', 1);
+    //     if ($product->stock < $quantity) {
+    //         return redirect()->back()->with('error', 'Not enough stock available.');
+    //     }
+    //     $cart = session()->get('cart', []);
 
-        if (isset($cart[$product->id])) {
-            $newQuantity = $cart[$product->id] + $quantity;
-            if ($product->stock < $newQuantity) {
-                return redirect()->back()->with('error', 'Not enough stock available.');
-            }
-            $cart[$product->id] = $newQuantity;
-        } else {
-            $cart[$product->id] = $quantity;
-        }
+    //     if (isset($cart[$product->id])) {
+    //         $newQuantity = $cart[$product->id] + $quantity;
+    //         if ($product->stock < $newQuantity) {
+    //             return redirect()->back()->with('error', 'Not enough stock available.');
+    //         }
+    //         $cart[$product->id] = $newQuantity;
+    //     } else {
+    //         $cart[$product->id] = $quantity;
+    //     }
 
-        session()->put('cart', $cart);
-        return redirect()->back();
-    }
+    //     session()->put('cart', $cart);
+    //     return redirect()->back();
+    // }
     public function index()
     {
         // Existing index method remains unchanged
