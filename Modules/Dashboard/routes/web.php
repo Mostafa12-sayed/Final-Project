@@ -12,6 +12,8 @@ use Modules\Dashboard\app\Http\Controllers\SellersController;
 use Modules\Dashboard\app\Http\Controllers\RoleController;
 use Modules\Dashboard\app\Http\Controllers\AdminController;
 use Modules\Dashboard\app\Http\Controllers\PermissionsController;
+use Modules\Dashboard\app\Http\Controllers\OrdersController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,5 +83,20 @@ Route::middleware('auth.admin')->group(function () {
     Route::post('/admin/profile/update', [ProfileController::class , 'update'])->name('admin.profile.update');
     Route::get('/admin/profile/change-password', [ProfileController::class , 'changePassword'])->name('admin.profile.changePassword');
     Route::post('/admin/profile/update-password', [ProfileController::class , 'updatePassword'])->name('admin.profile.change_password.update');
+
+    //routes of orders
+    Route::get('/admin/orders', [OrdersController::class, 'index'])->name('admin.orders.index');
+    Route::get('/admin/orders/show/{order}', [OrdersController::class, 'show'])->name('admin.order.show');
+    Route::get('/admin/orders/edit/{order}', [OrdersController::class, 'edit'])->name('admin.order.edit');
+    Route::post('/admin/orders/update/{order}', [OrdersController::class, 'show'])->name('admin.order.update');
+    Route::get('/admin/orders/delete/{order}', [OrdersController::class, 'destroy'])->name('admin.order.delete');
+
+
+    Route::post('/admin/orders/update-status/{order}', [OrdersController::class, 'updateStatus'])->name('admin.order.update-status');
+    Route::post('/admin/orders/update-payment-status/{order}', [OrdersController::class, 'updatePaymentStatus'])->name('admin.order.update-payment-status');
+    Route::post('/admin/orders/update-delivery-status/{order}', [OrdersController::class, 'updateDeliveryStatus'])->name('admin.order.update-delivery-status');
+    Route::post('/admin/orders/update-order-details/{order}', [OrdersController::class, 'updateOrderDetails'])->name('admin.order.update-order-details');
+    Route::post('/admin/orders/update-order-address/{order}', [OrdersController::class, 'updateOrderAddress'])->name('admin.order.update-order-address');
+
 
 });

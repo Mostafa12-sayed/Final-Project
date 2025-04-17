@@ -180,9 +180,9 @@
                                     Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
                                 </div>
                             </div>
-                            <div class="shop-sort-gl">
+                            <!-- <div class="shop-sort-gl">
                                 <a href="{{ route('products') }}" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
@@ -271,28 +271,6 @@
                             @endforelse
                         </div>
                     </div>
-                    <!-- Pagination -->
-                    <!-- <div class="pagination-area mt-50">
-                        <div class="pagination">
-                            @if ($products->onFirstPage())
-                                <span class="disabled">Previous</span>
-                            @else
-                                <a href="{{ $products->previousPageUrl() }}">Previous</a>
-                            @endif
-                            <span class="page-indicator">
-                                {{ $products->currentPage() }} : {{ $products->lastPage() }} : {{ $products->total() }}
-                            </span>
-                            @if ($products->hasMorePages())
-                                <a href="{{ $products->nextPageUrl() }}">Next</a>
-                            @else
-                                <span class="disabled">Next</span>
-                            @endif
-                        </div>
-                        <div class="entries-count">
-                            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries
-                        </div>
-                    </div> -->
-
                     <!-- pagination -->
                     <div class="pagination-area mt-50">
                         <div aria-label="Page navigation example">

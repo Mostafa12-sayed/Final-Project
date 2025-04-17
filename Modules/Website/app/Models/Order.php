@@ -2,6 +2,7 @@
 
 namespace Modules\Website\app\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Website\Database\factories\OrderFactory;
@@ -43,14 +44,14 @@ class Order extends Model
     public function getTrackingUrlAttribute()
 {
     if (!$this->tracking_number) return null;
-    
+
     $carriers = [
         'fedex' => 'https://www.fedex.com/fedextrack/?trknbr=',
         'ups' => 'https://www.ups.com/track?tracknum=',
         'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels=',
         'dhl' => 'https://www.dhl.com/en/express/tracking.html?AWB='
     ];
-    
+
     return ($carriers[strtolower($this->carrier)] ?? '') . $this->tracking_number;
 }
 
@@ -112,5 +113,10 @@ class Order extends Model
     protected static function newFactory(): OrderFactory
     {
         return OrderFactory::new();
+    }
+
+    public function getOrderCountAttribute()
+    {
+        return $this->items()->count();
     }
 }

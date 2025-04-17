@@ -11,6 +11,7 @@ use Modules\Website\app\Models\Category;
 use Modules\Website\app\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
+
 class ProductController extends Controller
 {
     /**
@@ -137,6 +138,14 @@ class ProductController extends Controller
         ]);
 
         $product = Product::where('slug', $slug)->firstOrFail();
+
+        $existingReview = Review::where('user_id', Auth::id())
+                           ->where('product_id', $product->id)
+                           ->first();
+
+        if ($existingReview) {
+            return redirect()->back()->with('error', 'You have already submitted a review for this product.');
+        }
 
         Review::create([
             'user_id' => Auth::id(),
