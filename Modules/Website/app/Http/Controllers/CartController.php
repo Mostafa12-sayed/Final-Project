@@ -92,7 +92,10 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return redirect()->back();
+        return response()->json([
+            'success' => true,
+            'cart_count' => count(session('cart', [])) // This is crucial
+        ]);
     }
     public function index()
     {

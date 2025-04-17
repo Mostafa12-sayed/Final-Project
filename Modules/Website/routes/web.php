@@ -6,6 +6,7 @@ use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\CategoryController;
+use Modules\Website\app\Http\Controllers\ComparerController;
 use Modules\Website\app\Http\Controllers\OrderController;
 use Modules\Website\app\Http\Controllers\WishlistController;
 
@@ -77,3 +78,7 @@ Route::get('/my-orders/{id}', [OrderController::class, 'details'])->name('order.
 Route::get('/track-order', [OrderController::class, 'track'])->name('order.track');
 Route::get('/track-order/{order}', [OrderController::class, 'trackOrder'])->name('order.track.show');
 });
+
+Route::post('/compare/add/{product}', [ComparerController::class, 'add'])->name('compare.add');
+Route::get('/compare', [ComparerController::class, 'index'])->name('compare.index');
+Route::delete('/compare/remove/{product}', [ComparerController::class, 'remove'])->name('compare.remove');

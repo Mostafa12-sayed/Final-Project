@@ -166,7 +166,7 @@
 
                     // Show success message
                     if (response.success) {
-                        alert('Product added to cart successfully!');
+                        // alert('Product added to cart successfully!');
                      } 
                     //  else {
                     //     alert('Failed to add product to cart: ' + (response.message || 'Unknown error'));
@@ -174,7 +174,20 @@
                     var toastEl = document.getElementById('add_to_cart_toast');
                     var toast = new bootstrap.Toast(toastEl);
                     toast.show();
-                },
+                    if (response.cart_count !== undefined) {
+                        $('.cart_count')
+                            .attr('data-count', response.cart_count)
+                            .find('span')
+                            .text(response.cart_count);
+                    } else {
+                        // Fallback: increment client-side
+                        var cartCountElement = $('.cart_count');
+                        var currentCount = parseInt(cartCountElement.data('count')) || 0;
+                        cartCountElement
+                            .attr('data-count', currentCount + 1)
+                            .find('span')
+                            .text(currentCount + 1);
+                    } },
                 error: function (xhr) {
                     // Re-enable button
                     button.prop('disabled', false);
@@ -291,9 +304,48 @@
             });
         });
 
-        // Your existing Add to Cart code can stay the same or be adjusted similarly
-        // ...
+
     });
+
+
+
+    // ajax for compare
+    $(document).ready(function() {
+    $('.add-to-compare').on('click', function(e) {
+        e.preventDefault();
+        var button = $(this);
+        var productId = button.data('product-id');
+        
+        $.ajax({
+            url: '/compare/add/' + productId,
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Update compare count in navbar
+                    $('.compare-count').text(response.compare_count);
+                    
+                    Toastify({
+                        text: response.message,
+                        duration: 3000,
+                        className: "bg-success"
+                    }).showToast();
+                } else {
+                    Toastify({
+                        text: response.message,
+                        duration: 3000,
+                        className: "bg-danger"
+                    }).showToast();
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
 </script>
 
 
