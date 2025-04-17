@@ -45,7 +45,7 @@ Route::post('/products/{product}/reviews', [ProductController::class, 'storeRevi
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/add/{product}', [CartController::class, 'add_ajax'])->name('cart.add_ajax');
+Route::post('/cart/add/aj/{product}', [CartController::class, 'add_ajax'])->name('cart.add_ajax');
 Route::post('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
 //Wishlist Routes
