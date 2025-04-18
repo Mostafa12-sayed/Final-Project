@@ -16,7 +16,6 @@ class ProductFactory extends Factory
         $name = $this->faker->unique()->words(3, true); // Generate unique random name
 
         return [
-
             'name' => $name,
             'description' => $this->faker->sentence(),
             'slug' => Str::slug($name), // Slug from the same name
@@ -25,7 +24,6 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 1000),
             'discount' => $this->faker->boolean(30) ? $this->faker->randomFloat(2, 1, 100) : 0,
             'gallery' => $this->faker->randomElements([
-
                 'assets/img/product/01.png',
                 'assets/img/product/02.png',
                 'assets/img/product/03.png',
@@ -36,7 +34,6 @@ class ProductFactory extends Factory
                 'assets/img/product/08.png',
                 'assets/img/product/09.png',
                 'assets/img/product/10.png',
-
             ], 3, false),
             'image' => $this->faker->randomElement([
                 'assets/img/product/01.png',
@@ -83,7 +80,6 @@ class ProductFactory extends Factory
             'quantity' => $this->faker->numberBetween(1, 20),
             'options' => json_encode([]),
             'status' => $this->faker->randomElement(['active', 'draft', 'archived']),
-
         ];
     }
 }

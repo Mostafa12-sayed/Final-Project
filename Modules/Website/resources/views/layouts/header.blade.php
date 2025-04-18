@@ -27,6 +27,7 @@
                         </div>
                     </div>
                     <div class="d-none d-lg-block col-lg-6 col-xl-5">
+                        
                         <div class="header-middle-search">
                             <form action="#">
                                 <div class="search-content">
@@ -89,7 +90,7 @@
                                 </li>
                                 <li class="dropdown-cart">
                                     <a href="{{ route('cart.index') }}" class="shop-cart list-item">
-                                        <div class="list-item-icon cart_count" data-count="{{ count(session('cart', [])) }}">
+                                        <div class="list-item-icon">
                                             <i class="far fa-shopping-bag"></i><span>{{ count(session('cart', [])) }}</span>
                                         </div>
                                         <div class="list-item-info">
@@ -167,7 +168,7 @@
         <div class="main-navigation">
             <nav class="navbar navbar-expand-lg">
                 <div class="container position-relative">
-                    <a class="navbar-brand" href="{{ route('home') }}">
+                    <a class="navbar-brand" href="index-2.html">
                         <img src="assets/img/logo/logo.png" class="logo-scrolled" alt="logo">
                     </a>
                     <div class="category-all">
@@ -270,7 +271,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="offcanvas-body" style="gap: 0px;">
+                        <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-end flex-grow-1">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('home') }}">Home</a>
@@ -484,16 +485,22 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link " href="{{ route('compare.index') }}" >Compare</a>
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Blog</a>
+                                    <ul class="dropdown-menu fade-down">
+                                        <li><a class="dropdown-item" href="blog-grid.html">Blog Grid</a></li>
+                                        <li><a class="dropdown-item" href="blog-grid-sidebar.html">Blog Grid Sidebar</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
+                                        <li><a class="dropdown-item" href="blog-single-sidebar.html">Blog Single
+                                                Sidebar</a></li>
+                                    </ul>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('contact.index') }}">Contact</a></li>
                             </ul>
                             <!-- nav-right -->
                             <div class="nav-right">
-                                <div class="search-content">
-                                    @livewire('search-products')
-                                </div>
-                                <a class="nav-right-link" href="{{ route('order.track') }}"><i class="fal fa-truck-fast"></i>Track My Order</a>
+                                <a class="nav-right-link" href="#"><i class="fal fa-star"></i> Recently Viewed</a>
+                                <a class="nav-right-link" href="{{ route('order.track') }}"><i class="fal fa-truck-fast"></i> Track My Order</a>
                             </div>
                         </div>
                     </div>
@@ -504,17 +511,6 @@
 
     </header>
     <!-- header area end -->
-
-        <!-- mobile popup search -->
-        <div class="search-popup">
-        <button class="close-search"><span class="far fa-times"></span></button>
-        <form action="#">
-            <div class="search-content">
-                @livewire('search-products')
-            </div>
-        </form>
-    </div>
-    <!-- mobile popup search end -->
 
     <script>
     // Wait for the DOM to be fully loaded

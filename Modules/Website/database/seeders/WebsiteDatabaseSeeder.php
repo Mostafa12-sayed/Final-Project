@@ -6,7 +6,6 @@ use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\Seeder;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Category;
-use Modules\Website\app\Models\HeroSections;
 use Modules\Website\app\Models\Stores;
 use Illuminate\Support\Str;
 
@@ -107,6 +106,5 @@ class WebsiteDatabaseSeeder extends Seeder
 
         // Step 3: Create 10 stores
         // Stores::factory()->count(15)->create();
-        // HeroSections::factory()->count(6)->create();
     }
 }
