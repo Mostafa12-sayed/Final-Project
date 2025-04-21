@@ -118,7 +118,7 @@
                                                             <th>Quantity</th>
                                                             <th>Price</th>
                                                             <th>Text</th>
-                                                            <th>Amount</th>
+                                                            <th>Total</th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
@@ -142,10 +142,11 @@
                                                             </td>
                                                             <td>${{$item->quantity}}</td>
                                                             <td>${{$item->price}}</td>
-                                                            <td> ${{$item->product->tax * $item->price * $item->quantity}}</td>
+                                                            <td> ${{ $item->product->price * $item->product->tax}}</td>
                                                             <td>
-                                                                 ${{$item->price * $item->quantity + $item->product->tax * $item->price * $item->quantity}}
+                                                                 ${{($item->product->price * $item->quantity) + ($item->product->price * $item->product->tax)}}
                                                             </td>
+
                                                        </tr>
                                                         @endforeach
 
