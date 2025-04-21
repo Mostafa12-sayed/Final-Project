@@ -48,7 +48,7 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $order = $this->order->with('items' ,'store', 'user', 'address')->findOrFail($id);
+        $order = $this->order->with('items.product' ,'store', 'user', 'address')->findOrFail($id);
 
         if(auth('admin')->user()->store_id == $order->store_id || auth('admin')->user()->type == 'admin'){
             return view('dashboard::order.order-detail' , compact('order'));
@@ -86,7 +86,7 @@ class OrdersController extends Controller
         $order = $this->order->find($id);
         $order->status = 'accepted';
         $order->save();
-        return redirect()->back()->with('success', 'Order accepted successfully');
+        return redirect()->back()->with( 'Order accepted successfully');
     }
 
     public function editStatus($id , $status){
