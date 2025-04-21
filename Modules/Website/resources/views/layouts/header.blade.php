@@ -277,99 +277,8 @@
                                     <a class="nav-link " href="{{ route('home') }}">Home</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('about.index') }}">About</a></li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pages</a>
-                                    <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="about.html">About Us</a></li>
-                                        <li><a class="dropdown-item" href="brand.html">Brands</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('category.index') }}">Category</a></li>
-                                        <!-- <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Category</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('category.index') }}">Category One</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('category.index') }}">Category Two</a>
-                                                </li>
-                                            </ul>
-                                        </li> -->
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="login.html">Login</a></li>
-                                                <li><a class="dropdown-item" href="register.html">Register</a></li>
-                                                <li><a class="dropdown-item" href="forgot-password.html">Forgot
-                                                        Password</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Extra Pages</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="coming-soon.html">Coming Soon</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="return.html">Return Policy</a></li>
-                                                <li><a class="dropdown-item" href="terms.html">Terms Of Service</a></li>
-                                                <li><a class="dropdown-item" href="privacy.html">Privacy Policy</a></li>
-                                                <li><a class="dropdown-item" href="mail-success.html">Mail Success</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="dropdown-item" href="team.html">Our Team</a></li>
-                                        <li><a class="dropdown-item" href="affiliate.html">Affiliate</a></li>
-                                        <li><a class="dropdown-item" href="gallery.html">Our Gallery</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('contact.index') }}">Contact Us</a></li>
-                                        <li><a class="dropdown-item" href="help.html">Help</a></li>
-                                        <li><a class="dropdown-item" href="invoice.html">Invoices</a></li>
-                                        <li><a class="dropdown-item" href="faq.html">Faq</a></li>
-                                        <li><a class="dropdown-item" href="testimonial.html">Testimonials</a></li>
-                                        <li><a class="dropdown-item" href="404.html">404 Error</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Account</a>
-                                    <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="user-dashboard.html">Dashboard</a></li>
-                                        <li><a class="dropdown-item" href="{{route('profile.index')}}">My Profile</a></li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Orders</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('order.list') }}">Orders List</a></li>
-                                                <li><a class="dropdown-item">Order Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="dropdown-item" href="wishlist.html">My Wishlist</a></li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Address</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="address-list.html">Address List</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="add-address.html">Add Address</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Support Tickets</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="support-ticket.html">Support
-                                                        Tickets</a></li>
-                                                <li><a class="dropdown-item" href="ticket-detail.html">Ticket
-                                                        Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="dropdown-item" href="{{ route('order.track') }}">Track My Order</a></li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Payment Methods</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="payment-method.html">Payment
-                                                        Methods</a></li>
-                                                <li><a class="dropdown-item" href="add-payment.html">Add Payment</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="dropdown-item" href="user-notification.html">Notification</a></li>
-                                        <li><a class="dropdown-item" href="user-message.html">Messages</a></li>
-                                        <li><a class="dropdown-item" href="user-setting.html">Settings</a></li>
-                                    </ul>
-                                </li>
+
+
                                 <li class="nav-item mega-menu dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Menu</a>
                                     <div class="dropdown-menu fade-down">
@@ -467,21 +376,9 @@
                                         </li> -->
                                         <li><a class="dropdown-item" href="{{ route('products') }}">Products</a></li>
                                         <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle" href="#">Shop List</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="shop-list.html">Shop List One</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="shop-list-2.html">Shop List Two</a>
-                                                </li>
-                                            </ul>
                                         </li>
-                                        <li><a class="dropdown-item" href="shop-search.html">Shop Search</a></li>
-                                        <li><a class="dropdown-item" href="shop-cart.html">Shop Cart</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('order.checkout') }}">Checkout
-                                                Complete</a></li>
-                                        <li><a class="dropdown-item" href="shop-single.html">Shop Single</a></li>
-                                        <li><a class="dropdown-item" href="shop-compare.html">Shop Compare</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('cart.index') }}">Shop Cart</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('compare.index') }}">Shop Compare</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -499,8 +396,15 @@
                             </ul>
                             <!-- nav-right -->
                             <div class="nav-right">
-                                <a class="nav-right-link" href="#"><i class="fal fa-star"></i> Recently Viewed</a>
-                                <a class="nav-right-link" href="{{ route('order.track') }}"><i class="fal fa-truck-fast"></i> Track My Order</a>
+                                <div class="search-content">
+                                    @livewire('search-products')
+                                </div>
+                                <a class="nav-right-link" href="{{ route('order.track') }}"><i class="fal fa-truck-fast"></i>Track My Order</a>
+                                <a href="{{ route('cart.index') }}" class="shop-cart list-item">
+                                        <div class="list-item-icon cart_count " data-count="{{ count(session('cart', [])) }}">
+                                            <i class="far fa-shopping-bag" style="color: black;" ></i><span style="padding: 2px; background-color: #03a297; border-radius: 50%;">{{ count(session('cart', [])) }}</span>
+                                        </div>
+                                </a>
                             </div>
                         </div>
                     </div>

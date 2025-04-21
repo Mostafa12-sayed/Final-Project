@@ -16,7 +16,7 @@
                             <ul class="footer-contact">
                                 <li><a href="tel:{{ \App\Helpers\Site_Info::site_info()->phone1 }}"><i class="far fa-phone"></i>+2 {{ \App\Helpers\Site_Info::site_info()->phone1 }}</a></li>
                                 <li><i class="far fa-map-marker-alt"></i>{{ \App\Helpers\Site_Info::site_info()->address }}</li>
-                                <li><a href=""><i class="far fa-envelope"></i><span class="" >{{ \App\Helpers\Site_Info::site_info()->email }}</span></a></li>
+                                <li><a href="mailto:{{ \App\Helpers\Site_Info::site_info()->email }}"><i class="far fa-envelope"></i><span class="" >{{ \App\Helpers\Site_Info::site_info()->email }}</span></a></li>
                                 <li><i class="far fa-clock"></i>{{ \App\Helpers\Site_Info::site_info()->opening_time }}</li>
                             </ul>
                         </div>
@@ -26,12 +26,12 @@
                             <h4 class="footer-widget-title">Quick Links</h4>
                             <ul class="footer-list">
                                 <li><a href="{{route('about.index')}}">About Us</a></li>
-                                <li><a href="help.html">Delivery Info</a></li>
+                                <li><a class="nav-right-link" href="{{ route('order.track') }}">Track My Order</a>
+                                </li>
                                 <li><a href="{{route('contact.index')}}">Contact Us</a></li>
-                                <li><a href="blog.html">Update News</a></li>
-                                <li><a href="testimonial.html">Our Testimonials</a></li>
-                                <li><a href="terms.html">Terms Of Service</a></li>
-                                <li><a href="privacy.html">Privacy policy</a></li>
+                                <li><a href="{{route('products')}}">Products</a></li>
+                                <li><a href="{{route('cart.index')}}">shop Cart</a></li>
+                                <li><a href="{{route('compare.index')}}">Compare</a></li>
                             </ul>
                         </div>
                     </div>
