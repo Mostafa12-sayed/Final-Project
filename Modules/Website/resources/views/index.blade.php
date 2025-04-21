@@ -60,45 +60,6 @@
     <!-- category area end-->
 
 
-    <!-- small banner -->
-    <!-- <div class="small-banner pb-100">
-        <div class="container wow fadeInUp" data-wow-delay=".25s">
-            <div class="row g-4">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="banner-item">
-                        <img src="assets/img/banner/mini-banner-1.jpg" alt="">
-                        <div class="banner-content">
-                            <p>Sanitizer</p>
-                            <h3>Hand Sanitizer <br> Collectons</h3>
-                            <a href="#">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="banner-item">
-                        <img src="assets/img/banner/mini-banner-2.jpg" alt="">
-                        <div class="banner-content">
-                            <p>Hot Sale</p>
-                            <h3>Face Wash Sale <br> Collections</h3>
-                            <a href="#">Discover Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="banner-item">
-                        <img src="assets/img/banner/mini-banner-3.jpg" alt="">
-                        <div class="banner-content">
-                            <p>Facial Mask</p>
-                            <h3>Facial Mask Sale <br> Up To <span>50%</span> Off</h3>
-                            <a href="#">Discover Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- small banner end -->
-
 
     <!-- feature area -->
     <div class="feature-area pb-100">
@@ -431,7 +392,7 @@
                                 <div class="deal-img">
                                     <img src="{{$product->image}}" alt="">
                                     <div class="deal-discount">
-                                        <span>{{round($product->discount, 1)}}%</span>
+                                        <span style="font-size: 30px;">{{round($product->discount, 1)}}%</span>
                                         <span>off</span>
                                     </div>
                                 </div>
@@ -630,7 +591,7 @@
             modal.show();
             sessionStorage.setItem('popupShown', 'true');
         }
-    }, 2000); // 2-second delay
+    }, 1500);
 }
     });
 </script>

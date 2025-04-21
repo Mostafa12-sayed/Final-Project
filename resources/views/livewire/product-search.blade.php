@@ -25,11 +25,11 @@
                 @endif
                 <!-- Product Details -->
                 <div class="flex-1">
-                    <span class="block font-medium text-sm">{{ $product['name'] }}</span>
+                    <span class="block font-medium text-sm">{{ $product['name'] }} -></span>
                     <span class="block text-xs text-gray-500">
                         {{ $product['category_name'] ?? 'No Category' }} 
                         @if(isset($product['store']['name']) && $product['store']['name'])
-                            ({{ $product['store']['name'] }})
+                            ({{ $product ['store']['name'] }})
                         @endif
                     </span>
                 </div>
