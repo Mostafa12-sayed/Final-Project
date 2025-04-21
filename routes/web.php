@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Password;
 
 
 
-//email verification routs//
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 Route::get('/home', [WebsiteController::class, 'index'])->name('home');
 
+//email verification routs//
 Auth::routes(['verify' => true]);
 Route::get('/email/verify', function (Request $request) {
     return $request->user()->hasVerifiedEmail()

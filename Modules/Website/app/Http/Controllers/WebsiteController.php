@@ -12,7 +12,7 @@ use Modules\Website\app\Models\ContactUs;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
 use App\Mail\ContactMail;
-
+use Modules\Website\app\Models\HeroSections;
 
 class WebsiteController extends Controller
 {
@@ -37,7 +37,8 @@ class WebsiteController extends Controller
 
         $top_rated=$products->sortByDesc('rating')->take(3);
 
-        $on_sale_products= Product::where('status', 'active')->where('discount', '>', 0)->inRandomOrder()->take(15)->orderBy('discount', 'desc')->get();
+        $on_sale_products= Product::where('status', 'active')->where('discount', '>', 0)->where('stock', '>', 0)->where('status', 'active')
+        ->where('expiry_date', '>', now())->inRandomOrder()->take(10)->orderBy('discount', 'desc')->get();
 
         $top_products = $products->sortByDesc(function ($product) {
             return $product->trending_items;
@@ -48,7 +49,9 @@ class WebsiteController extends Controller
             return $product->trending_items;
         })->take(20);
         $stores=Stores::paginate(6);
-        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated', 'stores','top_products2'));
+
+        $heros=HeroSections::paginate(7);
+        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated', 'stores','top_products2', 'heros'));
     }
 
     /**
