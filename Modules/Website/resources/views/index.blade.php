@@ -6,22 +6,24 @@
     <!-- hero slider -->
     <div class="hero-section hs-2">
         <div class="hero-slider owl-carousel owl-theme">
-            @foreach ($heros as $hero)
             <div class="hero-single">
-                <div class="hero-single-bg" style="background-image: url({{ $hero->image }})"></div>
+                <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-1.jpg)"></div>
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="hero-content">
-                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">{{$hero->patch}}</h6>
+                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Easy Health Care</h6>
                                 <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                    {{ $hero->title }}
+                                    Medicine & <span>Health Care</span> For Your Family in city
                                 </h1>
                                 <p data-animation="fadeInLeft" data-delay=".75s">
-                                    {{ $hero->description }}
+                                    There are many variations of passages orem psum available but the majority
+                                    have suffered alteration in some form by injected humour.
                                 </p>
                                 <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                    <a href="{{ route('products') }}" class="theme-btn">Shop Now<i
+                                    <a href="shop-grid.html" class="theme-btn">Shop Now<i
+                                            class="fas fa-arrow-right"></i></a>
+                                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i
                                             class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -29,7 +31,56 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            <div class="hero-single">
+                <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-2.jpg)"></div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="hero-content">
+                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Easy Health Care</h6>
+                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                                    Medicine & <span>Health Care</span> For Your Family in city
+                                </h1>
+                                <p data-animation="fadeInLeft" data-delay=".75s">
+                                    There are many variations of passages orem psum available but the majority
+                                    have suffered alteration in some form by injected humour.
+                                </p>
+                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                                    <a href="shop-grid.html" class="theme-btn">Shop Now<i
+                                            class="fas fa-arrow-right"></i></a>
+                                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-single">
+                <div class="hero-single-bg" style="background-image: url(assets/img/hero/slider-3.jpg)"></div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="hero-content">
+                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">Easy Health Care</h6>
+                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+                                    Medicine & <span>Health Care</span> For Your Family in city
+                                </h1>
+                                <p data-animation="fadeInLeft" data-delay=".75s">
+                                    There are many variations of passages orem psum available but the majority
+                                    have suffered alteration in some form by injected humour.
+                                </p>
+                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                                    <a href="shop-grid.html" class="theme-btn">Shop Now<i
+                                            class="fas fa-arrow-right"></i></a>
+                                    <a href="about.html" class="theme-btn theme-btn2">Learn More<i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- hero slider end -->
@@ -121,6 +172,11 @@
     <div class="product-area pb-100">
         <div class="container">
             <div class="row g-4">
+                <!-- <div class="col-lg-3">
+                        <div class="product-banner wow fadeInRight" data-wow-delay=".25s" style="margin-top: 5rem;">
+                                <img src="assets/img/banner/product-banner.jpg" alt="">
+                        </div>
+                    </div> -->
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-12 wow fadeInDown" data-wow-delay=".25s">
@@ -130,7 +186,7 @@
                             </div>
                             <div class="item-tab">
                                 <ul class="nav nav-pills mt-40 mb-50" id="item-tab" role="tablist" style="gap: 10px; justify-content: unset; margin-bottom: 10px;">
-                                    @foreach($categories->take(8) as $category)
+                                    @foreach($categories->take(6) as $category)
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link {{ $loop->first ? 'active' : '' }}"
                                             id="item-tab{{ $loop->iteration }}"
@@ -149,7 +205,7 @@
                         </div>
                     </div>
                     <div class="tab-content wow fadeInUp" data-wow-delay=".25s" id="item-tabContent">
-                        @foreach($categories->take(8) as $category)
+                        @foreach($categories->take(6) as $category)
                         <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
                             id="pill-item-tab{{ $loop->iteration }}"
                             role="tabpanel"
@@ -189,12 +245,8 @@
                                                                     @endauth
                                                                      fa-heart"></i></a>
                                                         </a>
-                                                        <a href="{{ route('compare.index') }}" class="add-to-compare" 
-                                                            data-product-id="{{ $product->id }}" 
-                                                            data-bs-placement="top" 
-                                                            data-tooltip="tooltip" 
-                                                            title="Add To Compare">
-                                                            <i class="fas fa-exchange-alt"></i>
+                                                        <a href="#" data-bs-placement="top" data-tooltip="tooltip" title="Add To Compare">
+                                                            <i class="far fa-arrows-repeat"></i>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -266,13 +318,8 @@
                                                                     far
                                                                     @endauth
                                                                     fa-heart"></i></a>
-                                                                    <a href="{{ route('compare.index') }}" class="add-to-compare" 
-                                                            data-product-id="{{ $product->id }}" 
-                                                            data-bs-placement="top" 
-                                                            data-tooltip="tooltip" 
-                                                            title="Add To Compare">
-                                                            <i class="fas fa-exchange-alt"></i>
-                                                        </a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                            class="far fa-arrows-repeat"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -320,13 +367,8 @@
                                                                     far
                                                                     @endauth
                                                                      fa-heart"></i></a>
-                                                                     <a href="{{ route('compare.index') }}" class="add-to-compare" 
-                                                            data-product-id="{{ $product->id }}" 
-                                                            data-bs-placement="top" 
-                                                            data-tooltip="tooltip" 
-                                                            title="Add To Compare">
-                                                            <i class="fas fa-exchange-alt"></i>
-                                                        </a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                            class="far fa-arrows-repeat"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +424,7 @@
                                         <p>{{$product->ddescription}}</p>
                                     </div>
                                     <div class="deal-countdown">
-                                        <div class="countdown" data-countdown="{{$product->expiry_date}}"></div>
+                                        <div class="countdown" data-countdown="2025/12/30"></div>
                                     </div>
                                     <a href="{{ route('product.show', $product->slug) }}" class="theme-btn theme-btn2">Shop Now <i
                                             class="fas fa-arrow-right"></i></a>
@@ -544,36 +586,6 @@
 
 
 
-        <!-- modal popup banner  -->
-	<div class="modal popup-banner fade" id="popup-banner" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal"><i class="far fa-xmark"></i></button>
-                <div class="modal-body">
-                    @foreach ($on_sale_products->take(1) as $product)
-                    <div class="popup-banner-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="popup-banner-img">
-                                    <img src="{{ $product->image }}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 align-self-center">
-                                <div class="popup-banner-info">
-                                    <h6>{{round(now()->diffInDays($product->expiry_date, false))}} Days Left !</h6>
-                                    <h2>Hurry Up! Get Up To <span>{{ round(($product->discount / $product->price) * 100) }}% </span> Discount</h2>
-                                    <p>There are many variations the majority have suffered alteration in some form injected words look even slightly believable.</p>
-                                    <a href="{{ route('product.show', $product->slug) }}" class="theme-btn">Start Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal popup banner end -->
 
 
 

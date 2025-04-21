@@ -6,7 +6,6 @@ use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\CategoryController;
-use Modules\Website\app\Http\Controllers\ComparerController;
 use Modules\Website\app\Http\Controllers\OrderController;
 use Modules\Website\app\Http\Controllers\WishlistController;
 
@@ -45,7 +44,7 @@ Route::post('/products/{product}/reviews', [ProductController::class, 'storeRevi
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/add/aj/{product}', [CartController::class, 'add_ajax'])->name('cart.add_ajax');
+// Route::post('/cart/add/{product}', [CartController::class, 'add_ajax'])->name('cart.add_ajax');
 Route::post('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
 //Wishlist Routes
@@ -78,7 +77,9 @@ Route::get('/my-orders/{id}', [OrderController::class, 'details'])->name('order.
 Route::get('/track-order', [OrderController::class, 'track'])->name('order.track');
 Route::get('/track-order/{order}', [OrderController::class, 'trackOrder'])->name('order.track.show');
 });
+
 //Compare Routes
 Route::post('/compare/add/{product}', [ComparerController::class, 'add'])->name('compare.add');
 Route::get('/compare', [ComparerController::class, 'index'])->name('compare.index');
 Route::delete('/compare/remove/{product}', [ComparerController::class, 'remove'])->name('compare.remove');
+

@@ -18,8 +18,9 @@ class ContactUs extends Model
         'email',
         'message',
         'subject',
+        'reply'
     ];
-    
+
     protected static function newFactory(): ContactUsFactory
     {
         //return ContactUsFactory::new();
