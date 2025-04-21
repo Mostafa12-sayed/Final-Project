@@ -171,10 +171,10 @@
                             <div class="shop-sort-box">
                                 <div class="shop-sorty-label">Sort By:</div>
                                 <select class="select" onchange="location = this.value;">
-                                    <option value="{{ route('products') }}" {{ request('sort') == 'default' ? 'selected' : '' }}>Default Sorting</option>
-                                    <option value="{{ route('products', ['sort' => 'latest']) }}" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest Items</option>
-                                    <option value="{{ route('products', ['sort' => 'price_low']) }}" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price - Low To High</option>
-                                    <option value="{{ route('products', ['sort' => 'price_high']) }}" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price - High To Low</option>
+                                    <option value="{{ route('products') }}">Default Sorting</option>
+                                    <option value="{{ route('products', ['sort' => 'latest']) }}">Latest Items</option>
+                                    <option value="{{ route('products', ['sort' => 'price_low']) }}">Price - Low To High</option>
+                                    <option value="{{ route('products', ['sort' => 'price_high']) }}">Price - High To Low</option>
                                 </select>
                                 <div class="shop-sort-show">
                                     Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
