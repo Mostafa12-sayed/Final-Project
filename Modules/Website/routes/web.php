@@ -77,3 +77,9 @@ Route::get('/my-orders/{id}', [OrderController::class, 'details'])->name('order.
 Route::get('/track-order', [OrderController::class, 'track'])->name('order.track');
 Route::get('/track-order/{order}', [OrderController::class, 'trackOrder'])->name('order.track.show');
 });
+
+//Compare Routes
+Route::post('/compare/add/{product}', [ComparerController::class, 'add'])->name('compare.add');
+Route::get('/compare', [ComparerController::class, 'index'])->name('compare.index');
+Route::delete('/compare/remove/{product}', [ComparerController::class, 'remove'])->name('compare.remove');
+
