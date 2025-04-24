@@ -12,6 +12,9 @@ use Modules\Website\app\Models\OrderAddress;
 use Modules\Website\app\Models\Orderitem;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
+use Modules\Website\app\Models\OrderAddress;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
+
 
 class OrderController extends Controller
 {
@@ -39,7 +42,7 @@ class OrderController extends Controller
             'country' => 'required|string|max:2',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'payment_method' => 'required|in:cod,credit_card,paypal',
+            'payment_method' => 'required|in:cod,paypal',
         ]);
 
         $cart = session()->get('cart', []);
@@ -52,13 +55,15 @@ class OrderController extends Controller
             $cartData = $this->getCartData($cart);
 
             $store = Stores::first();
-            if (! $store) {
+
+            if (!$store) {
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
                 $store = Stores::create([
                     'name' => 'Default Store',
                     'slug' => 'default-store',
                     'status' => 'active',
-                    'admin_id' => 1,
+
+                    'admin_id' => 1
                 ]);
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             }
@@ -69,8 +74,10 @@ class OrderController extends Controller
                 'store_id' => $store->id,
                 'total' => $cartData['total'],
                 'status' => 'pending',
-                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'paid',
-                'number' => 'ORD-'.strtoupper(uniqid()),
+
+                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'pending', // Changed 'unpaid' to 'pending'
+                'number' => 'ORD-' . strtoupper(uniqid()),
+
                 'payment_method' => $request->payment_method,
                 'shipping' => 0,
                 'tax' => $cartData['taxes'],
@@ -107,10 +114,17 @@ class OrderController extends Controller
             ]);
 
             DB::commit();
-            session()->forget('cart');
 
-            return redirect()->route('order.complete', $order->id)
-                ->with('success', 'Order placed successfully!');
+            
+            // Handle different payment methods
+            if ($request->payment_method == 'cod') {
+                session()->forget('cart');
+                return redirect()->route('order.complete', $order->id)
+                       ->with('success', 'Order placed successfully!');
+            } else {
+                return $this->processPaypalPayment($order);
+            }
+
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -118,6 +132,133 @@ class OrderController extends Controller
 
             return back()->withInput()->with('error', 'Order failed: '.$e->getMessage());
         }
+    }
+
+    protected function processPaypalPayment(Order $order)
+    {
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        
+        try {
+            // Get and set access token
+            $token = $provider->getAccessToken();
+            $provider->setAccessToken($token);
+    
+            // Prepare order data
+            $orderData = [
+                "intent" => "CAPTURE",
+                "application_context" => [
+                    "return_url" => route('paypal.success', $order),
+                    "cancel_url" => route('paypal.cancel', $order),
+                    "brand_name" => env('APP_NAME', 'Laravel Store'),
+                    "user_action" => "PAY_NOW",
+                    "shipping_preference" => "NO_SHIPPING"
+                ],
+                "purchase_units" => [
+                    [
+                        "amount" => [
+                            "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                            "value" => number_format($order->total, 2, '.', ''),
+                            "breakdown" => [
+                                "item_total" => [
+                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "value" => number_format($order->total - $order->tax - $order->shipping, 2, '.', '')
+                                ],
+                                "shipping" => [
+                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "value" => number_format($order->shipping, 2, '.', '')
+                                ],
+                                "tax_total" => [
+                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "value" => number_format($order->tax, 2, '.', '')
+                                ]
+                            ]
+                        ],
+                        "reference_id" => $order->number,
+                        "description" => "Order #".$order->number,
+                        "items" => $this->getPaypalOrderItems($order)
+                    ]
+                ]
+            ];
+    
+            Log::debug('PayPal Order Request:', $orderData);
+            $response = $provider->createOrder($orderData);
+            Log::debug('PayPal Order Response:', $response);
+    
+            if (isset($response['id']) && $response['status'] === 'CREATED') {
+                foreach ($response['links'] as $link) {
+                    if ($link['rel'] === 'approve') {
+                        return redirect()->away($link['href']);
+                    }
+                }
+            }
+    
+            throw new \Exception("No approval link found. Response: ".json_encode($response));
+    
+        } catch (\Exception $e) {
+            Log::error("PayPal Error: ".$e->getMessage()."\n".$e->getTraceAsString());
+            return back()->with('error', 'Payment initialization failed: '.$e->getMessage());
+        }
+    }
+    
+    private function getPaypalOrderItems(Order $order)
+    {
+        $items = [];
+        foreach ($order->items as $item) {
+            $items[] = [
+                "name" => $item->product_name,
+                "description" => $item->product_name,
+                "sku" => $item->product_id,
+                "unit_amount" => [
+                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                    "value" => number_format($item->price, 2, '.', '')
+                ],
+                "quantity" => $item->quantity,
+                "category" => "PHYSICAL_GOODS" // or "DIGITAL_GOODS" if applicable
+            ];
+        }
+        return $items;
+    }
+
+    public function paypalSuccess(Request $request, Order $order)
+    {
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        
+        try {
+            $token = $provider->getAccessToken();
+            $provider->setAccessToken($token);
+    
+            $response = $provider->capturePaymentOrder($request->token);
+            Log::debug('PayPal Capture Response:', $response);
+    
+            if (isset($response['status']) && $response['status'] === 'COMPLETED') {
+                $order->update([
+                    'payment_status' => 'paid',
+                    'status' => 'processing',
+                    'paid_at' => now()
+                ]);
+                
+                session()->forget('cart');
+                return redirect()->route('order.complete', $order)
+                       ->with('success', 'Payment completed successfully!');
+            }
+    
+            throw new \Exception("Payment not completed. Status: ".($response['status'] ?? 'unknown'));
+    
+        } catch (\Exception $e) {
+            Log::error("PayPal Capture Error: ".$e->getMessage());
+            $order->update(['payment_status' => 'failed']);
+            return redirect()->route('order.checkout')
+                   ->with('error', 'Payment verification failed: '.$e->getMessage());
+        }
+    }
+
+    public function paypalCancel(Request $request, Order $order)
+    {
+        $order->update(['payment_status' => 'failed']);
+        return redirect()->route('order.checkout')
+            ->with('error', 'You cancelled the PayPal payment.');
     }
 
     public function index()

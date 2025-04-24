@@ -9,6 +9,9 @@ use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
 use Modules\Website\app\Http\Controllers\WishlistController;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +79,13 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/compare/add/{product}', [ComparerController::class, 'add'])->name('compare.add');
 Route::get('/compare', [ComparerController::class, 'index'])->name('compare.index');
 Route::delete('/compare/remove/{product}', [ComparerController::class, 'remove'])->name('compare.remove');
+
+Route::get('/paypal/success/{order}', [OrderController::class, 'paypalSuccess'])->name('paypal.success');
+Route::get('/paypal/cancel/{order}', [OrderController::class, 'paypalCancel'])->name('paypal.cancel');
+Route::get('/test-paypal', function () {
+    $provider = new PayPalClient;
+    $provider->setApiCredentials(config('paypal'));
+    $token = $provider->getAccessToken();
+    
+    return $token ? "PayPal Connected!" : "Failed to connect";
+});
