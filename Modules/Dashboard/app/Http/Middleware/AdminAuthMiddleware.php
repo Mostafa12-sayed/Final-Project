@@ -13,8 +13,8 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-          // تحقق من الجارد admin
-          if (!Auth::guard('admin')->check()) {
+        // تحقق من الجارد admin
+        if (! Auth::guard('admin')->check()) {
             return redirect()->route('admin.login'); // أو مسار تسجيل الدخول
         }
 

@@ -3,7 +3,6 @@
 namespace Modules\Dashboard\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -14,7 +13,6 @@ class ProductRequest extends FormRequest
     {
         $id = $this->route('product') ? $this->route('product')->id : null;
 
-
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -22,7 +20,7 @@ class ProductRequest extends FormRequest
             'wight' => 'nullable|numeric|min:0',
             'tax' => 'nullable|numeric|min:0',
             'discount' => ['nullable', 'numeric', 'min:0'],
-            'code'=> 'required|string|max:255|unique:products,code,'.$id,
+            'code' => 'required|string|max:255|unique:products,code,'.$id,
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'images' => 'nullable|array',
@@ -70,7 +68,7 @@ class ProductRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (!is_null($this->discount) && $this->discount >= $this->price) {
+            if (! is_null($this->discount) && $this->discount >= $this->price) {
                 $validator->errors()->add('discount', 'The discount must be less than the price.');
             }
         });

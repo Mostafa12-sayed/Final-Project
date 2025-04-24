@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('code')->unique();
             $table->string('slug')->unique();
-            $table->foreignId('parent_id')->nullable()->constrained('categories','id')->cascadOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('categories', 'id')->cascadOnDelete();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();

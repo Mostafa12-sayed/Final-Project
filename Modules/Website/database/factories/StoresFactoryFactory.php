@@ -2,7 +2,6 @@
 
 namespace Modules\Website\database\factories;
 
-use \Modules\Website\app\Models\StoresFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Website\app\Models\Stores;
@@ -20,8 +19,8 @@ class StoresFactoryFactory extends Factory
     public function definition(): array
     {
 
-
         $name = $this->faker->unique()->company;
+
         return [
             'admin_id' => 1, // or use an existing admin_id
             'name' => $name,

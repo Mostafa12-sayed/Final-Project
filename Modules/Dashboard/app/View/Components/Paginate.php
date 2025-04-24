@@ -11,6 +11,7 @@ class Paginate extends Component
      * Create a new component instance.
      */
     public $elementPaginate;
+
     public function __construct($items)
     {
         $this->elementPaginate = $items;

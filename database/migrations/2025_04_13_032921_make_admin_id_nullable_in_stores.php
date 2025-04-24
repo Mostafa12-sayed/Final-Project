@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('admin_id')->nullable()->change();
         });
     }
-    
+
     public function down()
     {
         Schema::table('stores', function (Blueprint $table) {

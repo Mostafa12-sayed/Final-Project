@@ -14,11 +14,11 @@ class StoreRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|max:150',
-            'display_name'=>'required|string|max:150',
-            'description'=>'nullable|string|max:150',
-            'role_status'=>'required',
-            'permissions' => 'required|array'
+            'name' => 'required|string|max:150',
+            'display_name' => 'required|string|max:150',
+            'description' => 'nullable|string|max:150',
+            'role_status' => 'required',
+            'permissions' => 'required|array',
         ];
     }
 }

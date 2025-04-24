@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_addresses', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
-    
-                $table->enum('type', ['shipping', 'billing']);
-                $table->string('first_name');
-                $table->string('last_name');
-                $table->string('email')->nullable();
-                $table->string('phone_number');
-                $table->string('street_addresses');
-                $table->char('country' , 2);
-                $table->string('city');
-                $table->string('state')->nullable();
-                $table->string('postal_code')->nullable();
-           
+            $table->id();
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+
+            $table->enum('type', ['shipping', 'billing']);
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->nullable();
+            $table->string('phone_number');
+            $table->string('street_addresses');
+            $table->char('country', 2);
+            $table->string('city');
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+
         });
     }
 

@@ -1,11 +1,11 @@
 <?php
+
 namespace Modules\Dashboard\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Modules\Dashboard\app\Models\Admin;
-
 
 class SellerRejectMail extends Mailable
 {

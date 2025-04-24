@@ -13,17 +13,16 @@ class ProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user=Auth::guard('admin')->user();
+        $user = Auth::guard('admin')->user();
 
         return [
 
-
-            'name' => ['required','string','max:255'],
-            'email' => ['required','string', 'email',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email',
                 Rule::unique('admins', 'email')->ignore($user->id)],
-            'username'=> ['required','string','regex:/^[a-zA-Z][a-zA-Z0-9_]{2,29}$/','max:255', Rule::unique('admins', 'username')->ignore($user->id)],
-            'phone'=> ['nullable' , 'numeric:digits_between:10,12'],
-            'image'=> ['nullable', 'image','mimes:jpeg,png,jpg,gif,svg','max:2048']
+            'username' => ['required', 'string', 'regex:/^[a-zA-Z][a-zA-Z0-9_]{2,29}$/', 'max:255', Rule::unique('admins', 'username')->ignore($user->id)],
+            'phone' => ['nullable', 'numeric:digits_between:10,12'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 
         ];
     }

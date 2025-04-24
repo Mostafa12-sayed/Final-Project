@@ -2,40 +2,37 @@
 
 namespace Modules\Dashboard\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\Dashboard\app\Models\Category;
-use Modules\Website\app\Models\Product;
-use Modules\Dashboard\app\Http\Requests\ProductRequest;
 use App\Helpers\FileHelper;
-use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Modules\Dashboard\app\Http\Requests\ProductRequest;
+use Modules\Dashboard\app\Models\Category;
+use Modules\Website\app\Models\Product;
 
 class ProductController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:admin');
-//        $this->middleware('permission:read-products')->only('index');
+        //        $this->middleware('permission:read-products')->only('index');
         $this->middleware('permission:read-products')->only('index');
-        $this->middleware('permission:create-products')->only(['create','store']);
+        $this->middleware('permission:create-products')->only(['create', 'store']);
         $this->middleware('permission:update-products')->only(['edit', 'update']);
         $this->middleware('permission:delete-products')->only(['destroy']);
 
-
-
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products= Product::with('category:id,name')->paginate(10);
-        return view('dashboard::product.product-list' ,compact('products'));
+        $products = Product::with('category:id,name')->paginate(10);
+
+        return view('dashboard::product.product-list', compact('products'));
     }
 
     /**
@@ -44,8 +41,9 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::select('id', 'name')->get();
-        $product = new Product();
-        return view('dashboard::product.product-add' , compact('categories', 'product'));
+        $product = new Product;
+
+        return view('dashboard::product.product-add', compact('categories', 'product'));
     }
 
     /**
@@ -73,18 +71,18 @@ class ProductController extends Controller
 
             // ✅ إنشاء المنتج
             $product = Product::create([
-                'name'         => $request->name,
-                'description'  => $request->description,
-                'price'        => $request->price,
-                'weight'       => $request->weight,
-                'tax'          => $request->tax,
-                'discount'     => $request->discount,
-                'code'         => $request->code,
-                'quantity'     => $request->quantity,
-                'category_id'  => $request->category_id,
-                'image'        => $firstImage,
-                'gallery'      => json_encode($images),
-                'slug'         => Str::slug($request->name),
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'tax' => $request->tax,
+                'discount' => $request->discount,
+                'code' => $request->code,
+                'quantity' => $request->quantity,
+                'category_id' => $request->category_id,
+                'image' => $firstImage,
+                'gallery' => json_encode($images),
+                'slug' => Str::slug($request->name),
             ]);
 
             if ($product) {
@@ -100,10 +98,10 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             $this->rollbackImage($firstImage, $images);
-            flash()->error('Error: ' . $e->getMessage());
+            flash()->error('Error: '.$e->getMessage());
+
             return back();
         }
-
 
     }
 
@@ -114,7 +112,7 @@ class ProductController extends Controller
     {
         $categories = Category::select('id', 'name')->get();
 
-        return view('dashboard::product.product-add' , compact('categories', 'product'));
+        return view('dashboard::product.product-add', compact('categories', 'product'));
     }
 
     /**
@@ -122,14 +120,15 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-      $categories = Category::select('id', 'name')->get();
+        $categories = Category::select('id', 'name')->get();
 
-        return view('dashboard::product.product-add' , compact('categories', 'product'));    }
+        return view('dashboard::product.product-add', compact('categories', 'product'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductRequest $request,Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $images = [];
         $firstImage = null;
@@ -170,18 +169,18 @@ class ProductController extends Controller
 
             // ✅ تحديث المنتج
             $product->update([
-                'name'         => $request->name,
-                'description'  => $request->description,
-                'price'        => $request->price,
-                'weight'       => $request->weight,
-                'tax'          => $request->tax,
-                'discount'     => $request->discount,
-                'code'         => $request->code,
-                'quantity'     => $request->quantity,
-                'category_id'  => $request->category_id,
-                'image'        => $firstImage,
-                'gallery'      => json_encode($images),
-                'slug'         => Str::slug($request->name),
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'tax' => $request->tax,
+                'discount' => $request->discount,
+                'code' => $request->code,
+                'quantity' => $request->quantity,
+                'category_id' => $request->category_id,
+                'image' => $firstImage,
+                'gallery' => json_encode($images),
+                'slug' => Str::slug($request->name),
             ]);
 
             DB::commit();
@@ -192,7 +191,8 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             $this->rollbackImage($firstImage, $images);
-            flash()->error('Error: ' . $e->getMessage());
+            flash()->error('Error: '.$e->getMessage());
+
             return back();
         }
 
@@ -205,11 +205,12 @@ class ProductController extends Controller
     {
         $product->delete();
         flash()->success('Product deleted successfully.');
+
         return back();
     }
 
-
-    public function rollbackImage($firstimage , $images){
+    public function rollbackImage($firstimage, $images)
+    {
         if (isset($firstimage)) {
             // Delete the main image
             Storage::disk('public')->delete($firstimage);
@@ -226,7 +227,7 @@ class ProductController extends Controller
         $productId = $request->input('product_id');
         $imagePath = $request->input('image_path');
         $product = Product::find($productId);
-        if (!$product) {
+        if (! $product) {
             return response()->json(['success' => false, 'message' => 'Product not found!']);
         }
         $images = json_decode($product->gallery, true);
@@ -237,11 +238,10 @@ class ProductController extends Controller
             unset($images[$key]);
             $product->gallery = json_encode(array_values($images));  // تحديث القيمة
             $product->save();
+
             return response()->json(['success' => true, 'image_id' => $productId]);
         }
 
         return response()->json(['success' => false, 'message' => 'Image not found in product!']);
     }
-
-
 }

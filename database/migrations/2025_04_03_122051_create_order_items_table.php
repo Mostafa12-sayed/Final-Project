@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->unsignedInteger('quantity')->default(1);
             $table->json('options')->nullable();
-            
+
             $table->unique(['order_id', 'product_id']);
         });
     }

@@ -2,11 +2,10 @@
 
 namespace Modules\Website\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Website\Database\factories\WishlistFactory;
 use App\Models\User;
-use Modules\Website\app\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Website\Database\factories\WishlistFactory;
 
 class Wishlist extends Model
 {
@@ -24,12 +23,14 @@ class Wishlist extends Model
 
     protected static function newFactory(): WishlistFactory
     {
-        //return WishlistFactory::new();
+        // return WishlistFactory::new();
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

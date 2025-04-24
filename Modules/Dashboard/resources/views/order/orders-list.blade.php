@@ -12,25 +12,8 @@
                                    <div class="card-body">
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
-                                                  <h4 class="card-title mb-2">Payment Refund</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">490</p>
-                                             </div>
-                                             <div>
-                                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                                       <iconify-icon icon="solar:chat-round-money-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-                         <div class="col-md-6 col-xl-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
                                                   <h4 class="card-title mb-2">Order Cancel</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">241</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('buyer_status', 'cancelled')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -48,7 +31,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Order Shipped</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">630</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'shipping')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -66,7 +49,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Order Delivering</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">170</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'delivering')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -84,7 +67,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Pending Review</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">210</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'pending')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -101,7 +84,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Pending Payment</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">608</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('payment_status', 'pending')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -118,7 +101,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Delivered</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">200</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'completed')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -129,23 +112,7 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="col-md-6 col-xl-3">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
-                                                  <h4 class="card-title mb-2">In Progress</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">656</p>
-                                             </div>
-                                             <div>
-                                                  <div class="avatar-md bg-primary bg-opacity-10 rounded">
-                                                       <iconify-icon icon="solar:inbox-line-broken" class="fs-32 text-primary avatar-title"></iconify-icon>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
+
                     </div>
 
                     <div class="row">

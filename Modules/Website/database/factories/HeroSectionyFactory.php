@@ -17,7 +17,6 @@ class HeroSectionyFactory extends Factory
     public function definition()
     {
 
-
         return [
             'title' => 'Medicine & Health Care For Your Family in city',
             'patch' => 'Easy Health Care',
@@ -30,6 +29,4 @@ class HeroSectionyFactory extends Factory
             ]),
         ];
     }
-
 }
-

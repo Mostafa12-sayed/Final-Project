@@ -23,6 +23,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
     public function showRegistrationForm()
     {
         return view('website::profile.register');
@@ -48,7 +49,6 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -74,7 +74,6 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -85,7 +84,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'user_type' => $data['user_type'],
-            'phone' => $data['phone']
+            'phone' => $data['phone'],
         ]);
 
         // Create store details if user is store owner

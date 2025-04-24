@@ -17,8 +17,8 @@ class AdminRegister extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
-            'store_name'=> 'required|string|max:255',
-            'description'=> 'nullable|string|max:255',
+            'store_name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
             // Add any other fields you need to validate
         ];
     }
@@ -51,7 +51,7 @@ class AdminRegister extends FormRequest
             'address.string' => 'Address must be a string',
             'address.max' => 'Address must not exceed 255 characters',
             'address.required' => 'Address is required',
-            'address.string' => 'Address must be a string', 
+            'address.string' => 'Address must be a string',
             // Add any other custom messages you need
         ];
     }

@@ -2,11 +2,10 @@
 
 namespace Modules\Website\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Website\Database\factories\ReviewFactory;
 use App\Models\User;
-use Modules\Website\app\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Website\Database\factories\ReviewFactory;
 
 class Review extends Model
 {
@@ -14,8 +13,9 @@ class Review extends Model
 
     protected static function newFactory(): ReviewFactory
     {
-        //return ReviewFactory::new();
+        // return ReviewFactory::new();
     }
+
     protected $fillable = ['user_id', 'product_id', 'rating', 'comment'];
 
     public function user()
@@ -27,6 +27,4 @@ class Review extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-
 }
