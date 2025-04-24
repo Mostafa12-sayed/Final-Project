@@ -110,19 +110,15 @@
                            </a>
                            <div class="collapse" id="sidebarOrders">
                                 <ul class="nav sub-navbar-nav">
-
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{route('admin.orders.index')}}">List</a>
                                      </li>
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-detail.html">Details</a>
+                                          <a class="sub-nav-link" href="{{route('admin.orders.index' , ['status' => 'approved'])}}">Orders Accepted</a>
                                      </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-cart.html">Cart</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
-                                     </li>
+                                    <li class="sub-nav-item">
+                                        <a class="sub-nav-link" href="{{route('admin.orders.index' , ['status' => 'rejected'])}}">Orders Rejected</a>
+                                    </li>
                                 </ul>
                            </div>
                       </li>
@@ -309,11 +305,6 @@
                                             </li>
                                         @endif
 
-                                    @if(auth()->guard('admin')->user()->hasPermission('create-sellers'))
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="{{ route('admin.sellers.create') }}">Create</a>
-                                     </li>
-                                        @endif
                                 </ul>
                            </div>
                       </li>

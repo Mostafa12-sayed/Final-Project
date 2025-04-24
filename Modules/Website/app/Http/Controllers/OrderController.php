@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Website\app\Models\Order;
+use Modules\Website\app\Models\OrderAddress;
 use Modules\Website\app\Models\Orderitem;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
-use Modules\Website\app\Models\OrderAddress;
 
 class OrderController extends Controller
 {
@@ -21,8 +21,9 @@ class OrderController extends Controller
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
-    
+
         $cartData = $this->getCartData($cart);
+
         return view('website::order.checkout', compact('cart', 'cartData'));
     }
 
@@ -49,18 +50,18 @@ class OrderController extends Controller
         DB::beginTransaction();
         try {
             $cartData = $this->getCartData($cart);
-            
+
             $store = Stores::first();
-        if (!$store) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            $store = Stores::create([
-                'name' => 'Default Store',
-                'slug' => 'default-store',
-                'status' => 'active',
-                'admin_id' => 1
-            ]);
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        }
+            if (! $store) {
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+                $store = Stores::create([
+                    'name' => 'Default Store',
+                    'slug' => 'default-store',
+                    'status' => 'active',
+                    'admin_id' => 1,
+                ]);
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            }
 
             // Create order
             $order = Order::create([
@@ -69,7 +70,7 @@ class OrderController extends Controller
                 'total' => $cartData['total'],
                 'status' => 'pending',
                 'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'paid',
-                'number' => 'ORD-' . strtoupper(uniqid()),
+                'number' => 'ORD-'.strtoupper(uniqid()),
                 'payment_method' => $request->payment_method,
                 'shipping' => 0,
                 'tax' => $cartData['taxes'],
@@ -107,94 +108,92 @@ class OrderController extends Controller
 
             DB::commit();
             session()->forget('cart');
-            
+
             return redirect()->route('order.complete', $order->id)
-                   ->with('success', 'Order placed successfully!');
+                ->with('success', 'Order placed successfully!');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Order failed: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Order failed: ' . $e->getMessage());
+            Log::error('Order failed: '.$e->getMessage());
+
+            return back()->withInput()->with('error', 'Order failed: '.$e->getMessage());
         }
     }
 
     public function index()
     {
         $orders = Order::where('user_id', Auth::id())
-                   ->with(['items.product']) 
-                   ->latest()
-                   ->paginate(10);
-        
+            ->with(['items.product'])
+            ->latest()
+            ->paginate(10);
+
         return view('website::order.list', compact('orders'));
     }
-    
+
     public function details($id)
     {
         $order = Order::with([
-                'items.product', 
-            ])
+            'items.product',
+        ])
             ->where('user_id', Auth::id())
             ->findOrFail($id);
-        
+
         return view('website::order.details', compact('order'));
     }
-   
-       public function complete($id)
-       {
-           $order = Order::findOrFail($id);
-           
-           if ($order->user_id != Auth::id()) {
-               return redirect()->route('home')->with('error', 'Unauthorized access.');
-           }
-   
-           return view('website::order.complete', compact('order'));
-       }
 
+    public function complete($id)
+    {
+        $order = Order::findOrFail($id);
 
-   
-       public function track(Request $request)
-       {
-           $order = null;
-           
-           if ($request->has('order_number')) {
-               $order = Order::where('number', $request->order_number)
-                            ->where('user_id', auth()->id())
-                            ->first();
-           }
-       
-           return view('website::order.track', compact('order'));
-       }
-       
-       public function trackOrder(Order $order)
-       {
-           if ($order->user_id !== auth()->id()) {
-               abort(403, 'Unauthorized');
-           }
-       
-           return view('website::order.track', compact('order'));
-       }
-
-       public function getShippingMethodAttribute()
-        {
-            return $this->shipping_method ?? 'Standard Shipping';
+        if ($order->user_id != Auth::id()) {
+            return redirect()->route('home')->with('error', 'Unauthorized access.');
         }
 
-        public function getExpectedDeliveryDateAttribute()
-        {
-            if ($this->status === 'completed' && $this->delivered_at) {
-                return $this->delivered_at;
-            }
-    
-                return $this->created_at->addDays(
-                    $this->shipping_method === 'express' ? 3 : 7
-                );
+        return view('website::order.complete', compact('order'));
+    }
+
+    public function track(Request $request)
+    {
+        $order = null;
+
+        if ($request->has('order_number')) {
+            $order = Order::where('number', $request->order_number)
+                ->where('user_id', auth()->id())
+                ->first();
         }
 
+        return view('website::order.track', compact('order'));
+    }
+
+    public function trackOrder(Order $order)
+    {
+        if ($order->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        return view('website::order.track', compact('order'));
+    }
+
+    public function getShippingMethodAttribute()
+    {
+        return $this->shipping_method ?? 'Standard Shipping';
+    }
+
+    public function getExpectedDeliveryDateAttribute()
+    {
+        if ($this->status === 'completed' && $this->delivered_at) {
+            return $this->delivered_at;
+        }
+
+        return $this->created_at->addDays(
+            $this->shipping_method === 'express' ? 3 : 7
+        );
+    }
 
     private function getCartData($cart)
     {
-        $productIds = array_keys($cart); 
-        $products = Product::whereIn('id', $productIds)->get(); 
+        $productIds = array_keys($cart);
+        $products = Product::whereIn('id', $productIds)->get();
         $subtotal = 0;
 
         foreach ($products as $product) {
@@ -203,16 +202,16 @@ class OrderController extends Controller
             $subtotal += $finalPrice * $quantity;
         }
 
-        $discount = 0;  
-        $taxRate = 0.10; 
-        $taxes = $subtotal * $taxRate;  
-        $total = $subtotal - $discount + $taxes;  
+        $discount = 0;
+        $taxRate = 0.10;
+        $taxes = $subtotal * $taxRate;
+        $total = $subtotal - $discount + $taxes;
 
         return [
             'subtotal' => $subtotal,
             'discount' => $discount,
             'taxes' => $taxes,
-            'total' => $total
+            'total' => $total,
         ];
     }
 }

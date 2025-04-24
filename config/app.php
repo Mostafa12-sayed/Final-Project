@@ -118,7 +118,6 @@ return [
     |
     */
 
-
     //     'aliases' => [
     //     // الاسم المستعار
     //     'Flasher' => Flasher\Laravel\Facade\Flasher::class,

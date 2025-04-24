@@ -1,16 +1,15 @@
 <?php
+
 namespace Modules\Dashboard\Mail;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Modules\Dashboard\app\Models\Admin;
-
 
 class ContactReplyMail extends Mailable
 {
     public $user;
+
     public $reply;
+
     public function __construct($user, $reply)
     {
         $this->reply = $reply;

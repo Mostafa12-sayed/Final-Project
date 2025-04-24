@@ -2,10 +2,9 @@
 
 namespace Modules\Dashboard\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Dashboard\Database\factories\CouponFactory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Coupon extends Model
 {
@@ -31,16 +30,14 @@ class Coupon extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'coupons_users', 'coupon_id', 'user_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     protected $guarded = [];
 
-    public  function user()
+    public function user()
     {
         return $this->belongsTo(Admin::class);
 
     }
-
-
 }

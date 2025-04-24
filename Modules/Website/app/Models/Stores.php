@@ -1,9 +1,9 @@
 <?php
+
 namespace Modules\Website\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Website\Database\factories\StoresFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\database\factories\StoresFactoryFactory;
 
 class Stores extends Model
@@ -14,21 +14,22 @@ class Stores extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-    'admin_id',
-    'name',
-    'slug',
-    'description',
-    'logo_image',
-    'cover_image',
-    'status',
-    'commission_rate',
-    'is_approved',];
+        'admin_id',
+        'name',
+        'slug',
+        'description',
+        'logo_image',
+        'cover_image',
+        'status',
+        'commission_rate',
+        'is_approved', ];
 
     protected static function newFactory(): StoresFactoryFactory
     {
         return StoresFactoryFactory::new();
     }
-      protected static function boot()
+
+    protected static function boot()
     {
         parent::boot();
 
@@ -41,6 +42,7 @@ class Stores extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+
     public function product()
     {
         return $this->hasMany(Product::class);

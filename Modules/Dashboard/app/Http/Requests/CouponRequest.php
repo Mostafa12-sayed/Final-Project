@@ -12,12 +12,12 @@ class CouponRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|max:255',
-            'code'=>'required|max:255',
-            'discount'=>'required|numeric',
-            'description'=>'required|max:255',
-            'is_active'=>'required',
-            'expiry_date'=>'required|date',
+            'name' => 'required|max:255',
+            'code' => 'required|max:255',
+            'discount' => 'required|numeric',
+            'description' => 'required|max:255',
+            'is_active' => 'required',
+            'expiry_date' => 'required|date',
         ];
     }
 

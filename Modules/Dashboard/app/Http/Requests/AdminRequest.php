@@ -13,18 +13,19 @@ class AdminRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->route('admin');
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'email',
-                Rule::unique('admins', 'email')->ignore($id)
+                Rule::unique('admins', 'email')->ignore($id),
             ],
             'username' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('admins', 'username')->ignore($id)
+                Rule::unique('admins', 'username')->ignore($id),
             ],
             'role_id' => ['required', Rule::exists('roles', 'id')],
             'phone' => ['nullable', 'string', 'max:255'],

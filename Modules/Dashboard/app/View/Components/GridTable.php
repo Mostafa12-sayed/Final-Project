@@ -16,8 +16,6 @@ class GridTable extends Component
         // $this->data = $data;
     }
 
-
-
     /**
      * Get the view/contents that represent the component.
      */

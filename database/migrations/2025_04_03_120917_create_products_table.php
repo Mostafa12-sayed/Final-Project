@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->float('weight')->default(0);
 
-
             $table->float('price')->default(0);
             $table->float('discount')->nullable();
             $table->date('expiry_date')->nullable();
@@ -40,10 +39,8 @@ return new class extends Migration
             $table->integer('stock')->default(0);
             $table->unsignedSmallInteger('quantity')->default(0);
 
-
             $table->json('options')->nullable();
-            $table->enum('status',['active','draft','archived'])->default('active');
-
+            $table->enum('status', ['active', 'draft', 'archived'])->default('active');
 
             $table->timestamps();
             $table->softDeletes();

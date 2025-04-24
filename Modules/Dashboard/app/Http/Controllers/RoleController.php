@@ -3,13 +3,12 @@
 namespace Modules\Dashboard\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\Dashboard\app\Models\Role;
-use Modules\Dashboard\app\Models\Permission;
-use Modules\Dashboard\app\Http\Requests\StoreRoleRequest;
 use Illuminate\Support\Facades\DB;
+use Modules\Dashboard\app\Http\Requests\StoreRoleRequest;
+use Modules\Dashboard\app\Models\Permission;
+use Modules\Dashboard\app\Models\Role;
+
 class RoleController extends Controller
 {
     protected $model;
@@ -18,10 +17,10 @@ class RoleController extends Controller
     {
         $this->model = $model;
         $this->middleware('auth:admin');
-         $this->middleware('permission:read-roles')->only('index');
-         $this->middleware('permission:create-roles')->only(['create', 'store']);
-         $this->middleware('permission:update-roles')->only(['edit', 'update']);
-         $this->middleware('permission:delete-roles')->only('destroy');
+        $this->middleware('permission:read-roles')->only('index');
+        $this->middleware('permission:create-roles')->only(['create', 'store']);
+        $this->middleware('permission:update-roles')->only(['edit', 'update']);
+        $this->middleware('permission:delete-roles')->only('destroy');
     }
 
     public function index()
@@ -31,7 +30,6 @@ class RoleController extends Controller
             'data' => $this->model->paginate(20),
         ]);
     }
-
 
     public function create()
     {
@@ -53,14 +51,13 @@ class RoleController extends Controller
         $inputs = $request->validated();
         // dd($inputs['role_status']);
 
-
         try {
             DB::beginTransaction();
             $resource = Role::create([
-                'name'          =>  $inputs['name'],
-                'display_name'  => $inputs['display_name'],
-                'description'   => $inputs['description'],
-                'role_status'   => $inputs['role_status']
+                'name' => $inputs['name'],
+                'display_name' => $inputs['display_name'],
+                'description' => $inputs['description'],
+                'role_status' => $inputs['role_status'],
             ]);
             // dd($resource);
             $resource->syncPermissions($inputs['permissions']);
@@ -72,7 +69,7 @@ class RoleController extends Controller
         } catch (\Exception $th) {
             // toast(__('admin.stored'),'success','top-right')->hideCloseButton();
             // alert()->error('', $th->getMessage());
-            flash()->error( "thiserr".$th->getMessage());
+            flash()->error('thiserr'.$th->getMessage());
 
             return back();
         }
@@ -81,6 +78,7 @@ class RoleController extends Controller
     public function edit($id)
     {
         $resource = $this->model->findOrFail($id);
+
         return view('dashboard::roles.role-add', [
             'permissions' => Permission::get()->groupBy('path'),
             'resource' => $resource,
@@ -95,10 +93,10 @@ class RoleController extends Controller
         try {
             $resource = $this->model->findOrFail($id);
             $resource->update([
-                'name'  => $inputs['name'],
-                'display_name'  => $inputs['display_name'],
-                'description'  => $inputs['description'],
-                'role_status' =>$inputs['role_status'],
+                'name' => $inputs['name'],
+                'display_name' => $inputs['display_name'],
+                'description' => $inputs['description'],
+                'role_status' => $inputs['role_status'],
             ]);
             $resource->syncPermissions($inputs['permissions']);
             flash()->success('Role Updated Successfully');
@@ -111,7 +109,6 @@ class RoleController extends Controller
         }
     }
 
-
     public function destroy($id)
     {
         $this->model->findOrFail($id)->delete();
@@ -120,12 +117,11 @@ class RoleController extends Controller
         return back();
     }
 
-
     public function updateStatus(Request $request)
     {
-            $role = Role::findOrFail($request->id);
-            $role->role_status = $request->status;
-            $role->save();
+        $role = Role::findOrFail($request->id);
+        $role->role_status = $request->status;
+        $role->save();
 
         return response()->json(['success' => true]);
     }

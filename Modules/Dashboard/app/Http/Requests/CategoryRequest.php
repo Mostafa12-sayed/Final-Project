@@ -13,12 +13,13 @@ class CategoryRequest extends FormRequest
     {
         $category = $this->route('category'); // هذا يعيد كائن Category
         $id = is_object($category) ? $category->id : $category;
+
         return [
             'name' => 'required|string|max:255|unique:categories,name,'.$id,
             'description' => 'nullable|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'code'=> 'nullable|string|max:255|unique:categories,code,'.$id,
+            'code' => 'nullable|string|max:255|unique:categories,code,'.$id,
 
             // Add any other fields you need to validate
         ];

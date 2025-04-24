@@ -5,7 +5,6 @@ namespace Modules\Dashboard\app\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\Dashboard\app\Http\Requests\CouponRequest;
 use Modules\Dashboard\app\Models\Coupon;
 
@@ -17,7 +16,8 @@ class CouponController extends Controller
     public function index()
     {
         $coupons = Coupon::where('user_id', auth()->id())->paginate(10);
-        return view('dashboard::coupons.coupons' , ['coupons' =>  $coupons ]);
+
+        return view('dashboard::coupons.coupons', ['coupons' => $coupons]);
     }
 
     /**
@@ -25,8 +25,9 @@ class CouponController extends Controller
      */
     public function create()
     {
-        $coupon = new Coupon();
-        return view('dashboard::coupons.form' ,compact('coupon'));
+        $coupon = new Coupon;
+
+        return view('dashboard::coupons.form', compact('coupon'));
     }
 
     /**
@@ -37,6 +38,7 @@ class CouponController extends Controller
         $data = $request->all();
         $data['user_id'] = auth()->guard('admin')->id();
         Coupon::create($data);
+
         return back()->with('success', 'Coupon created successfully');
     }
 
@@ -53,7 +55,7 @@ class CouponController extends Controller
      */
     public function edit(Coupon $coupon)
     {
-        return view('dashboard::coupons.form' ,compact('coupon'));
+        return view('dashboard::coupons.form', compact('coupon'));
     }
 
     /**
@@ -63,6 +65,7 @@ class CouponController extends Controller
     {
         $data = $request->all();
         $coupon->update($data);
+
         return back()->with('success', 'Coupon updated successfully');
     }
 
@@ -72,14 +75,16 @@ class CouponController extends Controller
     public function destroy(Coupon $coupon)
     {
         $coupon->delete();
+
         return back()->with('success', 'Coupon deleted successfully');
     }
 
-
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
         $coupon = Coupon::find($request->id);
         $coupon->is_active = $request->status;
         $coupon->save();
+
         return response()->json(['success' => 'Status updated successfully.']);
     }
 }
