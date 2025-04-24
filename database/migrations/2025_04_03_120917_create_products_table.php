@@ -26,7 +26,6 @@ return new class extends Migration
 
             $table->float('price')->default(0);
             $table->float('discount')->nullable();
-            $table->date('expiry_date')->nullable();
 
             $table->json('gallery')->nullable();
 
