@@ -2,11 +2,8 @@
 
 namespace Modules\Dashboard\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Dashboard\app\Models\Admin;
-use Modules\Dashboard\Database\factories\StoreFactory;
-
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\app\Models\Product;
 
 class Store extends Model
@@ -16,19 +13,17 @@ class Store extends Model
     /**
      * The attributes that are mass assignable.
      */
+    protected $table = 'stores';
 
-     protected $table='stores';
     protected $guarded = [];
 
     public function admin()
     {
-        return $this->hasOne(Admin::class ,'store_id' , 'id');
+        return $this->hasOne(Admin::class);
     }
-
 
     public function products()
     {
-        return $this->hasMany(Product::class );
+        return $this->hasMany(Product::class);
     }
-
 }

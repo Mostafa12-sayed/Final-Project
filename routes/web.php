@@ -1,20 +1,17 @@
 <?php
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Socialite;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Modules\Website\app\Http\Controllers\WebsiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Route;
+use Modules\Website\app\Http\Controllers\WebsiteController;
 
-
-
-//email verification routs//
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 Route::get('/home', [WebsiteController::class, 'index'])->name('home');
 
+// email verification routs//
 Auth::routes(['verify' => true]);
 Route::get('/email/verify', function (Request $request) {
     return $request->user()->hasVerifiedEmail()
@@ -28,20 +25,18 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-//end email verification routs//
+// end email verification routs//
 
-//reset password//
+// reset password//
 Route::get('/forgot-password', function () {
     return view('website::profile.forgot_password');
 })->middleware('guest')->name('password.request');
-
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -54,9 +49,7 @@ Route::post('/forgot-password', function (Request $request) {
         ? back()->with(['status' => __($status)])
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
-//reset password//
-
-
+// reset password//
 
 Route::get('google/callback', [socialite::class, 'google_callback'])->name('google.callback');
 Route::get('google/redirect', [Socialite::class, 'google_redirect'])->name('google.redirect');

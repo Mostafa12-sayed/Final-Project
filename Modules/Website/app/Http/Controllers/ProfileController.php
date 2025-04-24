@@ -3,13 +3,12 @@
 namespace Modules\Website\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Modules\Website\app\Models\Addresses;
 
 class ProfileController extends Controller
@@ -21,9 +20,10 @@ class ProfileController extends Controller
     {
         // dd(Auth::user());
         $user = user::find(Auth::id());
-        $address=$user->addresses;
+        $address = $user->addresses;
+
         // dd($address);
-        return view('website::profile.profile',compact('address'));
+        return view('website::profile.profile', compact('address'));
     }
 
     /**
@@ -63,41 +63,42 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-    $social_ids=[user::find($id)->google_id,user::find($id)->facebook_id,user::find($id)->twitter_id];
-    // dd($request);
-    $request->validate([
-    'name' => ['required', 'string', 'max:255'],
-    'last_name' => ['required', 'string', 'max:255'],
-    'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users','email')->ignore($id)->where('google_id','=',$social_ids[0])->where('facebook_id','=',$social_ids[1])->where('twitter_id','=',$social_ids[2])],
-    'phone' => [ 'nullable','string', 'max:15'],
-    'street' => [ 'nullable','string', 'max:255'],
-    'city' => [ 'nullable','string', 'max:255'],
-    'zip_code' => [ 'nullable','string', 'max:10'],
-    ]);
-    $user = User::find($id);
-    $user->name = $request->name;
-    $user->last_name = $request->last_name;
-    $user->email = $request->email;
-    $user->phone = $request->phone;
-    $user->save();
-    $address=Addresses::where('user_id',$user->id)->first();
-    if (!$address) {
-        $address = new Addresses();
-        $address->user_id = $user->id;
-        $address->street = $request->street;
-        $address->city = $request->city;
-        $address->zip_code = $request->zip_code;
-        $address->save();
-    }else {
-        $address = Addresses::where('user_id',$user->id)->first();
-        $address->street = $request->street;
-        $address->city = $request->city;
-        $address->zip_code = $request->zip_code;
-        $address->save();
+        $social_ids = [user::find($id)->google_id, user::find($id)->facebook_id, user::find($id)->twitter_id];
+        // dd($request);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($id)->where('google_id', '=', $social_ids[0])->where('facebook_id', '=', $social_ids[1])->where('twitter_id', '=', $social_ids[2])],
+            'phone' => ['nullable', 'string', 'max:15'],
+            'street' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'zip_code' => ['nullable', 'string', 'max:10'],
+        ]);
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+        $address = Addresses::where('user_id', $user->id)->first();
+        if (! $address) {
+            $address = new Addresses;
+            $address->user_id = $user->id;
+            $address->street = $request->street;
+            $address->city = $request->city;
+            $address->zip_code = $request->zip_code;
+            $address->save();
+        } else {
+            $address = Addresses::where('user_id', $user->id)->first();
+            $address->street = $request->street;
+            $address->city = $request->city;
+            $address->zip_code = $request->zip_code;
+            $address->save();
+        }
+
+        return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
     }
 
-    return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
-}
     public function update_password(Request $request, $id): RedirectResponse
     {
         $request->validate([
@@ -108,33 +109,35 @@ class ProfileController extends Controller
         $user = User::find($id);
         $user->password = Hash::make($request->new_password);
         $user->save();
+
         return redirect()->route('profile.index')->with('success', 'Password updated successfully.');
     }
+
     public function update_image(Request $request, $id)
     {
         $request->validate([
-        'profile_image' => ['image','mimes:png,jpg,jpeg','max:2048','nullable']
+            'profile_image' => ['image', 'mimes:png,jpg,jpeg', 'max:2048', 'nullable'],
         ]);
-        $user=user::find($id);
+        $user = user::find($id);
 
         $directory = public_path('assets/img/account/');
-        $photoname='profile_'.time().'.'.$request->profile_image->extension();
+        $photoname = 'profile_'.time().'.'.$request->profile_image->extension();
 
         if ($user->profile_image && file_exists($directory.'/'.$user->profile_image)) {
             unlink($directory.'/'.$user->profile_image);
         }
 
-        $request->profile_image->move($directory,$photoname);
-        $user->profile_image=$photoname;
+        $request->profile_image->move($directory, $photoname);
+        $user->profile_image = $photoname;
         $user->save();
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'photo_url' => asset('assets/img/account/'.$photoname),
-                'message' => 'Profile image updated successfully.'
+                'message' => 'Profile image updated successfully.',
             ]);
         }
-        
+
         return redirect()->route('profile.index')->with('success', 'Profile image updated successfully.');
     }
 
@@ -145,5 +148,4 @@ class ProfileController extends Controller
     {
         //
     }
-
 }

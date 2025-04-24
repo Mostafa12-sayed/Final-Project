@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('discount');
             $table->string('code')->unique();
-            $table->integer('limit')->default(1); 
+            $table->integer('limit')->default(1);
             $table->date('expiry_date');
             $table->boolean('is_active');
             $table->timestamps();

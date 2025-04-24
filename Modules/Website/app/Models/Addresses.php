@@ -3,8 +3,8 @@
 namespace Modules\Website\app\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\Database\factories\AddressesFactory;
 
 class Addresses extends Model
@@ -20,11 +20,12 @@ class Addresses extends Model
         'street',
         'zip_code',
     ];
-    
+
     protected static function newFactory(): AddressesFactory
     {
-        //return AddressesFactory::new();
+        // return AddressesFactory::new();
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

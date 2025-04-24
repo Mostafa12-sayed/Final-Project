@@ -2,8 +2,8 @@
 
 namespace Modules\Website\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\Database\factories\ContactUsFactory;
 
 class ContactUs extends Model
@@ -18,10 +18,11 @@ class ContactUs extends Model
         'email',
         'message',
         'subject',
+        'reply',
     ];
-    
+
     protected static function newFactory(): ContactUsFactory
     {
-        //return ContactUsFactory::new();
+        // return ContactUsFactory::new();
     }
 }

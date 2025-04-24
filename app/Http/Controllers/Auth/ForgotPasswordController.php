@@ -19,6 +19,7 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
     public function showLinkRequestForm()
     {
         return view('website::profile.forgot_password');

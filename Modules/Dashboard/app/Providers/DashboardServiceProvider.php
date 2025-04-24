@@ -2,10 +2,11 @@
 
 namespace Modules\Dashboard\app\Providers;
 
+use Flasher\SweetAlert\Laravel\SweetAlert;
+use Flasher\SweetAlert\Prime\SweetAlertInterface;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Flasher\SweetAlert\Prime\SweetAlertInterface;
-use Flasher\SweetAlert\Laravel\SweetAlert;
+
 class DashboardServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Dashboard';
@@ -23,7 +24,6 @@ class DashboardServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'dashboard');
 

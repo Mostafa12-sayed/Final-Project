@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Modules\Dashboard\Database\Seeders\PermissionSeeder;
-
 use Illuminate\Database\Seeder;
+use Modules\Dashboard\Database\Seeders\PermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-//           PermissionSeeder::class
+            //           PermissionSeeder::class
 
         ]);
     }

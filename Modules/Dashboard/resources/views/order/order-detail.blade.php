@@ -19,9 +19,14 @@
                                                       {{$order->created_at->format('d M Y h:i A')}}</p>
                                              </div>
                                              <div>
-                                                  <a href="#!" class="btn btn-outline-secondary">Refund</a>
-                                                  <a href="#!" class="btn btn-outline-secondary">Return</a>
-                                                  <a href="#!" class="btn btn-primary">Edit Order</a>
+                                                 @if(optional(auth('admin')->user()->role)->name == 'admin')
+                                                  <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
+                                                     <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
+                                                 @else
+                                                 <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Processing</a>
+                                                 <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Completed</a>
+
+                                                 @endif
                                              </div>
 
                                         </div>
@@ -29,79 +34,93 @@
                                         <div class="mt-4">
                                              <h4 class="fw-medium text-dark">Progress</h4>
                                         </div>
-                                       <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
-
-                                           {{-- Step 1: Order Confirming --}}
-                                           @if(in_array($order->status, ['pending', 'confirmed', 'processing', 'delivered', 'completed']))
-                                               <div class="col">
-                                                   <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                                       </div>
-                                                   </div>
-                                                   <p class="mb-0 mt-2">Order Confirming</p>
-                                               </div>
-                                           @endif
-
-                                           {{-- Step 2: Payment Pending --}}
-                                           @if(in_array($order->status, ['pending', 'processing', 'delivered', 'completed']))
-                                               <div class="col">
-                                                   <div class="progress mt-3" style="height: 10px;">
-                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                                       </div>
-                                                   </div>
-                                                   <p class="mb-0 mt-2">Payment Pending</p>
-                                               </div>
-                                           @endif
-
-                                           {{-- Step 3: Processing --}}
-                                           <div class="col">
-                                               <div class="progress mt-3" style="height: 10px;">
-                                                   <div class="progress-bar progress-bar-striped progress-bar-animated
-                {{ $order->status == 'processing' ? 'bg-warning' : 'bg-light' }}"
-                                                        style="width: {{ $order->status == 'processing' ? '50%' : '0%' }}"
-                                                        role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                   </div>
-                                               </div>
-                                               <div class="d-flex align-items-center gap-2 mt-2">
-                                                   <p class="mb-0">Processing</p>
-                                                   @if($order->status == 'processing')
-                                                       <div class="spinner-border spinner-border-sm text-warning" role="status">
-                                                           <span class="visually-hidden">Loading...</span>
-                                                       </div>
-                                                   @endif
-                                               </div>
+                                       <div class="row row">
+                                           <div class="row">
+                                               <strong class="fw-bold text-dark">Order Admin Confirming : {{ $order->admin_status}}</strong>
                                            </div>
-
-                                           {{-- Step 4: Shipping --}}
-                                           <div class="col">
-                                               <div class="progress mt-3" style="height: 10px;">
-                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
-                                                        style="width: {{ $order->status == 'shipping' || $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"
-                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                                   </div>
-                                               </div>
-                                               <p class="mb-0 mt-2">Shipping</p>
+                                           <div class="row">
+                                               <strong class="fw-bold text-dark">Order Seller Confirming : {{ $order->seller_status}}</strong>
                                            </div>
-
-                                           {{-- Step 5: Delivered --}}
-                                           <div class="col">
-                                               <div class="progress mt-3" style="height: 10px;">
-                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
-                                                        style="width: {{ $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"
-                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                                   </div>
-                                               </div>
-                                               <p class="mb-0 mt-2">Delivered</p>
+                                           <div class="row">
+                                               <strong class="fw-bold text-dark">Order Status : {{ $order->status  }}</strong>
                                            </div>
-
                                        </div>
 
+{{--                                           --}}{{-- Step 1: Order Confirming --}}
+{{--                                           @if(in_array($order->status, ['pending', 'confirmed', 'processing', 'delivered', 'completed']))--}}
+{{--                                               <div class="col">--}}
+{{--                                                   <div class="progress mt-3" style="height: 10px;">--}}
+{{--                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                       </div>--}}
+{{--                                                   </div>--}}
+{{--                                                   <p class="mb-0 mt-2">Order Confirming</p>--}}
+{{--                                               </div>--}}
+{{--                                           @endif--}}
+
+{{--                                           --}}{{-- Step 2: Payment Pending --}}
+{{--                                           @if(in_array($order->status, ['pending', 'processing', 'delivered', 'completed']))--}}
+{{--                                               <div class="col">--}}
+{{--                                                   <div class="progress mt-3" style="height: 10px;">--}}
+{{--                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                       </div>--}}
+{{--                                                   </div>--}}
+{{--                                                   <p class="mb-0 mt-2">Payment Pending</p>--}}
+{{--                                               </div>--}}
+{{--                                           @endif--}}
+
+{{--                                           --}}{{-- Step 3: Processing --}}
+{{--                                           <div class="col">--}}
+{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
+{{--                                                   <div class="progress-bar progress-bar-striped progress-bar-animated--}}
+{{--                                                        {{ $order->status == 'processing' ? 'bg-warning' : 'bg-light' }}"--}}
+{{--                                                        style="width: {{ $order->status == 'processing' ? '50%' : '0%' }}"--}}
+{{--                                                        role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                   </div>--}}
+{{--                                               </div>--}}
+{{--                                               <div class="d-flex align-items-center gap-2 mt-2">--}}
+{{--                                                   <p class="mb-0">Processing</p>--}}
+{{--                                                   @if($order->status == 'processing')--}}
+{{--                                                       <div class="spinner-border spinner-border-sm text-warning" role="status">--}}
+{{--                                                           <span class="visually-hidden">Loading...</span>--}}
+{{--                                                       </div>--}}
+{{--                                                   @endif--}}
+{{--                                               </div>--}}
+{{--                                           </div>--}}
+
+{{--                                           --}}{{-- Step 4: Shipping --}}
+{{--                                           <div class="col">--}}
+{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
+{{--                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"--}}
+{{--                                                        style="width: {{ $order->status == 'shipping' || $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"--}}
+{{--                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                   </div>--}}
+{{--                                               </div>--}}
+{{--                                               <p class="mb-0 mt-2">Shipping</p>--}}
+{{--                                           </div>--}}
+
+{{--                                           --}}{{-- Step 5: Delivered --}}
+{{--                                           <div class="col">--}}
+{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
+{{--                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"--}}
+{{--                                                        style="width: {{ $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"--}}
+{{--                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                   </div>--}}
+{{--                                               </div>--}}
+{{--                                               <p class="mb-0 mt-2">Delivered</p>--}}
+{{--                                           </div>--}}
+
+{{--                                       </div>--}}
+
                                    </div>
+
                                    <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                         <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Estimated shipping date : <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
-                                        <div>
+                                       @if(optional(auth('admin')->user()->role)->name == 'admin')
+
+                                       <div>
                                              <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
                                         </div>
+                                       @endif
                                    </div>
                               </div>
                               <div class="card">
@@ -117,8 +136,7 @@
                                                             <th>Status</th>
                                                             <th>Quantity</th>
                                                             <th>Price</th>
-                                                            <th>Text</th>
-                                                            <th>Amount</th>
+                                                            <th>Total</th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
@@ -127,25 +145,23 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="{{asset('storage/' .$item->product->image)}}" alt="" class="avatar-md">
+                                                                           <img src="{{asset(optional($item->product)->image)}}" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
-                                                                           <a href="#!" class="text-dark fw-medium fs-15">{{$item->product->name}}</a>
-                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>M</p>
+                                                                           <a href="{{route('product.show', ['slug' => $item->product->slug])}}" class="text-dark fw-medium fs-15" target="_blank">{{$item->product->name}}</a>
                                                                       </div>
                                                                  </div>
 
                                                             </td>
-
                                                             <td>
                                                                  <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$item->product->status}}</span>
                                                             </td>
                                                             <td>${{$item->quantity}}</td>
                                                             <td>${{$item->price}}</td>
-                                                            <td> ${{$item->product->tax * $item->price * $item->quantity}}</td>
                                                             <td>
-                                                                 ${{$item->price * $item->quantity + $item->product->tax * $item->price * $item->quantity}}
+                                                                 ${{($item->product->price * $item->quantity) }}
                                                             </td>
+
                                                        </tr>
                                                         @endforeach
 
@@ -154,159 +170,159 @@
                                         </div>
                                    </div>
                               </div>
-                              <div class="card">
-                                   <div class="card-header">
-                                        <h4 class="card-title">Order Timeline</h4>
-                                   </div>
-                                   <div class="card-body">
-                                        <div class="position-relative ms-2">
-                                             <span class="position-absolute start-0  top-0 border border-dashed h-100"></span>
-                                             <div class="position-relative ps-4">
-                                                  <div class="mb-4">
-                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle">
-                                                            <div class="spinner-border spinner-border-sm text-warning" role="status">
-                                                                 <span class="visually-hidden">Loading...</span>
-                                                            </div>
-                                                       </span>
-                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">
-                                                            <div>
-                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The packing has been started</h5>
-                                                                 <p class="mb-0">Confirmed by Gaston Lapierre</p>
-                                                            </div>
-                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>
+{{--                              <div class="card">--}}
+{{--                                   <div class="card-header">--}}
+{{--                                        <h4 class="card-title">Order Timeline</h4>--}}
+{{--                                   </div>--}}
+{{--                                   <div class="card-body">--}}
+{{--                                        <div class="position-relative ms-2">--}}
+{{--                                             <span class="position-absolute start-0  top-0 border border-dashed h-100"></span>--}}
+{{--                                             <div class="position-relative ps-4">--}}
+{{--                                                  <div class="mb-4">--}}
+{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle">--}}
+{{--                                                            <div class="spinner-border spinner-border-sm text-warning" role="status">--}}
+{{--                                                                 <span class="visually-hidden">Loading...</span>--}}
+{{--                                                            </div>--}}
+{{--                                                       </span>--}}
+{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
+{{--                                                            <div>--}}
+{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The packing has been started</h5>--}}
+{{--                                                                 <p class="mb-0">Confirmed by Gaston Lapierre</p>--}}
+{{--                                                            </div>--}}
+{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="position-relative ps-4">
-                                                  <div class="mb-4">
-                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">
-                                                            <i class='bx bx-check-circle'></i>
-                                                       </span>
-                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">
-                                                            <div>
-                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been sent to the customer</h5>
-                                                                 <p class="mb-2">Invoice email was sent to <a href="#!" class="link-primary">hello@dundermuffilin.com</a></p>
-                                                                 <a href="#!" class="btn btn-light">Resend Invoice</a>
-                                                            </div>
-                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="position-relative ps-4">--}}
+{{--                                                  <div class="mb-4">--}}
+{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
+{{--                                                            <i class='bx bx-check-circle'></i>--}}
+{{--                                                       </span>--}}
+{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">--}}
+{{--                                                            <div>--}}
+{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been sent to the customer</h5>--}}
+{{--                                                                 <p class="mb-2">Invoice email was sent to <a href="#!" class="link-primary">hello@dundermuffilin.com</a></p>--}}
+{{--                                                                 <a href="#!" class="btn btn-light">Resend Invoice</a>--}}
+{{--                                                            </div>--}}
+{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="position-relative ps-4">
-                                                  <div class="mb-4">
-                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">
-                                                            <i class='bx bx-check-circle'></i>
-                                                       </span>
-                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">
-                                                            <div>
-                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been created</h5>
-                                                                 <p class="mb-2">Invoice created by Gaston Lapierre</p>
-                                                                 <a href="#!" class="btn btn-primary">Download Invoice</a>
-                                                            </div>
-                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="position-relative ps-4">--}}
+{{--                                                  <div class="mb-4">--}}
+{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
+{{--                                                            <i class='bx bx-check-circle'></i>--}}
+{{--                                                       </span>--}}
+{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
+{{--                                                            <div>--}}
+{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been created</h5>--}}
+{{--                                                                 <p class="mb-2">Invoice created by Gaston Lapierre</p>--}}
+{{--                                                                 <a href="#!" class="btn btn-primary">Download Invoice</a>--}}
+{{--                                                            </div>--}}
+{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="position-relative ps-4">
-                                                  <div class="mb-4">
-                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">
-                                                            <i class='bx bx-check-circle'></i>
-                                                       </span>
-                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">
-                                                            <div>
-                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">Order Payment</h5>
-                                                                 <p class="mb-2">Using Master Card</p>
-                                                                 <div class="d-flex align-items-center gap-2">
-                                                                      <p class="mb-1 text-dark fw-medium">Status :</p>
-                                                                      <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Paid</span>
-                                                                 </div>
-                                                            </div>
-                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="position-relative ps-4">--}}
+{{--                                                  <div class="mb-4">--}}
+{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
+{{--                                                            <i class='bx bx-check-circle'></i>--}}
+{{--                                                       </span>--}}
+{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
+{{--                                                            <div>--}}
+{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">Order Payment</h5>--}}
+{{--                                                                 <p class="mb-2">Using Master Card</p>--}}
+{{--                                                                 <div class="d-flex align-items-center gap-2">--}}
+{{--                                                                      <p class="mb-1 text-dark fw-medium">Status :</p>--}}
+{{--                                                                      <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Paid</span>--}}
+{{--                                                                 </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="position-relative ps-4">
-                                                  <div class="mb-2">
-                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">
-                                                            <i class='bx bx-check-circle'></i>
-                                                       </span>
-                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">
-                                                            <div>
-                                                                 <h5 class="mb-2 text-dark fw-medium fs-15">4 Order conform by Gaston Lapierre</h5>
-                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 1</a>
-                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 2</a>
-                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 3</a>
-                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 4</a>
-                                                            </div>
-                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="position-relative ps-4">--}}
+{{--                                                  <div class="mb-2">--}}
+{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
+{{--                                                            <i class='bx bx-check-circle'></i>--}}
+{{--                                                       </span>--}}
+{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">--}}
+{{--                                                            <div>--}}
+{{--                                                                 <h5 class="mb-2 text-dark fw-medium fs-15">4 Order conform by Gaston Lapierre</h5>--}}
+{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 1</a>--}}
+{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 2</a>--}}
+{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 3</a>--}}
+{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 4</a>--}}
+{{--                                                            </div>--}}
+{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                              <div class="card bg-light-subtle">
-                                   <div class="card-body">
-                                        <div class="row g-3 g-lg-0">
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Vender</p>
-                                                            <p class="mb-0">Catpiller</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:shop-2-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Date</p>
-                                                            <p class="mb-0">April 23 , 2024</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:calendar-date-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3 border-end">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Paid By</p>
-                                                            <p class="mb-0">Gaston Lapierre</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:user-circle-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-lg-3">
-                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">
-                                                       <div>
-                                                            <p class="text-dark fw-medium fs-16 mb-1">Reference #IMEMO</p>
-                                                            <p class="mb-0">#0758267/90</p>
-                                                       </div>
-                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">
-                                                            <iconify-icon icon="solar:clipboard-text-bold-duotone" class="fs-35 text-primary"></iconify-icon>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                        </div>--}}
+{{--                                   </div>--}}
+{{--                              </div>--}}
+{{--                              <div class="card bg-light-subtle">--}}
+{{--                                   <div class="card-body">--}}
+{{--                                        <div class="row g-3 g-lg-0">--}}
+{{--                                             <div class="col-lg-3 border-end">--}}
+{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
+{{--                                                       <div>--}}
+{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Vender</p>--}}
+{{--                                                            <p class="mb-0">Catpiller</p>--}}
+{{--                                                       </div>--}}
+{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
+{{--                                                            <iconify-icon icon="solar:shop-2-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="col-lg-3 border-end">--}}
+{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
+{{--                                                       <div>--}}
+{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Date</p>--}}
+{{--                                                            <p class="mb-0">April 23 , 2024</p>--}}
+{{--                                                       </div>--}}
+{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
+{{--                                                            <iconify-icon icon="solar:calendar-date-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="col-lg-3 border-end">--}}
+{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
+{{--                                                       <div>--}}
+{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Paid By</p>--}}
+{{--                                                            <p class="mb-0">Gaston Lapierre</p>--}}
+{{--                                                       </div>--}}
+{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
+{{--                                                            <iconify-icon icon="solar:user-circle-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                             <div class="col-lg-3">--}}
+{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
+{{--                                                       <div>--}}
+{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Reference #IMEMO</p>--}}
+{{--                                                            <p class="mb-0">#0758267/90</p>--}}
+{{--                                                       </div>--}}
+{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
+{{--                                                            <iconify-icon icon="solar:clipboard-text-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
+{{--                                                       </div>--}}
+{{--                                                  </div>--}}
+{{--                                             </div>--}}
+{{--                                        </div>--}}
+{{--                                   </div>--}}
+{{--                              </div>--}}
                          </div>
                     </div>
                </div>
                <div class="col-xl-3 col-lg-4">
                     <div class="card">
                          <div class="card-header">
-                              <h4 class="card-title">Order Summary</h4>
+{{--                              <h4 class="card-title">Order Summary</h4>--}}
                          </div>
                          <div class="card-body">
                               <div class="table-responsive">
@@ -316,25 +332,25 @@
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">$777.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">${{$order->total - ($order->discount + $order->shipping + $order->tax)}}</td>
                                              </tr>
                                              <tr>
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">-$60.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">-${{$order->discount}}</td>
                                              </tr>
                                              <tr>
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon> Delivery Charge : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">$00.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">${{$order->shipping}}</td>
                                              </tr>
                                              <tr>
                                                   <td class="px-0">
-                                                       <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:calculator-minimalistic-broken" class="align-middle"></iconify-icon> Estimated Tax (15.5%) : </p>
+                                                       <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:calculator-minimalistic-broken" class="align-middle"></iconify-icon> Estimated Tax : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">$20.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">${{$order->tax}}</td>
                                              </tr>
 
                                         </tbody>
@@ -346,85 +362,77 @@
                                    <p class="fw-medium text-dark mb-0">Total Amount</p>
                               </div>
                               <div>
-                                   <p class="fw-medium text-dark mb-0">$737.00</p>
+                                   <p class="fw-medium text-dark mb-0">${{$order->total}}</p>
                               </div>
 
                          </div>
                     </div>
-                    <div class="card">
-                         <div class="card-header">
-                              <h4 class="card-title">Payment Information</h4>
-                         </div>
-                         <div class="card-body">
-                              <div class="d-flex align-items-center gap-3 mb-3">
-                                   <div class="rounded-3 bg-light avatar d-flex align-items-center justify-content-center">
-                                        <img src="assets/images/card/mastercard.svg" alt="" class="avatar-sm">
-                                   </div>
-                                   <div>
-                                        <p class="mb-1 text-dark fw-medium">Master Card</p>
-                                        <p class="mb-0 text-dark">xxxx xxxx xxxx 7812</p>
-                                   </div>
-                                   <div class="ms-auto">
-                                        <iconify-icon icon="solar:check-circle-broken" class="fs-22 text-success"></iconify-icon>
-                                   </div>
-                              </div>
-                              <p class="text-dark mb-1 fw-medium">Transaction ID : <span class="text-muted fw-normal fs-13"> #IDN768139059</span></p>
-                              <p class="text-dark mb-0 fw-medium">Card Holder Name : <span class="text-muted fw-normal fs-13"> Gaston Lapierre</span></p>
+{{--                    <div class="card">--}}
+{{--                         <div class="card-header">--}}
+{{--                              <h4 class="card-title">Payment Information</h4>--}}
+{{--                         </div>--}}
+{{--                         <div class="card-body">--}}
+{{--                              <div class="d-flex align-items-center gap-3 mb-3">--}}
+{{--                                   <div class="rounded-3 bg-light avatar d-flex align-items-center justify-content-center">--}}
+{{--                                        <img src="assets/images/card/mastercard.svg" alt="" class="avatar-sm">--}}
+{{--                                   </div>--}}
+{{--                                   <div>--}}
+{{--                                        <p class="mb-1 text-dark fw-medium">Master Card</p>--}}
+{{--                                        <p class="mb-0 text-dark">xxxx xxxx xxxx 7812</p>--}}
+{{--                                   </div>--}}
+{{--                                   <div class="ms-auto">--}}
+{{--                                        <iconify-icon icon="solar:check-circle-broken" class="fs-22 text-success"></iconify-icon>--}}
+{{--                                   </div>--}}
+{{--                              </div>--}}
+{{--                              <p class="text-dark mb-1 fw-medium">Transaction ID : <span class="text-muted fw-normal fs-13"> #IDN768139059</span></p>--}}
+{{--                              <p class="text-dark mb-0 fw-medium">Card Holder Name : <span class="text-muted fw-normal fs-13"> Gaston Lapierre</span></p>--}}
 
-                         </div>
-                    </div>
+{{--                         </div>--}}
+{{--                    </div>--}}
                     <div class="card">
                          <div class="card-header">
                               <h4 class="card-title">Customer Details</h4>
                          </div>
                          <div class="card-body">
                               <div class="d-flex align-items-center gap-2">
-                                   <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar rounded-3 border border-light border-3">
+                                   <img src="{{is_null($order->user->profile_image) ? asset('assets/img/account/user.png') : asset('assets/img/account/'.$order->user->profile_image)}}" alt="" class="avatar rounded-3 border border-light border-3">
                                    <div>
-                                        <p class="mb-1">Gaston Lapierre</p>
-                                        <a href="#!" class="link-primary fw-medium">hello@dundermuffilin.com</a>
+                                        <p class="mb-1">{{$order->user->name}}</p>
+                                        <a href="#!" class="link-primary fw-medium">{{$order->user->email}}</a>
                                    </div>
                               </div>
                               <div class="d-flex justify-content-between mt-3">
                                    <h5 class="">Contact Number</h5>
-                                   <div>
-                                        <a href="#!"><i class='bx bx-edit-alt fs-18'></i></a>
-                                   </div>
+
                               </div>
-                              <p class="mb-1">(723) 732-760-5760</p>
+                              <p class="mb-1">{{$order->user->phone}}</p>
 
                               <div class="d-flex justify-content-between mt-3">
                                    <h5 class="">Shipping Address</h5>
-                                   <div>
-                                        <a href="#!"><i class='bx bx-edit-alt fs-18'></i></a>
-                                   </div>
+
                               </div>
 
                               <div>
-                                   <p class="mb-1">Wilson's Jewelers LTD</p>
-                                   <p class="mb-1">1344 Hershell Hollow Road ,</p>
-                                   <p class="mb-1">Tukwila, WA 98168 ,</p>
-                                   <p class="mb-1">United States</p>
-                                   <p class="">(723) 732-760-5760</p>
+                                   <p class="mb-1">{{optional($order->address)->street_addresses}}</p>
+                                   <p class="mb-1">{{optional($order->address)->country}}, {{optional($order->address)->city}} ,{{optional($order->address)->state}} </p>
+                                   <p class="">{{optional($order->address)->phone_number}}</p>
                               </div>
 
                               <div class="d-flex justify-content-between mt-3">
                                    <h5 class="">Billing Address</h5>
-                                   <div>
-                                        <a href="#!"><i class='bx bx-edit-alt fs-18'></i></a>
-                                   </div>
+
                               </div>
 
                               <p class="mb-1">Same as shipping address</p>
                          </div>
                     </div>
-                    <div class="card">
-                         <div class="card-body">
-                              <div class="mapouter">
-                                   <div class="gmap_canvas"><iframe class="gmap_iframe rounded" width="100%" style="height: 418px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=1980&amp;height=400&amp;hl=en&amp;q=University%20of%20Oxford&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>
-                              </div>
-                         </div>
-                    </div>
+{{--                    <div class="card">--}}
+{{--                         <div class="card-body">--}}
+{{--                              <div class="mapouter">--}}
+{{--                                   <div class="gmap_canvas"><iframe class="gmap_iframe rounded" width="100%" style="height: 418px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=1980&amp;height=400&amp;hl=en&amp;q=University%20of%20Oxford&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>--}}
+{{--                              </div>--}}
+{{--                         </div>--}}
+{{--                    </div>--}}
                </div>
           </div>
      </div>

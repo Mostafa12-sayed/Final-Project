@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-   
+
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('username')->unique();
-            $table->foreignId('store_id')->nullable()->constrained('stores','id')->nullOnDelete();
+            $table->foreignId('store_id')->nullable()->constrained('stores', 'id')->nullOnDelete();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
 
-            $table->enum('type',['user','admin'])->default('user');
+            $table->enum('type', ['user', 'admin'])->default('user');
 
-            $table->enum('status',['active' ,'pending' , 'inactive'])->default('pending'); // Default status is 'active'
+            $table->enum('status', ['active', 'pending', 'inactive'])->default('pending'); // Default status is 'active'
             $table->string('remember_token')->nullable();
             $table->string('profile_picture')->nullable(); // Optional profile picture
             $table->string('last_login_ip')->nullable(); // Optional last login IP

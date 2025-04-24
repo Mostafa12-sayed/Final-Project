@@ -2,16 +2,16 @@
 
 namespace Modules\Website\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\Database\factories\CategoryFactory;
-
 
 class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name', 'slug', 'parent_id', 'description', 'image', 'status'];
+
     protected static function newFactory()
     {
         return CategoryFactory::new();

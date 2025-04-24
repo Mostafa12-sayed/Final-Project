@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $client = new Client(['verify' => false]);
         $this->app->instance('guzzle', $client);
         \Illuminate\Support\Facades\Http::withOptions([
-            'verify' => false
+            'verify' => false,
         ]);
     }
 }

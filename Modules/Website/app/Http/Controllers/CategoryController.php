@@ -5,7 +5,6 @@ namespace Modules\Website\app\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\Website\app\Models\Category;
 
 class CategoryController extends Controller
@@ -16,6 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::where('status', 'active')->paginate(10);
+
         return view('website::product.categories', compact('categories'));
         // return view('website::index');
     }

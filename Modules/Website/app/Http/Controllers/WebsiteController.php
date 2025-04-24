@@ -3,16 +3,15 @@
 namespace Modules\Website\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Modules\Website\app\Models\Category;
 use Modules\Website\app\Models\ContactUs;
+use Modules\Website\app\Models\HeroSections;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
-use App\Mail\ContactMail;
-
 
 class WebsiteController extends Controller
 {
@@ -27,28 +26,32 @@ class WebsiteController extends Controller
             })->withCount([
                 'products' => function ($query) {
                     $query->where('status', 'active');
-                }
+                },
             ])->orderBy('products_count', 'desc')
             ->get();
 
-        $categories_products = Category::with('products')->where ('status', 'active')->get();
-        
-        $products = Product::where('status', 'active') ->inRandomOrder()->take(40)->get();
+        $categories_products = Category::with('products')->where('status', 'active')->get();
 
-        $top_rated=$products->sortByDesc('rating')->take(3);
+        $products = Product::where('status', 'active')->inRandomOrder()->take(40)->get();
 
-        $on_sale_products= Product::where('status', 'active')->where('discount', '>', 0)->inRandomOrder()->take(15)->orderBy('discount', 'desc')->get();
+        $top_rated = $products->sortByDesc('rating')->take(3);
+
+        $on_sale_products = Product::where('status', 'active')->where('discount', '>', 0)->where('stock', '>', 0)->where('status', 'active')
+            ->where('expiry_date', '>', now())->inRandomOrder()->take(10)->orderBy('discount', 'desc')->get();
 
         $top_products = $products->sortByDesc(function ($product) {
             return $product->trending_items;
         })->take(20);
 
-        $products2= Product::where('status', 'active')->inRandomOrder()->take(20)->get();
+        $products2 = Product::where('status', 'active')->inRandomOrder()->take(20)->get();
         $top_products2 = $products2->sortByDesc(function ($product) {
             return $product->trending_items;
         })->take(20);
-        $stores=Stores::paginate(6);
-        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated', 'stores','top_products2'));
+        $stores = Stores::paginate(6);
+
+        $heros = HeroSections::paginate(7);
+
+        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated', 'stores', 'top_products2', 'heros'));
     }
 
     /**
@@ -96,30 +99,37 @@ class WebsiteController extends Controller
      */
     public function stores()
     {
-        $stores=Stores::where('status', 'active')->where('is_approved','yes')->get();
+        $stores = Stores::where('status', 'active')->where('is_approved', 'yes')->get();
+
         return view('website::stores', compact('stores'));
     }
 
-    public function contact_us(){
+    public function contact_us()
+    {
         return view('website::contact');
     }
-    public function contact_store(Request $request){
-        $data=$request->validate([
+
+    public function contact_store(Request $request)
+    {
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'email'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:600'],
         ]);
-        $new_contact=ContactUs::create($request->all());
-        if($new_contact){
+        $new_contact = ContactUs::create($request->all());
+        if ($new_contact) {
             Mail::to('your@email.com')->send(new ContactMail($data));
+
             return redirect()->back()->with('success', 'Contact us has been sent successfully');
-        }else{
+        } else {
             return redirect()->back()->with('error', 'Contact us has not been sent successfully');
         }
     }
-    public function about_us(){
+
+    public function about_us()
+    {
         return view('website::about');
-        
+
     }
 }

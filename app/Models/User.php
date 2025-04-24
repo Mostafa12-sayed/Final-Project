@@ -7,13 +7,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Modules\Dashboard\app\Models\Coupon;
 use Modules\Website\app\Models\Addresses;
-use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Review;
+use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\Wishlist;
-use Illuminate\Support\Str;
-class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
+
+class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -58,10 +59,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->hasOne(Addresses::class);
     }
+
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class);
     }
+
     public function reviews()
     {
         return $this->hasOne(Review::class);
@@ -83,13 +86,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function coupons()
     {
         return $this->belongsToMany(Coupon::class, 'coupons_users', 'user_id', 'coupon_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
-
 
     public function getImageUrlAttribute()
     {
-        if (!$this->profile_image) {
+        if (! $this->profile_image) {
             return asset('assets/img/account/04.jpg');
         }
         if (Str::startsWith($this->profile_image, ['http', 'https'])) {
@@ -98,7 +100,4 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
         return asset('assets/img/account/'.$this->profile_image);
     }
-
-
-
 }

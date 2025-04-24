@@ -171,10 +171,10 @@
                             <div class="shop-sort-box">
                                 <div class="shop-sorty-label">Sort By:</div>
                                 <select class="select" onchange="location = this.value;">
-                                    <option value="{{ route('products') }}" {{ request('sort') == 'default' ? 'selected' : '' }}>Default Sorting</option>
-                                    <option value="{{ route('products', ['sort' => 'latest']) }}" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest Items</option>
-                                    <option value="{{ route('products', ['sort' => 'price_low']) }}" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price - Low To High</option>
-                                    <option value="{{ route('products', ['sort' => 'price_high']) }}" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price - High To Low</option>
+                                    <option value="{{ route('products') }}">Default Sorting</option>
+                                    <option value="{{ route('products', ['sort' => 'latest']) }}">Latest Items</option>
+                                    <option value="{{ route('products', ['sort' => 'price_low']) }}">Price - Low To High</option>
+                                    <option value="{{ route('products', ['sort' => 'price_high']) }}">Price - High To Low</option>
                                 </select>
                                 <div class="shop-sort-show">
                                     Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
@@ -200,7 +200,7 @@
                                                 <span class="type oos">Out Of Stock</span>
                                             @endif
                                             <a href="{{ route('product.show', $product->slug) }}">
-                                                <img src="{{asset( 'storage/'.$product->image) }}" alt="{{ $product->name }}">
+                                                <img src="{{asset( $product->image) }}" alt="{{ $product->name }}">
                                             </a>
                                             <div class="product-action-wrap">
                                                 <!-- Replace this in the product action section -->
@@ -228,6 +228,13 @@
                                                     @else
                                                         <a href="{{ route('login') }}" data-tooltip="tooltip" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a>
                                                     @endauth
+                                                    <a href="{{ route('compare.index') }}" class="add-to-compare"
+                                                            data-product-id="{{ $product->id }}"
+                                                            data-bs-placement="top"
+                                                            data-tooltip="tooltip"
+                                                            title="Add To Compare">
+                                                            <i class="fas fa-exchange-alt"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

@@ -19,8 +19,8 @@
                     @foreach ($sellers as $item)
                          <tr style="text-align: center !important;">
                               <td style="text-align: right !important;">{{ $item->name }}</td>
-                              <td>{{ $item->stores->name }}</td>
-                              <td>{{ $item->stores->description }}</td>
+                              <td>{{ $item->store->name }}</td>
+                              <td>{{ $item->store->description }}</td>
                               <td style="text-align: center !important;">
                                    <a href={{ route('admin.sellers.accept' , ['seller'=>$item->id]) }} type="button" class="btn btn-primary">Accept</a>
                                    <a  href={{ route('admin.sellers.reject' ,['seller'=>$item->id]) }} type="button" class="btn btn-danger">Reject</a>

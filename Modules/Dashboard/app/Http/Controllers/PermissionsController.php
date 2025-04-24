@@ -3,12 +3,8 @@
 namespace Modules\Dashboard\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\Dashboard\app\Http\Requests\PermissionRequest;
 use Modules\Dashboard\app\Models\Permission;
-
 
 class PermissionsController extends Controller
 {
@@ -27,7 +23,7 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        return view('dashboard::permissions.form', ['permission' => new Permission()]);
+        return view('dashboard::permissions.form', ['permission' => new Permission]);
     }
 
     /**
@@ -37,6 +33,7 @@ class PermissionsController extends Controller
     {
         Permission::create($request->all());
         flash()->success('Permission created successfully!');
+
         return back();
     }
 
@@ -63,6 +60,7 @@ class PermissionsController extends Controller
     {
         $permission->update($request->all());
         flash()->success('Permission updated successfully!');
+
         return back();
 
     }
@@ -74,6 +72,7 @@ class PermissionsController extends Controller
     {
         $permission->delete();
         flash()->success('Permission deleted successfully!');
+
         return back();
 
     }

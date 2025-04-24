@@ -78,8 +78,8 @@
                                     @endif
                                 </ul>
                            </div>
-                          @endif
                       </li>
+                     @endif
 
 {{--                      <li class="nav-item">--}}
 {{--                           <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarInventory">--}}
@@ -110,19 +110,15 @@
                            </a>
                            <div class="collapse" id="sidebarOrders">
                                 <ul class="nav sub-navbar-nav">
-
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{route('admin.orders.index')}}">List</a>
                                      </li>
                                      <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-detail.html">Details</a>
+                                          <a class="sub-nav-link" href="{{route('admin.orders.index' , ['status' => 'approved'])}}">Orders Accepted</a>
                                      </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-cart.html">Cart</a>
-                                     </li>
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
-                                     </li>
+                                    <li class="sub-nav-item">
+                                        <a class="sub-nav-link" href="{{route('admin.orders.index' , ['status' => 'rejected'])}}">Orders Rejected</a>
+                                    </li>
                                 </ul>
                            </div>
                       </li>
@@ -254,13 +250,13 @@
                          @if(auth()->guard('admin')->user()->hasPermission('read-admins'))
 
                          <li class="nav-item">
-                           <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCustomers">
+                           <a class="nav-link menu-arrow" href="#sidebarAdmins" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCustomers">
                                 <span class="nav-icon">
                                      <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
                                 </span>
                                 <span class="nav-text"> Admins </span>
                            </a>
-                           <div class="collapse" id="sidebarCustomers">
+                           <div class="collapse" id="sidebarAdmins">
                                 <ul class="nav sub-navbar-nav">
                                      <li class="sub-nav-item">
                                           <a class="sub-nav-link" href="{{ route('admin.admins.index') }}">List</a>
@@ -276,26 +272,19 @@
                            </div>
                       </li>
                       @endif
-                      <li class="nav-item">
-                         <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCustomers">
-                              <span class="nav-icon">
-                                   <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
-                              </span>
-                              <span class="nav-text"> Customers </span>
-                         </a>
-                         <div class="collapse" id="sidebarCustomers">
-                              <ul class="nav sub-navbar-nav">
 
-                                   <li class="sub-nav-item">
-                                        <a class="sub-nav-link" href="customer-list.html">List</a>
-                                   </li>
-                                   <li class="sub-nav-item">
-                                        <a class="sub-nav-link" href="customer-detail.html">Details</a>
-                                   </li>
-                              </ul>
-                         </div>
-                    </li>
-                     @if(auth()->guard('admin')->user()->hasPermission('read-sellers'))
+                     @if(auth()->guard('admin')->user()->hasPermission('read-customers'))
+
+                     <li class="nav-item">
+                         <a class="nav-link" href="{{route('admin.customers.index')}}">
+                                <span class="nav-icon">
+                                     <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
+                                </span>
+                             <span class="nav-text"> Customers </span>
+                         </a>
+                     </li>
+                    @endif
+                 @if(auth()->guard('admin')->user()->hasPermission('read-sellers'))
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarSellers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSellers">
                                 <span class="nav-icon">
@@ -316,11 +305,6 @@
                                             </li>
                                         @endif
 
-                                    @if(auth()->guard('admin')->user()->hasPermission('create-sellers'))
-                                     <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="{{ route('admin.sellers.create') }}">Create</a>
-                                     </li>
-                                        @endif
                                 </ul>
                            </div>
                       </li>
@@ -396,15 +380,26 @@
 
 
                       <li class="menu-title mt-2">Support</li>
-
-                      <li class="nav-item">
-                           <a class="nav-link" href="help-center.html">
+                     {{-- category --}}
+                     @if(auth()->guard('admin')->user()->hasPermission('read-contact-us'))
+                         <li class="nav-item">
+                             <a class="nav-link" href="{{route('admin.contact-us.index')}}">
                                 <span class="nav-icon">
                                      <iconify-icon icon="solar:help-bold-duotone"></iconify-icon>
                                 </span>
-                                <span class="nav-text"> Help Center </span>
-                           </a>
-                      </li>
+                                 <span class="nav-text"> Contact Us List </span>
+                             </a>
+                         </li>
+                     @endif
+
+{{--                     <li class="nav-item">--}}
+{{--                           <a class="nav-link" href="help-center.html">--}}
+{{--                                <span class="nav-icon">--}}
+{{--                                     <iconify-icon icon="solar:help-bold-duotone"></iconify-icon>--}}
+{{--                                </span>--}}
+{{--                                <span class="nav-text"> Help Center </span>--}}
+{{--                           </a>--}}
+{{--                      </li>--}}
 
                       <li class="nav-item">
                            <a class="nav-link" href="pages-faqs.html">

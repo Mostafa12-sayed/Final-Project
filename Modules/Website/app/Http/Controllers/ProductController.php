@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Website\app\Models\Product;
-use Modules\Website\app\Models\Category;
-use Modules\Website\app\Models\Review;
 use Illuminate\Support\Facades\Auth;
-
+use Modules\Website\app\Models\Category;
+use Modules\Website\app\Models\Product;
+use Modules\Website\app\Models\Review;
 
 class ProductController extends Controller
 {
@@ -23,7 +22,7 @@ class ProductController extends Controller
 
         // Search Filter
         $query->when(request('search'), function ($q) {
-            $q->where('name', 'like', '%' . request('search') . '%');
+            $q->where('name', 'like', '%'.request('search').'%');
         });
 
         // Category Filter
@@ -107,12 +106,12 @@ class ProductController extends Controller
             'stock' => $product->stock > 0 ? 'Available' : 'Out of Stock',
             'code' => $product->code,
             // 'image' => $product->image,
-            'image' => !empty($product->gallery) ? asset($product->gallery[0]) : asset('assets/img/product/01.png'),
+            'image' => ! empty($product->gallery) ? asset($product->gallery[0]) : asset('assets/img/product/01.png'),
         ];
 
         return response()->json([
             'success' => true,
-            'product' => $productData
+            'product' => $productData,
         ]);
     }
 
@@ -123,12 +122,13 @@ class ProductController extends Controller
             ->where('id', '!=', $product->id)
             ->limit(4)
             ->get();
+
         return view('website::product.productdetailes', compact('product', 'relatedProducts'));
     }
 
     public function storeReview(Request $request, $slug): RedirectResponse
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login')->with('error', 'Please log in to submit a review.');
         }
 
@@ -140,8 +140,8 @@ class ProductController extends Controller
         $product = Product::where('slug', $slug)->firstOrFail();
 
         $existingReview = Review::where('user_id', Auth::id())
-                           ->where('product_id', $product->id)
-                           ->first();
+            ->where('product_id', $product->id)
+            ->first();
 
         if ($existingReview) {
             return redirect()->back()->with('error', 'You have already submitted a review for this product.');
@@ -181,6 +181,6 @@ class ProductController extends Controller
     public function showProduct(Product $product)
     {
 
-       return view('website::product.modal', compact('product'));
+        return view('website::product.modal', compact('product'));
     }
 }

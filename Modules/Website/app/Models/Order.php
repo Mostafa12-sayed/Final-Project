@@ -3,8 +3,8 @@
 namespace Modules\Website\app\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Website\Database\factories\OrderFactory;
 
 class Order extends Model
@@ -34,26 +34,29 @@ class Order extends Model
         'tax',
         'discount',
     ];
+
     protected $dates = [
         'processing_at',
         'shipped_at',
         'delivered_at',
-        'cancelled_at'
+        'cancelled_at',
     ];
 
     public function getTrackingUrlAttribute()
-{
-    if (!$this->tracking_number) return null;
+    {
+        if (! $this->tracking_number) {
+            return null;
+        }
 
-    $carriers = [
-        'fedex' => 'https://www.fedex.com/fedextrack/?trknbr=',
-        'ups' => 'https://www.ups.com/track?tracknum=',
-        'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels=',
-        'dhl' => 'https://www.dhl.com/en/express/tracking.html?AWB='
-    ];
+        $carriers = [
+            'fedex' => 'https://www.fedex.com/fedextrack/?trknbr=',
+            'ups' => 'https://www.ups.com/track?tracknum=',
+            'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels=',
+            'dhl' => 'https://www.dhl.com/en/express/tracking.html?AWB=',
+        ];
 
-    return ($carriers[strtolower($this->carrier)] ?? '') . $this->tracking_number;
-}
+        return ($carriers[strtolower($this->carrier)] ?? '').$this->tracking_number;
+    }
 
     public function getStatusTimelineAttribute()
     {
@@ -62,7 +65,7 @@ class Order extends Model
             'processing' => $this->processing_at,
             'delivering' => $this->shipped_at,
             'completed' => $this->delivered_at,
-            'cancelled' => $this->cancelled_at
+            'cancelled' => $this->cancelled_at,
         ];
     }
 

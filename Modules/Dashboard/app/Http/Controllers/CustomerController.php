@@ -3,9 +3,8 @@
 namespace Modules\Dashboard\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -14,7 +13,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('dashboard::index');
+        $customers = User::paginate(10);
+
+        return view('dashboard::customers.customer-list', compact('customers'));
     }
 
     /**
@@ -28,7 +29,7 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
     }
@@ -52,7 +53,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }

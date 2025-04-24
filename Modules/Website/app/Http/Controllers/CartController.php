@@ -3,13 +3,11 @@
 namespace Modules\Website\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Modules\Website\app\Models\Product;
-use Modules\Dashboard\app\Models\Coupon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
+use Modules\Dashboard\app\Models\Coupon;
+use Modules\Website\app\Models\Product;
 
 class CartController extends Controller
 {
@@ -44,7 +42,7 @@ class CartController extends Controller
             'subtotal' => $subtotal,
             'discount' => $discount,
             'taxes' => $taxes,
-            'total' => $total
+            'total' => $total,
         ];
     }
 
@@ -68,7 +66,35 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
+
         return redirect()->back()->with('success', 'Product added to cart.');
+    }
+
+    public function add_ajax(Request $request, Product $product)
+    {
+        // Existing add method remains unchanged
+        $quantity = (int) $request->input('quantity', 1);
+        if ($product->stock < $quantity) {
+            return redirect()->back()->with('error', 'Not enough stock available.');
+        }
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$product->id])) {
+            $newQuantity = $cart[$product->id] + $quantity;
+            if ($product->stock < $newQuantity) {
+                return redirect()->back()->with('error', 'Not enough stock available.');
+            }
+            $cart[$product->id] = $newQuantity;
+        } else {
+            $cart[$product->id] = $quantity;
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'success' => true,
+            'cart_count' => count(session('cart', [])), // This is crucial
+        ]);
     }
 
     public function index()
@@ -111,7 +137,7 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         $product = Product::find($productId);
-        if (!$product || !isset($cart[$productId])) {
+        if (! $product || ! isset($cart[$productId])) {
             return response()->json(['success' => false, 'message' => 'Product not found in cart'], 404);
         }
 
@@ -127,6 +153,7 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
         $cartData = $this->getCartData($cart);
+
         return response()->json(['success' => true, 'cartData' => $cartData]);
     }
 
@@ -135,19 +162,20 @@ class CartController extends Controller
         // Existing remove method, updated to include cartData
         $cart = session()->get('cart', []);
 
-        if (!isset($cart[$productId])) {
+        if (! isset($cart[$productId])) {
             return response()->json(['success' => false, 'message' => 'Product not found in cart'], 404);
         }
 
         unset($cart[$productId]);
         session()->put('cart', $cart);
         $cartData = $this->getCartData($cart);
+
         return response()->json(['success' => true, 'cartData' => $cartData]);
     }
 
     public function applyCoupon(Request $request)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->back()->with('error', 'Please log in to apply a coupon.');
         }
 
@@ -158,11 +186,11 @@ class CartController extends Controller
         $couponCode = $request->input('coupon_code');
         $coupon = Coupon::where('code', $couponCode)->first();
 
-        if (!$coupon) {
+        if (! $coupon) {
             return redirect()->back()->with('error', 'Invalid coupon code.');
         }
 
-        if (!$coupon->is_active) {
+        if (! $coupon->is_active) {
             return redirect()->back()->with('error', 'Coupon is not active.');
         }
 
@@ -181,12 +209,14 @@ class CartController extends Controller
         }
 
         session()->put('coupon', $coupon->code);
+
         return redirect()->back()->with('success', 'Coupon applied successfully.');
     }
 
     public function removeCoupon()
     {
         session()->forget('coupon');
+
         return redirect()->back()->with('success', 'Coupon removed.');
     }
 }

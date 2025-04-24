@@ -2,11 +2,11 @@
 
 namespace Modules\Dashboard\app\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Dashboard\Database\factories\CategoryFactory;
 use Modules\Website\app\Models\Product;
+
 class Category extends Model
 {
     use HasFactory ,SoftDeletes;

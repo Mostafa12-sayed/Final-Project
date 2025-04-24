@@ -30,8 +30,8 @@
                                         <div id="imagePreviewContainermain" class="row mt-3">
                                              @if(isset($product) && $product->image)
                                                   <div class="col-md-3 position-relative mb-3" id="oldImagePreview">
-                                                       <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded" style="max-height: 200px;">
-                                                       <button data-produc-id="{{ $product->id }}" data-image-path="{{ $product->image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="removeOldImage()">×</button>
+                                                       <img src="{{ asset( $product->image) }}" class="img-fluid rounded" style="max-height: 200px;">
+{{--                                                       <button data-produc-id="{{ $product->id }}" data-image-path="{{ $product->image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="removeOldImage()">×</button>--}}
                                                   </div>
                                              @endif
                                         </div>
@@ -57,17 +57,17 @@
                                         </div>
 
                                             <div id="imagePreviewContainerimages" class="row mt-3">
-                                                @if(isset($product) && $product->gallery)
-                                                    @php
-                                                        $images = json_decode($product->gallery, true); // فك تشفير JSON إلى مصفوفة
-                                                    @endphp
-                                                    @foreach($images as $image)
-                                                        <div class="col-md-3 position-relative mb-3" id="{{$image}}">
-                                                            <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded" style="max-height: 200px;">
-                                                            <button data-product-id="{{ $product->id }}" data-image-path="{{ $image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-image" >×</button>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
+{{--                                                @if(isset($product) && $product->gallery)--}}
+{{--                                                    @php--}}
+{{--                                                        $images = json_decode($product->gallery, true); // فك تشفير JSON إلى مصفوفة--}}
+{{--                                                    @endphp--}}
+{{--                                                    @foreach($images as $image)--}}
+{{--                                                        <div class="col-md-3 position-relative mb-3" id="{{$image}}">--}}
+{{--                                                            <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded" style="max-height: 200px;">--}}
+{{--                                                            <button data-product-id="{{ $product->id }}" data-image-path="{{ $image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-image" >×</button>--}}
+{{--                                                        </div>--}}
+{{--                                                    @endforeach--}}
+{{--                                                @endif--}}
                                             </div>
                                         </div>
                                         @if($errors->has('image'))
