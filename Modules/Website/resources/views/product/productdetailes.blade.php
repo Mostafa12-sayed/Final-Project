@@ -174,10 +174,10 @@
                                     @foreach ($product->reviews as $review)
                                         <div class="blog-comments-item {{ $loop->first ? 'mt-0' : '' }}">
                                             <!-- <img src="{{ asset('assets/img/blog/com-' . ($loop->iteration % 3 + 1) . '.jpg') }}" alt="thumb"> -->
-                                            @if(Auth::user())
-                                            <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage" >
+                                            @if($review->user && $review->user->image_url)
+                                                <img src="{{ asset($review->user->image_url) }}" alt="{{ $review->user->name }}" style="width: 50px; height: 50px; border-radius: 50%;">
                                             @else
-                                            <img src="{{ asset('assets/img/account').'/04.jpg' }}" alt="" id="profileImage" >
+                                                <img src="{{ asset('assets/img/account/default.jpg') }}" alt="Default Image" style="width: 50px; height: 50px; border-radius: 50%;">
                                             @endif
                                             <div class="blog-comments-content">
                                                 <h5>{{ $review->user->name }}</h5>
