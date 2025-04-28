@@ -200,7 +200,7 @@
                                                 <span class="type oos">Out Of Stock</span>
                                             @endif
                                             <a href="{{ route('product.show', $product->slug) }}">
-                                                <img src="{{asset( 'storage/'.$product->image) }}" alt="{{ $product->name }}">
+                                                <img src="{{asset( $product->image) }}" alt="{{ $product->name }}">
                                             </a>
                                             <div class="product-action-wrap">
                                                 <!-- Replace this in the product action section -->
@@ -228,6 +228,13 @@
                                                     @else
                                                         <a href="{{ route('login') }}" data-tooltip="tooltip" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a>
                                                     @endauth
+                                                    <a href="{{ route('compare.index') }}" class="add-to-compare"
+                                                            data-product-id="{{ $product->id }}"
+                                                            data-bs-placement="top"
+                                                            data-tooltip="tooltip"
+                                                            title="Add To Compare">
+                                                            <i class="fas fa-exchange-alt"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

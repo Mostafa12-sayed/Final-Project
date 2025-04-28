@@ -51,9 +51,7 @@ Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name
 Route::middleware(['auth'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::post('/wishlist/aj/add/{product}', [WishlistController::class, 'add_ajax'])->name('wishlist.add_ajax');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-    Route::delete('/wishlist/aj/remove/{product}', [WishlistController::class, 'remove_ajax'])->name('wishlist.remove_ajax');
 });
 // coupon Routes
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
@@ -86,6 +84,20 @@ Route::get('/test-paypal', function () {
     $provider = new PayPalClient;
     $provider->setApiCredentials(config('paypal'));
     $token = $provider->getAccessToken();
-    
+
+    return $token ? "PayPal Connected!" : "Failed to connect";
+});
+
+Route::post('/compare/add/{product}', [ComparerController::class, 'add'])->name('compare.add');
+Route::get('/compare', [ComparerController::class, 'index'])->name('compare.index');
+Route::delete('/compare/remove/{product}', [ComparerController::class, 'remove'])->name('compare.remove');
+
+Route::get('/paypal/success/{order}', [OrderController::class, 'paypalSuccess'])->name('paypal.success');
+Route::get('/paypal/cancel/{order}', [OrderController::class, 'paypalCancel'])->name('paypal.cancel');
+Route::get('/test-paypal', function () {
+    $provider = new PayPalClient;
+    $provider->setApiCredentials(config('paypal'));
+    $token = $provider->getAccessToken();
+
     return $token ? "PayPal Connected!" : "Failed to connect";
 });
