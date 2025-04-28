@@ -278,7 +278,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('about.index') }}">About</a></li>
 
 
-                                <!-- <li class="nav-item mega-menu dropdown">
+                                <li class="nav-item mega-menu dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Menu</a>
                                     <div class="dropdown-menu fade-down">
                                         <div class="mega-content">
@@ -360,25 +360,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li> -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link " href="{{ route('category.index') }}">Categories</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link " href="{{ route('products') }}">Products</a>
-                                </li>
-                                <!-- <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
                                     <ul class="dropdown-menu fade-down">
-
+                                        <!-- <li class="dropdown-submenu">
+                                            <a class="dropdown-item dropdown-toggle" href="#">Shop Grid</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="{{route('products')}}">Shop Grid One</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="shop-grid-2.html">Shop Grid Two</a>
+                                                </li>
+                                            </ul>
+                                        </li> -->
                                         <li><a class="dropdown-item" href="{{ route('products') }}">Products</a></li>
                                         <li class="dropdown-submenu">
                                         </li>
                                         <li><a class="dropdown-item" href="{{ route('cart.index') }}">Shop Cart</a></li>
                                         <li><a class="dropdown-item" href="{{ route('compare.index') }}">Shop Compare</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.register') }}">Become a Seller</a></li>
 
                                     </ul>
-                                </li> -->
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('compare.index') }}" >Compare</a>
                                 </li>
