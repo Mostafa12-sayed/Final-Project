@@ -83,7 +83,7 @@
                                                   </div>
                                                   <div class="mb-3">
                                                        <label class="form-label" for="password-confirm">Password Confirmtion</label>
-                                                       <input type="text" id="password-confirm" class="form-control"
+                                                       <input type="password" id="password-confirm" class="form-control"
                                                        name="password_confirmation"  autocomplete="new-password"
                                                        placeholder="Enter your password Confirmtion">
                                                   </div>
