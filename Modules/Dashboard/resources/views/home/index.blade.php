@@ -25,7 +25,7 @@
                                              </div> <!-- end col -->
                                              <div class="col-6 text-end">
                                                   <p class="text-muted mb-0 text-truncate">Total Orders</p>
-                                                  <h3 class="text-dark mt-1 mb-0">13, 647</h3>
+                                                  <h3 class="text-dark mt-1 mb-0">{{\Modules\Website\App\Models\Order::count()}}</h3>
                                              </div> <!-- end col -->
                                         </div> <!-- end row-->
                                    </div> <!-- end card body -->
@@ -50,8 +50,8 @@
                                                   </div>
                                              </div> <!-- end col -->
                                              <div class="col-6 text-end">
-                                                  <p class="text-muted mb-0 text-truncate">New Leads</p>
-                                                  <h3 class="text-dark mt-1 mb-0">9, 526</h3>
+                                                  <p class="text-muted mb-0 text-truncate">Total Customers</p>
+                                                  <h3 class="text-dark mt-1 mb-0">{{App\Models\User::count()}}</h3>
                                              </div> <!-- end col -->
                                         </div> <!-- end row-->
                                    </div> <!-- end card body -->

@@ -11,11 +11,12 @@
                     <div class="card">
                          <div class="card-header d-flex justify-content-between align-items-center gap-1">
                               <h4 class="card-title flex-grow-1">All Product List</h4>
+                             @if(auth()->guard('admin')->user()->hasPermission('create-products'))
 
                               <a href="{{route('admin.products.create')}}" class="btn btn-sm btn-primary">
                                    Add Product
                               </a>
-
+                             @endif
 
                          </div>
                          <div>
@@ -40,7 +41,7 @@
                                                        <div class="d-flex align-items-center gap-2">
                                                             <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
                                                                  @if($product->image)
-                                                                 <img src="{{ asset('storage/'.$product->image) }}" alt="" class="avatar-md">
+                                                                 <img src="{{ asset($product->image) }}" alt="" class="avatar-md">
                                                                  @endif
                                                             </div>
                                                             <div>
@@ -96,3 +97,4 @@
 
 </div>
 @endsection
+Error: cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2003 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/products/documents?primaryKey=id

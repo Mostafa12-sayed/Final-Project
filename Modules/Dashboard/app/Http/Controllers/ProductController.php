@@ -30,9 +30,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category:id,name')->paginate(10);
+        // Start by checking if the user is a seller
+        $query = Product::with('category:id,name');
 
-        return view('dashboard::product.product-list', compact('products'));
+        if (auth('admin')->user() && auth('admin')->user()->hasRole('Seller')) {
+            // Filter products based on store_id if the user is a seller
+            $query->where('store_id', auth('admin')->user()->store_id);
+        }
+        // Now paginate the query
+        $products = $query->paginate(10);
+
+        // Return the view with the paginated products
+        return view('dashboard::product.product-list', ['products' => $products]);
     }
 
     /**

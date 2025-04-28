@@ -338,49 +338,6 @@
                            </div>
                       </li>
                       @endif
-
-                      <li class="nav-item">
-                           <a class="nav-link" href="pages-review.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Reviews </span>
-                           </a>
-                      </li>
-
-                      <li class="menu-title mt-2">Other Apps</li>
-
-                      <li class="nav-item">
-                           <a class="nav-link" href="apps-chat.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:chat-round-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Chat </span>
-                           </a>
-                      </li>
-
-                      <li class="nav-item">
-                           <a class="nav-link" href="apps-email.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:mailbox-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Email </span>
-                           </a>
-                      </li>
-
-                      <li class="nav-item">
-                           <a class="nav-link" href="apps-calendar.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:calendar-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Calendar </span>
-                           </a>
-                      </li>
-
-
-
-                      <li class="menu-title mt-2">Support</li>
-                     {{-- category --}}
                      @if(auth()->guard('admin')->user()->hasPermission('read-contact-us'))
                          <li class="nav-item">
                              <a class="nav-link" href="{{route('admin.contact-us.index')}}">
@@ -392,32 +349,8 @@
                          </li>
                      @endif
 
-{{--                     <li class="nav-item">--}}
-{{--                           <a class="nav-link" href="help-center.html">--}}
-{{--                                <span class="nav-icon">--}}
-{{--                                     <iconify-icon icon="solar:help-bold-duotone"></iconify-icon>--}}
-{{--                                </span>--}}
-{{--                                <span class="nav-text"> Help Center </span>--}}
-{{--                           </a>--}}
-{{--                      </li>--}}
 
-                      <li class="nav-item">
-                           <a class="nav-link" href="pages-faqs.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:question-circle-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> FAQs </span>
-                           </a>
-                      </li>
 
-                      <li class="nav-item">
-                           <a class="nav-link" href="privacy-policy.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:document-text-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Privacy Policy </span>
-                           </a>
-                      </li>
 
 
                  </ul>
