@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->float('tax')->default(0);
 
-            $table->float('rating')->default(0);
+            $table->float('rating')->default(0)->nullable();
 
             $table->boolean('is_new')->default(1);
 

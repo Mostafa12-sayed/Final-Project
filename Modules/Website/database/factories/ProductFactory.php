@@ -329,7 +329,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(),
             'slug' => Str::slug($name), // Slug from the same name
             'brand' => $this->faker->randomElement(['Brand A', 'Brand B', 'Brand C']),
-            'store_id' => Store::inRandomOrder()->first()->id, // Assuming you have 10 stores
+            // 'store_id' => Store::inRandomOrder()->first()->id, // Assuming you have 10 stores
             'weight' => $this->faker->randomFloat(2, 0.1, 10),
             'price' => $this->faker->randomFloat(2, 10, 1000),
             'discount' => $this->faker->boolean(30) ? $this->faker->randomFloat(2, 1, 100) : 0,
@@ -384,7 +384,7 @@ class ProductFactory extends Factory
             ]),
             'code' => strtoupper($this->faker->bothify('??###')),
             'tax' => $this->faker->randomFloat(2, 0, 0.3),
-            'rating' => $this->faker->randomFloat(1, 0, 5),
+            // 'rating' => $this->faker->randomFloat(1, 0, 5),
             'is_new' => $this->faker->boolean(50),
             'stock' => $this->faker->numberBetween(0, 100),
             'quantity' => $this->faker->numberBetween(1, 20),
