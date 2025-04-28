@@ -378,7 +378,8 @@
                                         </li>
                                         <li><a class="dropdown-item" href="{{ route('cart.index') }}">Shop Cart</a></li>
                                         <li><a class="dropdown-item" href="{{ route('compare.index') }}">Shop Compare</a></li>
-                                   
+                                        <li><a class="dropdown-item" href="{{ route('admin.register') }}">Become a Seller</a></li>
+
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
