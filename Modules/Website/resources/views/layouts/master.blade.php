@@ -36,14 +36,17 @@
     @include('website::layouts.header')
 
     @yield('content')
-    <div class="modal fade quickview" id="website-table-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+    <!-- Quick View Modal -->
+    <div class="modal fade quickview" id="website-table-modal" tabindex="-1" aria-labelledby="quickViewModalLabel" >
+
+                    <!-- AJAX content will be injected here -->
+
     </div>
     @include('website::layouts.footer')
         <!-- js -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
@@ -56,7 +59,6 @@
         <script src="{{ asset('assets/js/countdown.min.js') }}"></script>
         <script src="{{ asset('assets/js/wow.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
-        {{-- <script src="{{ asset('assets/js/quickview.js') }}"></script> --}}
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 @livewireStyles
 @livewireScripts
@@ -65,76 +67,42 @@
     @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Ajax for quickview -->
     <script>
-        // $(document).on('click', '.btn-modal', function (e) {
-        //     console.log($(this).data('href'));
-        //     e.preventDefault();
-        //     console.log("done");
-        //
-        //     var container = $(this).data('container');
-        //     console.log(container);
-        //
-        //     $.ajax({
-        //         url: $(this).data('href'),
-        //         dataType: 'html',
-        //         success: function (result) {
-        //             $(container)
-        //                 .html(result)
-        //                 .modal('show');
-        //         },
-        //     });
-        // });
-        // $(document).on('click', '.btn-modal', function (e) {
-        //     e.preventDefault();
-        //
-        //     const href = $(this).data('href');
-        //     const container = $(this).data('container');
-        //
-        //     $.ajax({
-        //         url: href,
-        //         dataType: 'html',
-        //         success: function (result) {
-        //             $(container).html(result);
-        //
-        //             const modalEl = $(container).find('.modal').get(0);
-        //             const modal = new bootstrap.Modal(modalEl);
-        //             modal.show();
-        //         },
-        //     });
-        // });
-
+        $(document).on('click', '.btn-modal', function (e) {
+            console.log($(this).data('href'));
+            e.preventDefault();
+            console.log("done");
+        
+            var container = $(this).data('container');
+            console.log(container);
+        
+            $.ajax({
+                url: $(this).data('href'),
+                dataType: 'html',
+                success: function (result) {
+                    $(container)
+                        .html(result)
+                        .modal('show');
+                },
+            });
+        });
         $(document).on('click', '.btn-modal', function (e) {
             e.preventDefault();
-            console.log("clicked");
-
+        
             const href = $(this).data('href');
             const container = $(this).data('container');
-
+        
             $.ajax({
                 url: href,
                 dataType: 'html',
                 success: function (result) {
-                    // حط المحتوى في الكونتينر
                     $(container).html(result);
-
-                    // احصل على العنصر الحقيقي للمودال (مش jQuery object)
+        
                     const modalEl = $(container).find('.modal').get(0);
-
-                    if (modalEl instanceof HTMLElement) {
-                        // أنشئ المودال بشكل صحيح
-                        const modal = new bootstrap.Modal(modalEl, {
-                            backdrop: 'static',
-                            keyboard: true
-                        });
-
-                        // modal.show();
-                    } else {
-                        console.warn('Modal element not found or invalid.');
-                    }
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
                 },
-                error: function () {
-                    console.error('Error loading modal content.');
-                }
             });
         });
 
@@ -171,7 +139,6 @@
 
     <!-- add to cart ajax -->
     <script>
-        console.log('document ready');
 
         // Setup CSRF token for all AJAX requests
         $.ajaxSetup({
@@ -182,7 +149,6 @@
         // Handle Add to Cart button click
         $('.add-to-cart').on('click', function (e) {
             e.preventDefault();
-        console.log(' clicked');
 
             var button = $(this);
             var productId = button.data('product-id');
@@ -197,7 +163,6 @@
                     quantity: 1 // You can still send quantity in the body if needed
                 },
                 success: function (response) {
-                 console.log('success');
 
                     // Re-enable button
                     button.prop('disabled', false);
@@ -246,7 +211,6 @@
 <!-- script for add to wish list  -->
 <script>
     $(document).ready(function () {
-        console.log('document ready');
 
         // Setup CSRF token for all AJAX requests
         $.ajaxSetup({
@@ -293,8 +257,6 @@
                     quantity: 1 // Optional, if needed
                 },
                 success: function (response) {
-                    // console.log('wishlist success');
-                    // console.log('Response:', response); // Log the response to see what’s being returned
 
                     // Re-enable button
                     button.prop('disabled', false);
@@ -305,7 +267,6 @@
                         // Optional: Change icon to indicate it's in wishlist (e.g., filled heart)
                         button.find('i').removeClass('far').addClass('fas');
                     }
-                    console.log(method);
                     if(method=='DELETE'){
                         button.find('i').removeClass('fas').addClass('far');
                     }
@@ -318,15 +279,8 @@
                     var toastEl = document.getElementById('add_to_wish_list_toast');
                     var toast = new bootstrap.Toast(toastEl);
                     toast.show();
-                    //  else {
-                    //     alert('Failed to add product to wishlist: ' + (response.message || 'Unknown error'));
-                    // }
                 },
                 error: function (xhr) {
-                    // console.log('wishlist error');
-                    // console.log('Error Response:', xhr.responseText); // Log the error details
-                    // console.log(method);
-                    // Re-enable button
                     button.prop('disabled', false);
 
                     if(method=='DELETE'){
@@ -334,10 +288,6 @@
                     }
                     // Show error message
                     var errorMsg = 'An error occurred while adding to wishlist.';
-                    // if (xhr.responseJSON && xhr.responseJSON.message) {
-                    //     errorMsg = xhr.responseJSON.message;
-                    // }
-                    // console.log(errorMsg);
                 }
             });
         });

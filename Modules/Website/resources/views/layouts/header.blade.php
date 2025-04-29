@@ -97,63 +97,6 @@
                                             <h5>My Cart</h5>
                                         </div>
                                     </a>
-                                    <!-- <div class="dropdown-cart-menu">
-                                        <div class="dropdown-cart-header">
-                                            <span>03 Items</span>
-                                            <a href="#">View Cart</a>
-                                        </div>
-                                        <ul class="dropdown-cart-list">
-                                            <li>
-                                                <div class="dropdown-cart-item">
-                                                    <div class="cart-img">
-                                                        <a href="#"><img src="assets/img/product/01.png" alt="#"></a>
-                                                    </div>
-                                                    <div class="cart-info">
-                                                        <h4><a href="#">Surgical Face Mask</a></h4>
-                                                        <p class="cart-qty">1x - <span
-                                                                class="cart-amount">$200.00</span></p>
-                                                    </div>
-                                                    <a href="#" class="cart-remove" title="Remove this item"><i
-                                                            class="far fa-times-circle"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="dropdown-cart-item">
-                                                    <div class="cart-img">
-                                                        <a href="#"><img src="assets/img/product/02.png" alt="#"></a>
-                                                    </div>
-                                                    <div class="cart-info">
-                                                        <h4><a href="#">Surgical Face Mask</a></h4>
-                                                        <p class="cart-qty">1x - <span
-                                                                class="cart-amount">$120.00</span></p>
-                                                    </div>
-                                                    <a href="#" class="cart-remove" title="Remove this item"><i
-                                                            class="far fa-times-circle"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="dropdown-cart-item">
-                                                    <div class="cart-img">
-                                                        <a href="#"><img src="assets/img/product/03.png" alt="#"></a>
-                                                    </div>
-                                                    <div class="cart-info">
-                                                        <h4><a href="#">Surgical Face Mask</a></h4>
-                                                        <p class="cart-qty">1x - <span
-                                                                class="cart-amount">$330.00</span></p>
-                                                    </div>
-                                                    <a href="#" class="cart-remove" title="Remove this item"><i
-                                                            class="far fa-times-circle"></i></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="dropdown-cart-bottom">
-                                            <div class="dropdown-cart-total">
-                                                <span>Total</span>
-                                                <span class="total-amount">$650.00</span>
-                                            </div>
-                                            <a href="#" class="theme-btn">Checkout</a>
-                                        </div>
-                                    </div> -->
                                 </li>
                             </ul>
                         </div>
@@ -175,74 +118,9 @@
                             <i class="fas fa-list-ul"></i><span>All Categories</span>
                         </button>
                         <ul class="main-category">
-                            <li>
-                                <a href="#">
-                                    <img src="assets/img/icon/medicine.svg" alt="">
-                                    <span>Medicine</span><i class="far fa-angle-right"></i>
-                                </a>
-                                <div class="sub-category-mega">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="category-single">
-                                                <h6 class="category-title-text">Medicine</h6>
-                                                <div class="category-link">
-                                                    <a href="#">Allergies & Sinus</a>
-                                                    <a href="#">E.N.T Preparations</a>
-                                                    <a href="#">Eye Preparations</a>
-                                                    <a href="#">Vitamin & Nutritional</a>
-                                                    <a href="#">Fever & Pain Relief</a>
-                                                    <a href="#">Dermatological</a>
-                                                    <a href="#">Bone Formation</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="category-single">
-                                                <h6 class="category-title-text">Medicine</h6>
-                                                <div class="category-link">
-                                                    <a href="#">Allergies & Sinus</a>
-                                                    <a href="#">E.N.T Preparations</a>
-                                                    <a href="#">Eye Preparations</a>
-                                                    <a href="#">Vitamin & Nutritional</a>
-                                                    <a href="#">Fever & Pain Relief</a>
-                                                    <a href="#">Dermatological</a>
-                                                    <a href="#">Bone Formation</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="category-single">
-                                                <h6 class="category-title-text">Medicine</h6>
-                                                <div class="category-link">
-                                                    <a href="#">Allergies & Sinus</a>
-                                                    <a href="#">E.N.T Preparations</a>
-                                                    <a href="#">Eye Preparations</a>
-                                                    <a href="#">Vitamin & Nutritional</a>
-                                                    <a href="#">Fever & Pain Relief</a>
-                                                    <a href="#">Dermatological</a>
-                                                    <a href="#">Bone Formation</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="category-img">
-                                                <a href="#"><img src="assets/img/banner/category-banner.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li><a href="#"><img src="assets/img/icon/health-care.svg" alt=""><span>Healthcare</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/beauty-care.svg" alt=""><span>Beauty Care</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/sexual.svg" alt=""><span>Sexual Wellness</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/fitness.svg" alt=""><span>Fitness</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/lab-test.svg" alt=""><span>Lab Test</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/baby-mom-care.svg" alt=""><span>Baby & Mom Care</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/supplements.svg" alt=""><span>Vitamins & Supplement</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/food-nutrition.svg" alt=""><span>Food & Nutrition</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/medical-equipements.svg" alt=""><span>Medical Equipments</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/medical-supplies.svg" alt=""><span>Medical Supplies</span></a></li>
-                            <li><a href="#"><img src="assets/img/icon/pet-care.svg" alt=""><span>Pet Care</span></a></li>
+                            @foreach ($categories as $category)
+                            <li><a href="{{ route('products') }}?category={{ $category->slug }}"><img src="{{ $category->image }}" alt=""><span>{{ $category->name }}</span></a></li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="mobile-menu-right">
@@ -277,108 +155,12 @@
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('about.index') }}">About</a></li>
 
-
-                                <!-- <li class="nav-item mega-menu dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Menu</a>
-                                    <div class="dropdown-menu fade-down">
-                                        <div class="mega-content">
-                                            <div class="container-fluid px-lg-0">
-                                                <div class="row">
-                                                    <div class="col-12 col-lg-2">
-                                                        <h5 class="mega-menu-title">Medicine</h5>
-                                                        <ul class="mega-menu-item">
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Allergies & Sinus</a></li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">E.N.T Preparations</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Eye Preparations</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Vitamin & Nutritional</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Fever & Pain Relief</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Dermatological</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-12 col-lg-2">
-                                                        <h5 class="mega-menu-title">Equipment</h5>
-                                                        <ul class="mega-menu-item">
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Biopsy Tools</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Monitoring</a></li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">Infusion Stands</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">Lighting</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Machines</a></li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">Thermometer</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-12 col-lg-2">
-                                                        <h5 class="mega-menu-title">Wound Care</h5>
-                                                        <ul class="mega-menu-item">
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Surgical Sutures</a></li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">Bandages</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Patches and Tapes</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Stomatology</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Wound Healing</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Uniforms</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-12 col-lg-2">
-                                                        <h5 class="mega-menu-title">Higiene</h5>
-                                                        <ul class="mega-menu-item">
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Face Masks</a></li>
-                                                            <li><a class="dropdown-item" href="shop-grid.html">Sterilization</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Surgical Foils</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Disposable Products</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Protective Covers</a></li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="shop-grid.html">Diagnostic Tests</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-12 col-lg-4">
-                                                        <div class="mega-menu-img">
-                                                            <a href="#"><img
-                                                                    src="assets/img/banner/mega-menu-banner.jpg"
-                                                                    alt=""></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li> -->
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('category.index') }}">Categories</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('products') }}">Products</a>
                                 </li>
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
-                                    <ul class="dropdown-menu fade-down">
-
-                                        <li><a class="dropdown-item" href="{{ route('products') }}">Products</a></li>
-                                        <li class="dropdown-submenu">
-                                        </li>
-                                        <li><a class="dropdown-item" href="{{ route('cart.index') }}">Shop Cart</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('compare.index') }}">Shop Compare</a></li>
-
-                                    </ul>
-                                </li> -->
                                 <li class="nav-item dropdown">
                                     <a class="nav-link " href="{{ route('compare.index') }}" >Compare</a>
                                 </li>

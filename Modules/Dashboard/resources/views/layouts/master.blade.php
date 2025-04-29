@@ -52,9 +52,7 @@
           @include('dashboard::layouts.includes.sidebar')
 
             @yield('content')
-              <div class="modal fade table-modal" id="hr-table-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                   aria-hidden="true">
-              </div>
+
     </div>
      <!-- Vendor Javascript (Require in all Page) -->
      <script src="{{asset('dashboard/assets/js/vendor.js')}}"></script>

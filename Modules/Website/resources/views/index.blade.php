@@ -159,7 +159,7 @@
                                 <div class="site-heading-inline justify-content-end mt-4 mb-0">
                                     <a href="{{ route('products') }}?category={{ $category->slug }}">See More Products <i class="fas fa-angle-double-right"></i></a>
                                 </div>
-                                @foreach($category->products()->where('status', 'active')->take(8)->get() as $product)
+                                @foreach($category->products()->take(8)->get() as $product)
                                 <div class="col-md-6 col-lg-4 col-xl-3">
                                     <div class="product-item">
                                         <div class="product-img">
@@ -179,8 +179,12 @@
                                                 </a>
                                                 <div class="product-action-wrap">
                                                     <div class="product-action">
-                                                        <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
-                                                        <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
+                                                    <a data-href="{{ route('product.modal', ['product' => $product->id]) }}" 
+                                                        data-container="#website-table-modal" 
+                                                        class="btn-modal">
+                                                            <i class="far fa-eye"></i>
+                                                        </a>
+                                                    <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                                             <i class="
                                                                     @auth
                                                                     {{ Auth::check() && Auth::user()->wishlist()->where('product_id', $product->id)->exists() ? 'fas' : 'far' }} 
