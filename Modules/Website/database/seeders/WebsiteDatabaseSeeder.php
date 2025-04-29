@@ -112,7 +112,7 @@ class WebsiteDatabaseSeeder extends Seeder
 
 
         // // Step 1: Create 10 categories first
-        // // Category::factory()->count(11)->create();
+        // Category::factory()->count(11)->create();
 
         // // Step 2: Create 100 products, assigning them to existing categories
         // // Insert categories, creating them only if they don’t exist
@@ -130,7 +130,7 @@ class WebsiteDatabaseSeeder extends Seeder
         //     );
         // }
 
-        // // Create 100 products, assigning them to random existing categories
+        // Create 100 products, assigning them to random existing categories
         // Product::factory()->count(100)->create([
         //     'category_id' => function () {
         //         return Category::inRandomOrder()->first()->id;

@@ -3,6 +3,7 @@
 namespace Modules\Dashboard\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class AdminRegister extends FormRequest
 {
@@ -14,13 +15,24 @@ class AdminRegister extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins',
-            'password' => 'required|string|min:8|confirmed',
+//            'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:15',
+            'password'=>['required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(), ],
             'address' => 'nullable|string|max:255',
             'store_name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             // Add any other fields you need to validate
         ];
+
+
+
     }
 
     /**

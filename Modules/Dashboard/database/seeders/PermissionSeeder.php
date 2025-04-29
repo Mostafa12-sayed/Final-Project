@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
             // settings
             ['name' => 'read-settings', 'display_name' => 'Read settings', 'description' => 'عرض الاعدادات   ', 'path' => 'settings'],
             ['name' => 'update-settings', 'display_name' => 'Update settings', 'description' => 'تعديل الاعدادات   ', 'path' => 'settings'],
+            ['name' => 'view-dashboard', 'display_name' => 'View dashboard', 'description' => 'عرض لوحة التحكم ', 'path' => 'settings'],
 
             // admins
             ['name' => 'read-admins', 'display_name' => 'Read Admins', 'description' => 'عرض المشرفين', 'path' => 'admins'],
@@ -76,6 +77,13 @@ class PermissionSeeder extends Seeder
             ['name' => 'update-customers', 'display_name' => 'Update customers', 'description' => 'تعديل  الزبائن  ', 'path' => 'customers'],
             ['name' => 'delete-customers', 'display_name' => 'Delete customers', 'description' => 'حذف  الزبائن  ', 'path' => 'customers'],
 
+
+            ['name' => 'make_order_ship', 'display_name' => 'Make order ready to ship', 'description' => 'جعل الطلب جاهز للشحن ', 'path' => 'order'],
+            ['name' => 'approve_orders_admin', 'display_name' => 'Make order ready to ship', 'description' => 'الموافقه على الطلب كأدمن ', 'path' => 'order'],
+            ['name' => 'approve_orders_seller', 'display_name' => 'Approve orders Seller', 'description' => 'الموافقة على الطلب كتاجر ', 'path' => 'order'],
+            ['name' => 'read-contact-us', 'display_name' => 'Read Contact Us', 'description' => 'عرض المراسلات ', 'path' => 'contact-us'],
+            ['name' => 'create-contact-us', 'display_name' => 'Create Contact Us', 'description' => 'اضافة مراسلة جديدة ', 'path' => 'contact-us'],
+            ['name' => 'read-orders-sellers', 'display_name' => 'Read orders sellers', 'description' => 'عرض الطلبات الخاصة بالبائع  ', 'path' => 'orders-sellers']
         ];
     }
 

@@ -12,9 +12,11 @@
                                    <div class="d-flex card-header justify-content-between align-items-center">
                                         <div class="d-flex align-items-center justify-content-between w-100">
                                              <h4 class="card-title">All Permissions List</h4>
-                                            <button data-href="{{ route('admin.permissions.create') }}" data-container="#hr-table-modal" type="button" class="btn btn-primary btn-modal" >
-                                               Create Permission
-                                            </button>
+                                            @if(auth()->guard('admin')->user()->hasPermission('create-permissions'))
+                                                <button data-href="{{ route('admin.permissions.create') }}" data-container="#hr-table-modal" type="button" class="btn btn-primary btn-modal" >
+                                                   Create Permission
+                                                </button>
+                                            @endif
                                         </div>
                                    </div>
                                    <div>

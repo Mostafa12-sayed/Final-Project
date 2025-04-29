@@ -8,15 +8,15 @@
                          <div class="row justify-content-center h-100">
                               <div class="col-lg-6 py-lg-5">
                                    @if(session()->has('error'))
-                             
+
                                         @component('dashboard::component.alert-success')
                                              @slot('type', 'danger ')
                                              @slot('bg', 'danger ')
                                              @slot('title', session('error'))
-                                        @endcomponent 
+                                        @endcomponent
                                    @endif
                                    <div class="d-flex flex-column h-100 justify-content-center">
-                         
+
                                         <h2 class="fw-bold fs-24">Sign Up</h2>
 
                                         <p class="text-muted mt-1 mb-4">New to our platform? Sign up now! It only takes a minute</p>
@@ -57,7 +57,7 @@
                                                        @endif
                                                   </div>
                                              </div>
-                                             <div class="mb-3 ">                                                      
+                                             <div class="mb-3 ">
                                                   <label class="form-label" for="store">Store Name</label>
                                                   <input type="text" id="store" name="store_name" value="{{ old('store_name') }}"
                                                   class="form-control" placeholder="Enter your Store Name">
@@ -65,9 +65,9 @@
                                                   <span class="text-danger">{{ $errors->first('store_name') }}</span>
                                                   @endif
                                              </div>
-                                                  <div class="mb-3">                                                      
+                                                  <div class="mb-3">
                                                        <label class="form-label" for="store">Store Description</label>
-                                                       <textarea type="text" id="store" 
+                                                       <textarea type="text" id="store"
                                                        name="description"
                                                        class="form-control" placeholder="Enter your Store Description"> {{old('description')}}</textarea>
                                                        @if($errors->has('description'))
@@ -81,15 +81,15 @@
                                                        <span class="text-danger">{{ $errors->first('password') }}</span>
                                                        @endif
                                                   </div>
-                                                  <div class="mb-3">                                                      
+                                                  <div class="mb-3">
                                                        <label class="form-label" for="password-confirm">Password Confirmtion</label>
-                                                       <input type="text" id="password-confirm" class="form-control"
+                                                       <input type="password" id="password-confirm" class="form-control"
                                                        name="password_confirmation"  autocomplete="new-password"
                                                        placeholder="Enter your password Confirmtion">
                                                   </div>
                                                   <div class="mb-3">
                                                        <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                                                            <input type="checkbox" class="form-check-input" id="checkbox-signin" required>
                                                             <label class="form-check-label" for="checkbox-signin">I accept Terms and Condition</label>
                                                        </div>
                                                   </div>

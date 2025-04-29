@@ -243,7 +243,7 @@
                                                 <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
                                             </h3>
                                             <div class="product-rate">
-                                                @for($i = 1; $i <= 5; $i++)
+                                                <!-- @for($i = 1; $i <= 5; $i++)
                                                     @if($i <= floor($product->rating))
                                                         <i class="fas fa-star"></i>
                                                     @elseif($i - 0.5 <= $product->rating)
@@ -251,6 +251,9 @@
                                                     @else
                                                         <i class="far fa-star"></i>
                                                     @endif
+                                                @endfor -->
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="{{ $product->average_rating >= $i ? 'fas fa-star' : ($product->average_rating >= $i - 0.5 ? 'fas fa-star-half-alt' : 'far fa-star') }}"></i>
                                                 @endfor
                                             </div>
                                             <div class="product-bottom">
