@@ -180,7 +180,7 @@ class ProductController extends Controller
 
     public function showProduct(Product $product)
     {
-
+        
         return view('website::product.modal', compact('product'));
     }
 }

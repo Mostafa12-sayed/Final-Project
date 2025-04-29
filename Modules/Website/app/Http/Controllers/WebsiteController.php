@@ -129,7 +129,8 @@ class WebsiteController extends Controller
 
     public function about_us()
     {
-        return view('website::about');
+        $stores = Stores::where('status', 'active')->where('is_approved', 'yes')->get();
+        return view('website::about', compact('stores'));
 
     }
 }

@@ -11,7 +11,7 @@
                 <div class="site-breadcrumb-wrap">
                     <h4 class="breadcrumb-title">About Us</h4>
                     <ul class="breadcrumb-menu">
-                        <li><a href="index-2.html"><i class="far fa-home"></i> Home</a></li>
+                        <li><a href="{{ route('home') }}"><i class="far fa-home"></i> Home</a></li>
                         <li class="active">About Us</li>
                     </ul>
                 </div>
@@ -71,7 +71,7 @@
                                     <li><i class="fas fa-check-double"></i> We Made Awesome Products</li>
                                 </ul>
                             </div>
-                            <a href="contact.html" class="theme-btn mt-4">Discover More<i
+                            <a href="{{ route('contact.index') }}" class="theme-btn mt-4">Discover More<i
                                     class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -147,148 +147,6 @@
         <!-- counter area end -->
 
 
-        <!-- testimonial area -->
-        <div class="testimonial-area bg py-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-delay=".25s">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline">Testimonials</span>
-                            <h2 class="site-title">What Our Client Say's <span>About Us</span></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/01.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Sylvia H Green</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/02.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Gordo Novak</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/03.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Reid E Butt</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/04.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Parker Jimenez</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/05.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Heruli Nez</h4>
-                                <p>Customer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of long passages available but the content majority have
-                                suffered to the editor page when looking at its layout alteration in some injected.
-                            </p>
-                        </div>
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote-icon"><img src="assets/img/icon/quote.svg" alt=""></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- testimonial area end -->
-
 
         <!-- video area -->
         <div class="video-area">
@@ -319,17 +177,17 @@
                 <div class="row mt-5">
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
+                            <div class="team-img" >
+                                <img src="assets/img/team/01.jpg" style="height: 350px;" alt="thumb">
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="#">Chad Smith</a></h5>
-                                    <span>Senior Manager</span>
+                                    <h5><a href="#">Moaz Darwish</a></h5>
+                                    <span>Fullstack PHP Developer </span>
                                 </div>
                             </div>
                             <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.facebook.com/Moaz.Ahmed.Elsyed"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#"><i class="fab fa-x-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
                                 <a href="#"><i class="fab fa-youtube"></i></a>
@@ -339,12 +197,12 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".50s">
                             <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
+                                <img src="assets/img/team/02.jpg" style="height: 350px;" alt="thumb">
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="#">Malissa Fie</a></h5>
-                                    <span>SEO Expert</span>
+                                    <h5><a href="#">Mostafa Hosny</a></h5>
+                                    <span>Fullstack PHP Developer</span>
                                 </div>
                             </div>
                             <div class="team-social">
@@ -357,13 +215,13 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
+                            <div class="team-img ">
+                                <img src="assets/img/team/03.PNG" style="height: 300px;" alt="thumb">
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="#">Arron Rodri</a></h5>
-                                    <span>CEO & Founder</span>
+                                    <h5><a href="#">Mostafa Sayed</a></h5>
+                                    <span>Fullstack PHP Developer</span>
                                 </div>
                             </div>
                             <div class="team-social">
@@ -381,8 +239,8 @@
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="#">Tony Pinako</a></h5>
-                                    <span>Digital Marketer</span>
+                                    <h5><a href="#">Hady Abdelmonaem</a></h5>
+                                    <span>Fullstack PHP Developer</span>
                                 </div>
                             </div>
                             <div class="team-social">
@@ -520,32 +378,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="text-center">
-                            <h2 class="site-title">Trusted by over <span>3.2k+</span> companies</h2>
+                            <h2 class="site-title">Trusted by  <span>companies</span> </h2>
                         </div>
                     </div>
                 </div>
                 <div class="brand-slider pt-40 pb-40 owl-carousel owl-theme">
+                    @foreach ($stores as $store)
                     <div class="brand-item">
                         <img src="assets/img/brand/01.png" alt="">
                     </div>
-                    <div class="brand-item">
-                        <img src="assets/img/brand/02.png" alt="">
-                    </div>
-                    <div class="brand-item">
-                        <img src="assets/img/brand/03.png" alt="">
-                    </div>
-                    <div class="brand-item">
-                        <img src="assets/img/brand/04.png" alt="">
-                    </div>
-                    <div class="brand-item">
-                        <img src="assets/img/brand/05.png" alt="">
-                    </div>
-                    <div class="brand-item">
-                        <img src="assets/img/brand/06.png" alt="">
-                    </div>
+                    @endforeach
                 </div>
                 <div class="text-center">
-                    <a href="#" class="theme-btn">View All Brands <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ route('stores') }}" class="theme-btn">View All Brands <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
