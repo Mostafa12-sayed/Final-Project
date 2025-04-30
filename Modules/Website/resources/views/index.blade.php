@@ -179,7 +179,7 @@
                                                 </a>
                                                 <div class="product-action-wrap">
                                                     <div class="product-action">
-                                                    <a data-href="{{ route('product.modal', ['product' => $product->id]) }}" 
+                                                    <a href="#" data-href="{{ route('product.modal', ['product' => $product->id]) }}" 
                                                         data-container="#website-table-modal" 
                                                         class="btn-modal">
                                                             <i class="far fa-eye"></i>
@@ -260,7 +260,7 @@
                             <a href="shop-single.html"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
                             <div class="product-action-wrap">
                                 <div class="product-action">
-                                    <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
+                                    <a href="#" data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
 
                                     <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                         <i class="
@@ -314,7 +314,7 @@
                             <a href="shop-single.html"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
                             <div class="product-action-wrap">
                                 <div class="product-action">
-                                    <a data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
+                                    <a href="#" data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
 
                                     <a href="#" class="add-to-wishlist" data-bs-placement="top" data-tooltip="tooltip" title="Add To Wishlist" data-product-id="{{ $product->id }}">
                                         <i class="
@@ -375,7 +375,7 @@
         <div class="container">
             <div class="deal-wrap wow fadeInUp" data-wow-delay=".25s">
                 <div class="deal-slider owl-carousel owl-theme">
-                    @foreach ($on_sale_products as $product)
+                    @foreach ($on_sale_products->take(6) as $product)
                     <div class="deal-item">
                         <div class="row align-items-center">
                             <div class="col-lg-6">
