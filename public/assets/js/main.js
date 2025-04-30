@@ -398,7 +398,7 @@ Version         : 1.0
     //     2 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
     // })
 
-    
+
 
 
     // flexslider
@@ -434,11 +434,11 @@ Version         : 1.0
 
 
     // modal popup banner
-    $(window).on('load', function () {
-        setTimeout(function () {
-            $("#popup-banner").modal("show");
-        }, 3000)
-    });
+    // $(window).on('load', function () {
+    //     setTimeout(function () {
+    //         $("#popup-banner").modal("show");
+    //     }, 3000)
+    // });
 
 
     // invoice print

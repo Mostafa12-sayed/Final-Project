@@ -55,6 +55,11 @@
 
     </div>
      <!-- Vendor Javascript (Require in all Page) -->
+     <div class="modal " id="hr-table-modal" tabindex="-1" aria-labelledby="quickViewModalLabel" >
+
+         <!-- AJAX content will be injected here -->
+
+     </div>
      <script src="{{asset('dashboard/assets/js/vendor.js')}}"></script>
 
      <!-- App Javascript (Require in all Page) -->

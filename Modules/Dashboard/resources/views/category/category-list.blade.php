@@ -42,7 +42,7 @@
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
                                                                            @if($category->image)
-                                                                           <img src="{{ asset('storage/'. $category->image) }}" alt="" class="avatar-md">
+                                                                           <img src="{{ asset( $category->image) }}" alt="" class="avatar-md">
                                                                            @endif
                                                                       </div>
                                                                       <p class="text-dark fw-medium fs-15 mb-0">{{ $category->name }}</p>

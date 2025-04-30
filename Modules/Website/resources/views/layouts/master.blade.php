@@ -70,13 +70,10 @@
     <!-- Ajax for quickview -->
     <script>
         $(document).on('click', '.btn-modal', function (e) {
-            console.log($(this).data('href'));
             e.preventDefault();
-            console.log("done");
-        
+
             var container = $(this).data('container');
-            console.log(container);
-        
+
             $.ajax({
                 url: $(this).data('href'),
                 dataType: 'html',
@@ -84,21 +81,6 @@
                     $(container)
                         .html(result)
                         .modal('show');
-                },
-            });
-        });
-        $(document).on('click', '.btn-modal', function (e) {
-            e.preventDefault();
-        
-            const href = $(this).data('href');
-            const container = $(this).data('container');
-        
-            $.ajax({
-                url: href,
-                dataType: 'html',
-                success: function (result) {
-                    $(container).html(result);
-        
                     const modalEl = $(container).find('.modal').get(0);
                     const modal = new bootstrap.Modal(modalEl);
                     modal.show();
@@ -106,7 +88,11 @@
             });
         });
 
-
+        $('.btn-close').on('click', function (e) {
+            e.preventDefault();
+            $(this).closest('.modal').modal('hide');
+           $('.modal').style.display = 'none';
+        });
 
     </script>
     <!-- Toast for add to cart-->
@@ -170,7 +156,7 @@
                     // Show success message
                     if (response.success) {
                         // alert('Product added to cart successfully!');
-                     } 
+                     }
                     //  else {
                     //     alert('Failed to add product to cart: ' + (response.message || 'Unknown error'));
                     // }
@@ -303,7 +289,7 @@
         e.preventDefault();
         var button = $(this);
         var productId = button.data('product-id');
-        
+
         $.ajax({
             url: '/compare/add/' + productId,
             method: 'POST',
@@ -314,7 +300,7 @@
                 if (response.success) {
                     // Update compare count in navbar
                     $('.compare-count').text(response.compare_count);
-                    
+
                     Toastify({
                         text: response.message,
                         duration: 3000,

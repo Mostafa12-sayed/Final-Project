@@ -29,17 +29,29 @@
                                              </div> <!-- end col -->
                                         </div> <!-- end row-->
                                    </div> <!-- end card body -->
-                                   <div class="card-footer py-2 bg-light bg-opacity-50">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
-                                                  <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 2.3%</span>
-                                                  <span class="text-muted ms-1 fs-12">Last Week</span>
-                                             </div>
-                                             <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                        </div>
-                                   </div> <!-- end card body -->
+
                               </div> <!-- end card -->
                          </div> <!-- end col -->
+                        <div class="col-md-6">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-md bg-soft-primary rounded">
+                                                <i class="bx bxs-backpack avatar-title fs-24 text-primary"></i>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-6 text-end">
+                                            <p class="text-muted mb-0 text-truncate">Total Earnings</p>
+                                            <h3 class="text-dark mt-1 mb-0">        {{ number_format(\Modules\Website\App\Models\Order::sum('total'), 2) }}
+
+                                            </h3>
+                                        </div> <!-- end col -->
+                                    </div> <!-- end row-->
+                                </div> <!-- end card body -->
+
+                            </div> <!-- end card -->
+                        </div> <!-- end col -->
                          <div class="col-md-6">
                               <div class="card overflow-hidden">
                                    <div class="card-body">
@@ -55,43 +67,10 @@
                                              </div> <!-- end col -->
                                         </div> <!-- end row-->
                                    </div> <!-- end card body -->
-                                   <div class="card-footer py-2 bg-light bg-opacity-50">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
-                                                  <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 8.1%</span>
-                                                  <span class="text-muted ms-1 fs-12">Last Month</span>
-                                             </div>
-                                             <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                        </div>
-                                   </div> <!-- end card body -->
+
                               </div> <!-- end card -->
                          </div> <!-- end col -->
-                         <div class="col-md-6">
-                              <div class="card overflow-hidden">
-                                   <div class="card-body">
-                                        <div class="row">
-                                             <div class="col-6">
-                                                  <div class="avatar-md bg-soft-primary rounded">
-                                                       <i class="bx bxs-backpack avatar-title fs-24 text-primary"></i>
-                                                  </div>
-                                             </div> <!-- end col -->
-                                             <div class="col-6 text-end">
-                                                  <p class="text-muted mb-0 text-truncate">Deals</p>
-                                                  <h3 class="text-dark mt-1 mb-0">976</h3>
-                                             </div> <!-- end col -->
-                                        </div> <!-- end row-->
-                                   </div> <!-- end card body -->
-                                   <div class="card-footer py-2 bg-light bg-opacity-50">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
-                                                  <span class="text-danger"> <i class="bx bxs-down-arrow fs-12"></i> 0.3%</span>
-                                                  <span class="text-muted ms-1 fs-12">Last Month</span>
-                                             </div>
-                                             <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                        </div>
-                                   </div> <!-- end card body -->
-                              </div> <!-- end card -->
-                         </div> <!-- end col -->
+
                          <div class="col-md-6">
                               <div class="card overflow-hidden">
                                    <div class="card-body">
@@ -102,20 +81,12 @@
                                                   </div>
                                              </div> <!-- end col -->
                                              <div class="col-6 text-end">
-                                                  <p class="text-muted mb-0 text-truncate">Booked Revenue</p>
-                                                  <h3 class="text-dark mt-1 mb-0">$123.6k</h3>
+                                                  <p class="text-muted mb-0 text-truncate">Total Products</p>
+                                                  <h3 class="text-dark mt-1 mb-0">{{\Modules\Website\App\Models\Product::count()}}</h3>
                                              </div> <!-- end col -->
                                         </div> <!-- end row-->
                                    </div> <!-- end card body -->
-                                   <div class="card-footer py-2 bg-light bg-opacity-50">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <div>
-                                                  <span class="text-danger"> <i class="bx bxs-down-arrow fs-12"></i> 10.6%</span>
-                                                  <span class="text-muted ms-1 fs-12">Last Month</span>
-                                             </div>
-                                             <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                        </div>
-                                   </div> <!-- end card body -->
+
                               </div> <!-- end card -->
                          </div> <!-- end col -->
                     </div> <!-- end row -->
@@ -133,8 +104,8 @@
                                         Recent Orders
                                    </h4>
 
-                                   <a href="#!" class="btn btn-sm btn-soft-primary">
-                                        <i class="bx bx-plus me-1"></i>Create Order
+                                   <a href="{{route('admin.orders.index')}}" class="btn btn-sm btn-soft-primary">
+                                        <i class="bx bx-eye me-1"></i>View All Orders
                                    </a>
                               </div>
                          </div>
@@ -174,103 +145,27 @@
                                    </thead>
                                    <!-- end thead-->
                                    <tbody>
+                                   @foreach($orders as $order)
                                         <tr>
                                              <td class="ps-3">
-                                                  <a href="order-detail.html">#RB5625</a>
+                                                  <a href="order-detail.html">#{{$order->id}}</a>
                                              </td>
-                                             <td>29 April 2024</td>
+                                             <td>{{$order->created_at->format('d M Y h:i A')}}</td>
                                              <td>
-                                                  <img src="assets/images/products/product-1(1).png" alt="product-1(1)" class="img-fluid avatar-sm">
+                                                 {{$order->items->count()}}
                                              </td>
                                              <td>
-                                                  <a href="#!">Anna M. Hines</a>
+                                                  <a href="#!">{{$order->user->name}}</a>
                                              </td>
-                                             <td>anna.hines@mail.com</td>
-                                             <td>(+1)-555-1564-261</td>
-                                             <td>Burr Ridge/Illinois</td>
-                                             <td>Credit Card</td>
+                                             <td>{{$order->user->email}}</td>
+                                             <td>{{$order->user->phone}}</td>
+                                             <td>{{$order->address->street_addresses ?? ''}}</td>
+                                             <td>{{$order->payment_method}}</td>
                                              <td>
-                                                  <i class="bx bxs-circle text-success me-1"></i>Completed
+                                                 {{$order->status}}
                                              </td>
                                         </tr>
-                                        <tr>
-                                             <td class="ps-3">
-                                                  <a href="order-detail.html">#RB9652</a>
-                                             </td>
-                                             <td>25 April 2024</td>
-                                             <td>
-                                                  <img src="assets/images/products/product-4.png" alt="product-4" class="img-fluid avatar-sm">
-                                             </td>
-                                             <td>
-                                                  <a href="#!">Judith H. Fritsche</a>
-                                             </td>
-                                             <td>judith.fritsche.com</td>
-                                             <td>(+57)-305-5579-759</td>
-                                             <td>SULLIVAN/Kentucky</td>
-                                             <td>Credit Card</td>
-                                             <td>
-                                                  <i class="bx bxs-circle text-success me-1"></i>Completed
-                                             </td>
-                                        </tr>
-                                        <tr>
-                                             <td class="ps-3">
-                                                  <a href="order-detail.html">#RB5984</a>
-                                             </td>
-                                             <td>25 April 2024</td>
-                                             <td>
-                                                  <img src="assets/images/products/product-5.png" alt="product-5" class="img-fluid avatar-sm">
-                                             </td>
-                                             <td>
-                                                  <a href="#!">Peter T. Smith</a>
-                                             </td>
-                                             <td>peter.smith@mail.com</td>
-                                             <td>(+33)-655-5187-93</td>
-                                             <td>Yreka/California</td>
-                                             <td>Pay Pal</td>
-                                             <td>
-                                                  <i class="bx bxs-circle text-success me-1"></i>Completed
-                                             </td>
-                                        </tr>
-                                        <tr>
-                                             <td class="ps-3">
-                                                  <a href="order-detail.html">#RB3625</a>
-                                             </td>
-                                             <td>21 April 2024</td>
-                                             <td>
-                                                  <img src="assets/images/products/product-6.png" alt="product-6" class="img-fluid avatar-sm">
-                                             </td>
-                                             <td>
-                                                  <a href="#!">Emmanuel J. Delcid</a>
-                                             </td>
-                                             <td>
-                                                  emmanuel.delicid@mail.com
-                                             </td>
-                                             <td>(+30)-693-5553-637</td>
-                                             <td>Atlanta/Georgia</td>
-                                             <td>Pay Pal</td>
-                                             <td>
-                                                  <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                             </td>
-                                        </tr>
-                                        <tr>
-                                             <td class="ps-3">
-                                                  <a href="order-detail.html">#RB8652</a>
-                                             </td>
-                                             <td>18 April 2024</td>
-                                             <td>
-                                                  <img src="assets/images/products/product-1(2).png" alt="product-1(2)" class="img-fluid avatar-sm">
-                                             </td>
-                                             <td>
-                                                  <a href="#!">William J. Cook</a>
-                                             </td>
-                                             <td>william.cook@mail.com</td>
-                                             <td>(+91)-855-5446-150</td>
-                                             <td>Rosenberg/Texas</td>
-                                             <td>Credit Card</td>
-                                             <td>
-                                                  <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                             </td>
-                                        </tr>
+                                  @endforeach
                                    </tbody>
                                    <!-- end tbody -->
                               </table>
@@ -280,35 +175,8 @@
 
                          <div class="card-footer border-top">
                               <div class="row g-3">
-                                   <div class="col-sm">
-                                        <div class="text-muted">
-                                             Showing
-                                             <span class="fw-semibold">5</span>
-                                             of
-                                             <span class="fw-semibold">90,521</span>
-                                             orders
-                                        </div>
-                                   </div>
+                                  <x-dashboard::paginate :items="$orders" />
 
-                                   <div class="col-sm-auto">
-                                        <ul class="pagination m-0">
-                                             <li class="page-item">
-                                                  <a href="#" class="page-link"><i class="bx bx-left-arrow-alt"></i></a>
-                                             </li>
-                                             <li class="page-item active">
-                                                  <a href="#" class="page-link">1</a>
-                                             </li>
-                                             <li class="page-item">
-                                                  <a href="#" class="page-link">2</a>
-                                             </li>
-                                             <li class="page-item">
-                                                  <a href="#" class="page-link">3</a>
-                                             </li>
-                                             <li class="page-item">
-                                                  <a href="#" class="page-link"><i class="bx bx-right-arrow-alt"></i></a>
-                                             </li>
-                                        </ul>
-                                   </div>
                               </div>
                          </div>
                     </div>
