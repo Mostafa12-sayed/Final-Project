@@ -1,6 +1,18 @@
 @extends('dashboard::layouts.master')
 @section('title', 'Sellers List')
 @section('content')
+    @php
+
+        function formatShortNumber($storeId) {
+            $total = \Modules\Website\App\Models\Order::where('store_id', $storeId)->sum('total');
+
+            if ($total >= 1000000) return '+' . round($total / 1000000, 1) . 'M';
+            if ($total >= 1000) return '+' . round($total / 1000, 1) . 'k';
+            return '+' . number_format($total, 0);
+        }
+    @endphp
+
+
 <div class="page-content">
 
         <div class="container-xxl">
@@ -42,8 +54,8 @@
                                              <p class="text-muted mb-0">Item Stock</p>
                                         </div>
                                         <div class="col-lg-6 col-6 ">
-                                             <h5 class="mb-1">+4.5k</h5>
-                                             <p class="text-muted mb-0">Sells</p>
+                                            {{ formatShortNumber($seller->id) }} Sells
+
                                         </div>
 {{--                                        <div class="col-lg-4 col-4">--}}
 {{--                                             <h5 class="mb-1">+2k</h5>--}}
