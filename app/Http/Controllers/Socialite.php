@@ -49,18 +49,7 @@ class Socialite extends Controller
         return redirect()->route('home');
     }
 
-    public function facebook_redirect()
-    {
-        return FacadesSocialite::driver('facebook')->redirect();
-    }
 
-    public function facebook_callback()
-    {
-        $user = FacadesSocialite::driver('facebook')->user();
-        dd($user);
-
-        return redirect()->route('home');
-    }
 
     public function twitter_redirect()
     {

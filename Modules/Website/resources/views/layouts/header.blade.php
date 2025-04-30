@@ -55,11 +55,11 @@
                                                 <a href="{{route('profile.index')}}" class="list-item" style="text-decoration: none;">
                                                 <div class="list-item-icon">
                                                 @if (Auth::user()->image_url)
-                                                <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage2" style="border-radius: 50%;  width: 100%;">
+                                                <img src="{{ Auth::user()->image_url }}" alt="" id="profileImage2" style="border-radius: 50%; height: 50px;  width: 100%;">
                                                 @elseif (Auth::user()->profile_image)
-                                                <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage1" style="border-radius: 50%;  width: 100%;">
+                                                <img src="{{ Auth::user()->profile_image }}" alt="" id="profileImage1" style="border-radius: 50%; height: 50px;  width: 100%;">
                                                 @else
-                                                <img src="{{ asset('assets/img/account').'/04.jpg'}}" alt="" id="profileImage3" style="border-radius: 50%;  width: 100%;">
+                                                <img src="{{ asset('assets/img/account').'/04.jpg'}}" alt="" id="profileImage3" style="border-radius: 50%;height: 50px;  width: 100%;">
                                                 @endif
                                                 </div>
                                                 <div class="list-item-info">

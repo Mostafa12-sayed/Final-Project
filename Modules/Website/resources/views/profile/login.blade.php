@@ -72,7 +72,6 @@
                         <span class="social-divider">or</span>
                         <p>Continue with social media</p>
                         <div class="social-login-list">
-                            <a href="{{ route('facebook.redirect') }}" class="fb-auth"><i class="fab fa-facebook-f"></i> Facebook</a>
                             <a href="{{ route('google.redirect') }}" class="gl-auth"><i class="fab fa-google"></i> Google</a>
                             <a href="{{ route('twitter.redirect') }}" class="tw-auth"><i class="fab fa-x-twitter"></i> Twitter</a>
                         </div>
