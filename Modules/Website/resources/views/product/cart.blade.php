@@ -92,10 +92,23 @@
                                 <div class="row">
                                     <div class="col-md-7 col-lg-6">
                                         <div class="shop-cart-coupon">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Your Coupon Code">
-                                                <button class="theme-btn" type="submit">Apply Coupon</button>
-                                            </div>
+                                            <form id="coupon-form" action="{{ route('cart.applyCoupon') }}" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <input type="text" name="coupon_code" id="coupon_code" class="form-control" placeholder="Your Coupon Code">
+                                                    <button class="theme-btn" type="submit">Apply Coupon</button>
+                                                </div>
+                                            </form>
+                                            @if(session('error'))
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ session('error') }}
+                                                </div>
+                                            @endif
+                                            @if(session('success'))
+                                                <div class="alert alert-success mt-2">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-5 col-lg-6">
@@ -113,6 +126,9 @@
                             <ul>
                                 <li><strong>Sub Total:</strong> <span id="subtotal">${{ number_format($subtotal, 2) }}</span></li>
                                 <li><strong>Discount:</strong> <span id="discount">${{ number_format($discount, 2) }}</span></li>
+                                @if(session('coupon'))
+                                <li><strong>Coupon Applied:</strong> <span>{{ session('coupon') }}</span> <a href="#" id="remove-coupon" class="text-danger">(Remove)</a></li>
+                                @endif
                                 <li><strong>Shipping:</strong> <span id="shipping">Free</span></li>
                                 <li><strong>Taxes:</strong> <span id="taxes">${{ number_format($taxes, 2) }}</span></li>
                                 <li class="shop-cart-total"><strong>Total:</strong> <span id="total">${{ number_format($total, 2) }}</span></li>
@@ -219,6 +235,65 @@
                 $('#taxes').text('$' + cartData.taxes.toFixed(2));
                 $('#total').text('$' + cartData.total.toFixed(2));
             }
+
+            // Handle coupon form submission
+            $('#coupon-form').on('submit', function(e) {
+                e.preventDefault();
+
+                var couponCode = $('#coupon_code').val();
+                if (!couponCode) {
+                    alert('Please enter a coupon code');
+                    return;
+                }
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        coupon_code: couponCode
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Reload the page to show the updated cart with coupon applied
+                            location.reload();
+                        } else {
+                            alert(response.message || 'Error applying coupon');
+                        }
+                    },
+                    error: function(xhr) {
+                        var errorMessage = 'Error applying coupon';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            });
+
+            // Handle coupon removal
+            $('#remove-coupon').on('click', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ route("cart.removeCoupon") }}',
+                    method: 'GET',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Reload the page to show the updated cart without coupon
+                            location.reload();
+                        } else {
+                            alert(response.message || 'Error removing coupon');
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Error removing coupon');
+                    }
+                });
+            });
         });
     </script>
 @endsection
