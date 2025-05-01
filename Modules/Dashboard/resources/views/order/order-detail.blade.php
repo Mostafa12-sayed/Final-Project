@@ -115,8 +115,7 @@
 
                                    <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                         <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Estimated shipping date : <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
-                                       @if(optional(auth('admin')->user()->role)->name == 'admin')
-
+                                       @if(auth('admin')->user()->hasPermission('make_order_ship'))
                                        <div>
                                              <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
                                         </div>
@@ -321,9 +320,9 @@
                </div>
                <div class="col-xl-3 col-lg-4">
                     <div class="card">
-                         <div class="card-header">
-{{--                              <h4 class="card-title">Order Summary</h4>--}}
-                         </div>
+                        <div class="card-header">
+                            <h4 class="card-title">Payment Details</h4>
+                        </div>
                          <div class="card-body">
                               <div class="table-responsive">
                                    <table class="table mb-0">
@@ -409,7 +408,6 @@
 
                               <div class="d-flex justify-content-between mt-3">
                                    <h5 class="">Shipping Address</h5>
-
                               </div>
 
                               <div>
@@ -426,13 +424,7 @@
                               <p class="mb-1">Same as shipping address</p>
                          </div>
                     </div>
-{{--                    <div class="card">--}}
-{{--                         <div class="card-body">--}}
-{{--                              <div class="mapouter">--}}
-{{--                                   <div class="gmap_canvas"><iframe class="gmap_iframe rounded" width="100%" style="height: 418px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=1980&amp;height=400&amp;hl=en&amp;q=University%20of%20Oxford&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>--}}
-{{--                              </div>--}}
-{{--                         </div>--}}
-{{--                    </div>--}}
+
                </div>
           </div>
      </div>

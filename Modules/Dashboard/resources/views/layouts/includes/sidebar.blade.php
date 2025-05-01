@@ -30,6 +30,7 @@
                  <ul class="navbar-nav" id="navbar-nav">
 
                       <li class="menu-title">General</li>
+                     @if(auth()->guard('admin')->user()->hasPermission('view-dashboard'))
 
                       <li class="nav-item">
                            <a class="nav-link" href="{{ route('admin.dashboard') }}">
@@ -39,6 +40,7 @@
                                 <span class="nav-text"> Dashboard </span>
                            </a>
                       </li>
+                      @endif
                       {{-- products --}}
                       <li class="nav-item">
                            <a class="nav-link menu-arrow" href="#sidebarProducts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarProducts">

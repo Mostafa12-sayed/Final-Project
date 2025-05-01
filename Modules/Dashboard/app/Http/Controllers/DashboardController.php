@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Modules\Dashboard\Mail\ContactReplyMail;
 use Modules\Website\app\Models\ContactUs;
+use Modules\Website\app\Models\Order;
 
 class DashboardController extends Controller
 {
@@ -16,7 +17,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard::home.index');
+        $orders = Order::orderBy('id', 'desc')->paginate(5);
+        return view('dashboard::home.index',compact('orders'));
     }
 
     /**
