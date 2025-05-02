@@ -19,110 +19,130 @@
                                                       {{$order->created_at->format('d M Y h:i A')}}</p>
                                              </div>
                                              <div>
-                                                 @if(optional(auth('admin')->user()->role)->name == 'admin')
-                                                  <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
-                                                     <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
-                                                 @else
-                                                 <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Processing</a>
-                                                 <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Completed</a>
-
+                                                 @if(auth('admin')->user()->hasPermission('approve_orders_admin'))
+                                                     @if($order->admin_status == 'pending')
+                                                         <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
+                                                         <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
+                                                     @elseif($order->admin_status == 'approved')
+                                                         <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
+                                                     @elseif($order->admin_status =='rejected')
+                                                         <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
+                                                     @endif
+                                                 @elseif(auth('admin')->user()->hasPermission('approve_orders_seller'))
+                                                     @if($order->seller_status == 'pending')
+                                                         <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
+                                                         <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
+                                                     @elseif($order->seller_status == 'approved')
+                                                         <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
+                                                     @elseif($order->seller_status =='rejected')
+                                                         <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
+                                                     @endif
                                                  @endif
                                              </div>
 
                                         </div>
-
-                                        <div class="mt-4">
-                                             <h4 class="fw-medium text-dark">Progress</h4>
-                                        </div>
-                                       <div class="row row">
-                                           <div class="row">
-                                               <strong class="fw-bold text-dark">Order Admin Confirming : {{ $order->admin_status}}</strong>
-                                           </div>
-                                           <div class="row">
-                                               <strong class="fw-bold text-dark">Order Seller Confirming : {{ $order->seller_status}}</strong>
-                                           </div>
-                                           <div class="row">
-                                               <strong class="fw-bold text-dark">Order Status : {{ $order->status  }}</strong>
-                                           </div>
-                                       </div>
-
-{{--                                           --}}{{-- Step 1: Order Confirming --}}
-{{--                                           @if(in_array($order->status, ['pending', 'confirmed', 'processing', 'delivered', 'completed']))--}}
-{{--                                               <div class="col">--}}
-{{--                                                   <div class="progress mt-3" style="height: 10px;">--}}
-{{--                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                       </div>--}}
-{{--                                                   </div>--}}
-{{--                                                   <p class="mb-0 mt-2">Order Confirming</p>--}}
-{{--                                               </div>--}}
-{{--                                           @endif--}}
-
-{{--                                           --}}{{-- Step 2: Payment Pending --}}
-{{--                                           @if(in_array($order->status, ['pending', 'processing', 'delivered', 'completed']))--}}
-{{--                                               <div class="col">--}}
-{{--                                                   <div class="progress mt-3" style="height: 10px;">--}}
-{{--                                                       <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                       </div>--}}
-{{--                                                   </div>--}}
-{{--                                                   <p class="mb-0 mt-2">Payment Pending</p>--}}
-{{--                                               </div>--}}
-{{--                                           @endif--}}
-
-{{--                                           --}}{{-- Step 3: Processing --}}
-{{--                                           <div class="col">--}}
-{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
-{{--                                                   <div class="progress-bar progress-bar-striped progress-bar-animated--}}
-{{--                                                        {{ $order->status == 'processing' ? 'bg-warning' : 'bg-light' }}"--}}
-{{--                                                        style="width: {{ $order->status == 'processing' ? '50%' : '0%' }}"--}}
-{{--                                                        role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                   </div>--}}
-{{--                                               </div>--}}
-{{--                                               <div class="d-flex align-items-center gap-2 mt-2">--}}
-{{--                                                   <p class="mb-0">Processing</p>--}}
-{{--                                                   @if($order->status == 'processing')--}}
-{{--                                                       <div class="spinner-border spinner-border-sm text-warning" role="status">--}}
-{{--                                                           <span class="visually-hidden">Loading...</span>--}}
-{{--                                                       </div>--}}
-{{--                                                   @endif--}}
-{{--                                               </div>--}}
-{{--                                           </div>--}}
-
-{{--                                           --}}{{-- Step 4: Shipping --}}
-{{--                                           <div class="col">--}}
-{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
-{{--                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"--}}
-{{--                                                        style="width: {{ $order->status == 'shipping' || $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"--}}
-{{--                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                   </div>--}}
-{{--                                               </div>--}}
-{{--                                               <p class="mb-0 mt-2">Shipping</p>--}}
-{{--                                           </div>--}}
-
-{{--                                           --}}{{-- Step 5: Delivered --}}
-{{--                                           <div class="col">--}}
-{{--                                               <div class="progress mt-3" style="height: 10px;">--}}
-{{--                                                   <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"--}}
-{{--                                                        style="width: {{ $order->status == 'delivered' || $order->status == 'completed' ? '100%' : '0%' }}"--}}
-{{--                                                        role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                   </div>--}}
-{{--                                               </div>--}}
-{{--                                               <p class="mb-0 mt-2">Delivered</p>--}}
-{{--                                           </div>--}}
-
-{{--                                       </div>--}}
-
                                    </div>
-
                                    <div class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                         <p class="border rounded mb-0 px-2 py-1 bg-body"><i class='bx bx-arrow-from-left align-middle fs-16'></i> Estimated shipping date : <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
-                                       @if(auth('admin')->user()->hasPermission('make_order_ship'))
-                                       <div>
-                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
-                                        </div>
-                                       @endif
+{{--                                       @if(auth('admin')->user()->hasPermission('make_order_ship'))--}}
+{{--                                       <div>--}}
+{{--                                           @if($order->admin_status == 'approved' && $order->status == 'pending')--}}
+{{--                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>--}}
+{{--                                           @endif--}}
+{{--                                       </div>--}}
+{{--                                       @endif--}}
                                    </div>
                               </div>
-                              <div class="card">
+                             <div class="card shadow-sm p-3 mb-4">
+                                 <div class="card-header d-flex justify-content-between align-items-center">
+                                     <div class="d-flex align-items-center gap-2">    <h5 class="mb-0">Order Actions</h5>
+                                         <span class="badge bg-info">Order #{{ $order->id }}</span>
+                                     </div>
+                                     <div class="d-flex align-items-center gap-2">
+                                     {{-- Print Invoice --}}
+                                     <a href="{{ route('admin.order.invoice', $order->id) }}" class="btn btn-secondary" target="_blank">
+                                         <i class="bi bi-printer"></i> Print Invoice
+                                     </a>
+                                         {{-- Mark as Shipped --}}
+                                         @if(in_array($order->status, ['shipping', 'confirming']) && auth('admin')->user()->hasPermission('make_order_ship'))
+                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
+                                         @endif
+                                     </div>
+                                     </div>
+                                 <div class="card-body">
+                                     <div >
+                                         <h4 class="fw-medium text-dark">Progress</h4>
+                                     </div>
+                                     <div class="row mb-2">
+                                         <div class="row">
+                                             <strong class="fw-bold text-dark">Order Admin Confirming : {{ $order->admin_status}}</strong>
+                                         </div>
+                                         <div class="row">
+                                             <strong class="fw-bold text-dark">Order Seller Confirming : {{ $order->seller_status}}</strong>
+                                         </div>
+                                         <div class="row">
+                                             <strong class="fw-bold text-dark">Order Status : {{ $order->status  }}</strong>
+                                         </div>
+                                     </div>
+                                     <div class="d-flex flex-wrap gap-2">
+
+                                         {{-- Confirm Order --}}
+                                         @if($order->status === 'pending')
+                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'confirming'])}}" class="btn btn-primary">Confirm Order</a>
+
+                                         @endif
+
+                                         {{-- Cancel Order --}}
+                                         @if(in_array($order->status, ['pending', 'confirming']))
+                                                 <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'cancelling'])}}" class="btn btn-primary">Cancel Order</a>
+                                         @endif
+                                         @if(in_array($order->status, ['shipping', 'confirming']))
+                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'completed'])}}" class="btn btn-primary">Complated Order</a>
+                                         @endif
+
+
+
+
+
+                                         {{-- Delete Order --}}
+{{--                                         <form action="{{ route('admin.order.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">--}}
+{{--                                             @csrf--}}
+{{--                                             @method('DELETE')--}}
+{{--                                             <button type="submit" class="btn btn-outline-danger">--}}
+{{--                                                 <i class="bi bi-trash"></i> Delete--}}
+{{--                                             </button>--}}
+{{--                                         </form>--}}
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                 <div class="col-md-6">
+                                     @if( auth('admin')->user()->hasPermission('make_order_payment'))
+                                         <label for="payment_status" class="mb-2">Payment Status</label>
+                                         <form action="{{route('admin.order.update-payment-status', ['order'=>$order->id])}}" method="POST">
+                                             @csrf
+                                             <select name="payment_status" id="payment_status" class="form-select">
+                                                 <option value="paid" {{ $order->payment_status == 'paid' ?'selected' : '' }}>Paid</option>
+                                                 <option value="pending" {{ $order->payment_status == 'pending' ?'selected' : '' }}>Pending</option>
+                                             </select>
+                                             <button type="submit" class="btn btn-primary mt-2">Seve</button>
+                                         </form>
+                                     @endif
+                                 </div>
+                                 <div class="col-md-6">
+                                     @if( auth('admin')->user()->hasPermission('make_order_payment'))
+                                         <label for="payment_status" class="mb-2">Shipping Value</label>
+                                         <form action="{{route('admin.order.update-update-shipping-value', ['order'=>$order->id])}}" method="POST">
+                                             @csrf
+                                             <input type="text" name="shipping_value" id="shipping_value" class="form-control" value="{{ $order->shipping }}">
+
+                                             <button type="submit" class="btn btn-primary mt-2">Seve</button>
+                                         </form>
+                                     @endif
+                                 </div>
+                                 </div>
+                             </div>
+
+                             <div class="card">
                                    <div class="card-header">
                                         <h4 class="card-title">Product</h4>
                                    </div>
@@ -169,152 +189,7 @@
                                         </div>
                                    </div>
                               </div>
-{{--                              <div class="card">--}}
-{{--                                   <div class="card-header">--}}
-{{--                                        <h4 class="card-title">Order Timeline</h4>--}}
-{{--                                   </div>--}}
-{{--                                   <div class="card-body">--}}
-{{--                                        <div class="position-relative ms-2">--}}
-{{--                                             <span class="position-absolute start-0  top-0 border border-dashed h-100"></span>--}}
-{{--                                             <div class="position-relative ps-4">--}}
-{{--                                                  <div class="mb-4">--}}
-{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle">--}}
-{{--                                                            <div class="spinner-border spinner-border-sm text-warning" role="status">--}}
-{{--                                                                 <span class="visually-hidden">Loading...</span>--}}
-{{--                                                            </div>--}}
-{{--                                                       </span>--}}
-{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
-{{--                                                            <div>--}}
-{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The packing has been started</h5>--}}
-{{--                                                                 <p class="mb-0">Confirmed by Gaston Lapierre</p>--}}
-{{--                                                            </div>--}}
-{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
 
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="position-relative ps-4">--}}
-{{--                                                  <div class="mb-4">--}}
-{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
-{{--                                                            <i class='bx bx-check-circle'></i>--}}
-{{--                                                       </span>--}}
-{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">--}}
-{{--                                                            <div>--}}
-{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been sent to the customer</h5>--}}
-{{--                                                                 <p class="mb-2">Invoice email was sent to <a href="#!" class="link-primary">hello@dundermuffilin.com</a></p>--}}
-{{--                                                                 <a href="#!" class="btn btn-light">Resend Invoice</a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
-
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="position-relative ps-4">--}}
-{{--                                                  <div class="mb-4">--}}
-{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
-{{--                                                            <i class='bx bx-check-circle'></i>--}}
-{{--                                                       </span>--}}
-{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
-{{--                                                            <div>--}}
-{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">The Invoice has been created</h5>--}}
-{{--                                                                 <p class="mb-2">Invoice created by Gaston Lapierre</p>--}}
-{{--                                                                 <a href="#!" class="btn btn-primary">Download Invoice</a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
-
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="position-relative ps-4">--}}
-{{--                                                  <div class="mb-4">--}}
-{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
-{{--                                                            <i class='bx bx-check-circle'></i>--}}
-{{--                                                       </span>--}}
-{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2 align-items-center justify-content-between">--}}
-{{--                                                            <div>--}}
-{{--                                                                 <h5 class="mb-1 text-dark fw-medium fs-15">Order Payment</h5>--}}
-{{--                                                                 <p class="mb-2">Using Master Card</p>--}}
-{{--                                                                 <div class="d-flex align-items-center gap-2">--}}
-{{--                                                                      <p class="mb-1 text-dark fw-medium">Status :</p>--}}
-{{--                                                                      <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">Paid</span>--}}
-{{--                                                                 </div>--}}
-{{--                                                            </div>--}}
-{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
-
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="position-relative ps-4">--}}
-{{--                                                  <div class="mb-2">--}}
-{{--                                                       <span class="position-absolute start-0 avatar-sm translate-middle-x bg-light d-inline-flex align-items-center justify-content-center rounded-circle text-success fs-20">--}}
-{{--                                                            <i class='bx bx-check-circle'></i>--}}
-{{--                                                       </span>--}}
-{{--                                                       <div class="ms-2 d-flex flex-wrap gap-2  align-items-center justify-content-between">--}}
-{{--                                                            <div>--}}
-{{--                                                                 <h5 class="mb-2 text-dark fw-medium fs-15">4 Order conform by Gaston Lapierre</h5>--}}
-{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 1</a>--}}
-{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 2</a>--}}
-{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 3</a>--}}
-{{--                                                                 <a href="#!" class="badge bg-light text-dark fw-normal  px-2 py-1 fs-13">Order 4</a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <p class="mb-0">April 23, 2024, 09:40 am</p>--}}
-
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                        </div>--}}
-{{--                                   </div>--}}
-{{--                              </div>--}}
-{{--                              <div class="card bg-light-subtle">--}}
-{{--                                   <div class="card-body">--}}
-{{--                                        <div class="row g-3 g-lg-0">--}}
-{{--                                             <div class="col-lg-3 border-end">--}}
-{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
-{{--                                                       <div>--}}
-{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Vender</p>--}}
-{{--                                                            <p class="mb-0">Catpiller</p>--}}
-{{--                                                       </div>--}}
-{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
-{{--                                                            <iconify-icon icon="solar:shop-2-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="col-lg-3 border-end">--}}
-{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
-{{--                                                       <div>--}}
-{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Date</p>--}}
-{{--                                                            <p class="mb-0">April 23 , 2024</p>--}}
-{{--                                                       </div>--}}
-{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
-{{--                                                            <iconify-icon icon="solar:calendar-date-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="col-lg-3 border-end">--}}
-{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
-{{--                                                       <div>--}}
-{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Paid By</p>--}}
-{{--                                                            <p class="mb-0">Gaston Lapierre</p>--}}
-{{--                                                       </div>--}}
-{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
-{{--                                                            <iconify-icon icon="solar:user-circle-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                             <div class="col-lg-3">--}}
-{{--                                                  <div class="d-flex align-items-center gap-3 justify-content-between px-3">--}}
-{{--                                                       <div>--}}
-{{--                                                            <p class="text-dark fw-medium fs-16 mb-1">Reference #IMEMO</p>--}}
-{{--                                                            <p class="mb-0">#0758267/90</p>--}}
-{{--                                                       </div>--}}
-{{--                                                       <div class="avatar bg-light d-flex align-items-center justify-content-center rounded">--}}
-{{--                                                            <iconify-icon icon="solar:clipboard-text-bold-duotone" class="fs-35 text-primary"></iconify-icon>--}}
-{{--                                                       </div>--}}
-{{--                                                  </div>--}}
-{{--                                             </div>--}}
-{{--                                        </div>--}}
-{{--                                   </div>--}}
-{{--                              </div>--}}
                          </div>
                     </div>
                </div>
@@ -361,33 +236,11 @@
                                    <p class="fw-medium text-dark mb-0">Total Amount</p>
                               </div>
                               <div>
-                                   <p class="fw-medium text-dark mb-0">${{$order->total}}</p>
+                                   <p class="fw-medium text-dark mb-0">${{$order->total + $order->shipping}}</p>
                               </div>
 
                          </div>
                     </div>
-{{--                    <div class="card">--}}
-{{--                         <div class="card-header">--}}
-{{--                              <h4 class="card-title">Payment Information</h4>--}}
-{{--                         </div>--}}
-{{--                         <div class="card-body">--}}
-{{--                              <div class="d-flex align-items-center gap-3 mb-3">--}}
-{{--                                   <div class="rounded-3 bg-light avatar d-flex align-items-center justify-content-center">--}}
-{{--                                        <img src="assets/images/card/mastercard.svg" alt="" class="avatar-sm">--}}
-{{--                                   </div>--}}
-{{--                                   <div>--}}
-{{--                                        <p class="mb-1 text-dark fw-medium">Master Card</p>--}}
-{{--                                        <p class="mb-0 text-dark">xxxx xxxx xxxx 7812</p>--}}
-{{--                                   </div>--}}
-{{--                                   <div class="ms-auto">--}}
-{{--                                        <iconify-icon icon="solar:check-circle-broken" class="fs-22 text-success"></iconify-icon>--}}
-{{--                                   </div>--}}
-{{--                              </div>--}}
-{{--                              <p class="text-dark mb-1 fw-medium">Transaction ID : <span class="text-muted fw-normal fs-13"> #IDN768139059</span></p>--}}
-{{--                              <p class="text-dark mb-0 fw-medium">Card Holder Name : <span class="text-muted fw-normal fs-13"> Gaston Lapierre</span></p>--}}
-
-{{--                         </div>--}}
-{{--                    </div>--}}
                     <div class="card">
                          <div class="card-header">
                               <h4 class="card-title">Customer Details</h4>

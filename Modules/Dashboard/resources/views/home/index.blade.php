@@ -141,10 +141,14 @@
                                              <th>
                                                   Status
                                              </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                    </thead>
                                    <!-- end thead-->
                                    <tbody>
+                                   @if($orders->count() > 0)
                                    @foreach($orders as $order)
                                         <tr>
                                              <td class="ps-3">
@@ -164,8 +168,19 @@
                                              <td>
                                                  {{$order->status}}
                                              </td>
+                                            <td>
+                                                     <a href="{{route('admin.order.show', ['order' => $order->id])}}" class="btn btn-sm btn-soft-primary">
+                                                         <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
+
+                                                     </a>
+                                             </td>
                                         </tr>
                                   @endforeach
+                                   @else
+                                   <tr>
+                                       <td colspan="9" class="text-center">No Orders Found</td>
+                                   </tr>
+                                   @endif
                                    </tbody>
                                    <!-- end tbody -->
                               </table>

@@ -61,7 +61,10 @@
                                                       {{$product->reviews->count()}} Review</td>
                                                   <td>
                                                        <div class="d-flex gap-2">
-                                                            <a href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                           <button data-href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" data-container="#hr-table-modal" type="button" class="btn btn-light btn-sm btn-modal" >
+                                                               <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
+                                                           </button>
+{{--                                                            <a href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>--}}
                                                             <a href="{{ route('admin.products.edit' , ['product'=>$product->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                             <form id="delete-form-product-{{ $product->id }}" action="{{ route('admin.products.destroy' , ['product'=>$product->id]) }}" method="POST">
                                                                  @csrf
@@ -97,4 +100,3 @@
 
 </div>
 @endsection
-Error: cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2003 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/products/documents?primaryKey=id

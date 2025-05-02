@@ -11,10 +11,10 @@
                               @if($product->id)
                                    @method('PUT')
                               @endif
-                              <div class="row">
+                              <div class="row ">
                                    <div class="card col-md-6">
                                         <div class="card-header">
-                                        <h4 class="card-title">Add main photo</h4>
+                                        <h4 class="card-title"> Main photo</h4>
                                         </div>
 
                                         <div class="card-body">
@@ -57,20 +57,20 @@
                                         </div>
 
                                             <div id="imagePreviewContainerimages" class="row mt-3">
-{{--                                                @if(isset($product) && $product->gallery)--}}
+                                                @if(isset($product) && $product->gallery)
 {{--                                                    @php--}}
 {{--                                                        $images = json_decode($product->gallery, true); // فك تشفير JSON إلى مصفوفة--}}
 {{--                                                    @endphp--}}
-{{--                                                    @foreach($images as $image)--}}
-{{--                                                        <div class="col-md-3 position-relative mb-3" id="{{$image}}">--}}
-{{--                                                            <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded" style="max-height: 200px;">--}}
-{{--                                                            <button data-product-id="{{ $product->id }}" data-image-path="{{ $image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-image" >×</button>--}}
-{{--                                                        </div>--}}
-{{--                                                    @endforeach--}}
-{{--                                                @endif--}}
+                                                    @foreach($product->gallery as $image)
+                                                        <div class="col-md-3 position-relative mb-3" id="{{$image}}">
+                                                            <img src="{{ asset( $image) }}" class="img-fluid rounded" style="max-height: 200px;">
+                                                            <button data-product-id="{{ $product->id }}" data-image-path="{{ $image }}" type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-image" >×</button>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                         </div>
-                                        @if($errors->has('image'))
+                                        @if($errors->has('images'))
                                              <span class="text-danger">{{ $errors->first('image') }}</span>
                                         @endif
                                    </div>
@@ -94,7 +94,6 @@
 
                                         </div>
                                         <div class="col-lg-6">
-
                                                   <label for="product-categories" class="form-label">Product Categories</label>
                                                   <select class="form-control mb-0" name="category_id" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories">
                                                        <option value="" selected>Choose a categories</option>
@@ -153,7 +152,7 @@
 
                                                   <div class="mb-3">
                                                        <label for="product-code" class="form-label">Code </label>
-                                                       <input type="number" name="code" id="product-code" class="form-control" placeholder="#******" value="{{ old('code',$product->code) }}">
+                                                       <input type="text" name="code" id="product-code" class="form-control" placeholder="Code" value="{{ old('code',$product->code) }}">
                                                        @if($errors->has('code'))
                                                        <span class="text-danger">{{ $errors->first('code') }}</span>
                                                        @endif
@@ -183,42 +182,52 @@
                               </div>
                               <div class="card-body">
                                    <div class="row">
-                                        <div class="col-lg-4">
-
+                                        <div class="col-lg-6">
                                                   <label for="product-price" class="form-label">Price</label>
                                                   <div class="input-group mb-3">
                                                        <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
-                                                       <input type="number" name="price" id="product-price" class="form-control" placeholder="000"  value="{{ old('price',$product->price) }}">
+                                                       <input type="text" name="price" id="product-price" class="form-control" placeholder="000"  value="{{ old('price',$product->price) }}">
                                                   </div>
                                                   @if($errors->has('price'))
                                                   <span class="text-danger">{{ $errors->first('price') }}</span>
                                                   @endif
 
                                         </div>
-                                        <div class="col-lg-4">
+                                       <div class="col-lg-6">
 
+                                           <label for="product-tex" class="form-label">Tex</label>
+                                           <div class="input-group mb-3">
+                                               <span class="input-group-text fs-20"><i class='bx bxs-file-txt'></i></span>
+                                               <input type="text" name="tax" id="product-tex" class="form-control" placeholder="000" value="{{ old('tax',$product->tax) }}">
+                                           </div>
+                                           @if($errors->has('tax'))
+                                               <span class="text-danger">{{ $errors->first('tax') }}</span>
+                                           @endif
+
+                                       </div>
+                                        <div class="col-lg-6">
                                                   <label for="product-discount" class="form-label">Discount</label>
                                                   <div class="input-group mb-3">
                                                        <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
-                                                       <input type="number" name="discount" value={{ old('discount',$product->discount) }} id="product-discount" class="form-control" placeholder="000">
+                                                       <input type="text" name="discount" value="{{ old('discount',$product->discount) }}" id="product-discount" class="form-control" placeholder="000">
                                                   </div>
                                                   @if($errors->has('discount'))
                                                   <span class="text-danger">{{ $errors->first('discount') }}</span>
                                                   @endif
 
                                         </div>
-                                        <div class="col-lg-4">
+                                       <div class="col-lg-6">
+                                           <label for="expiry_date" class="form-label">Expiry Date Discount</label>
+                                           <div class="input-group mb-3">
+                                               <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
+                                               <input type="date" name="expiry_date" value="{{ old('expiry_date',$product->expiry_date) }}" id="expiry_date" class="form-control" placeholder="000">
+                                           </div>
+                                           @if($errors->has('expiry_date'))
+                                               <span class="text-danger">{{ $errors->first('expiry_date') }}</span>
+                                           @endif
 
-                                                  <label for="product-tex" class="form-label">Tex</label>
-                                                  <div class="input-group mb-3">
-                                                       <span class="input-group-text fs-20"><i class='bx bxs-file-txt'></i></span>
-                                                       <input type="number" name="tax" id="product-tex" class="form-control" placeholder="000" value="{{ old('tax',$product->tax) }}">
-                                                  </div>
-                                                  @if($errors->has('tax'))
-                                                  <span class="text-danger">{{ $errors->first('tax') }}</span>
-                                                  @endif
+                                       </div>
 
-                                        </div>
                                    </div>
                               </div>
                          </div>
@@ -235,7 +244,7 @@
                               </div>
                          </div>
 
-                    </div>
+
                </form>
                </div>
           </div>
