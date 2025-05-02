@@ -5,6 +5,7 @@ namespace Modules\Dashboard\app\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Dashboard\app\Models\Admin;
 
 class Coupon extends Model
 {
@@ -20,6 +21,7 @@ class Coupon extends Model
         'limit',
         'expiry_date',
         'is_active',
+        'user_id',
     ];
 
     protected $casts = [
@@ -32,8 +34,6 @@ class Coupon extends Model
         return $this->belongsToMany(User::class, 'coupons_users', 'coupon_id', 'user_id')
             ->withTimestamps();
     }
-
-    protected $guarded = [];
 
     public function user()
     {
