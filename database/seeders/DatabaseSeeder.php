@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\SiteInfo;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Dashboard\Database\Seeders\PermissionSeeder;
 
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             CreateAdminSeeder::class,
         ]);
+        // SiteInfo::factory()->count(1)->create();
     }
 }

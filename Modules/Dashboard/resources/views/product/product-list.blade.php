@@ -97,4 +97,3 @@
 
 </div>
 @endsection
-Error: cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2003 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/products/documents?primaryKey=id

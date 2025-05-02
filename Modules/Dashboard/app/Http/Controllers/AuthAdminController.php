@@ -77,7 +77,8 @@ class AuthAdminController extends Controller
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'address' => $request->address,
-                'type' => 'user'
+                'type' => 'user',
+                'username' => $request->name,
             ]);
             // dd($admin);
             $store = $admin->store()->create([

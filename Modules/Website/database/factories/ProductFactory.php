@@ -327,9 +327,10 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'description' => $this->faker->sentence(),
-            'slug' => Str::slug($name), // Slug from the same name
+            'slug' => Str::slug($name), 
             'brand' => $this->faker->randomElement(['Brand A', 'Brand B', 'Brand C']),
-            // 'store_id' => Store::inRandomOrder()->first()->id, // Assuming you have 10 stores
+            'store_id' => Store::inRandomOrder()->first()->id,
+           'expiry_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'weight' => $this->faker->randomFloat(2, 0.1, 10),
             'price' => $this->faker->randomFloat(2, 10, 1000),
             'discount' => $this->faker->boolean(30) ? $this->faker->randomFloat(2, 1, 100) : 0,
