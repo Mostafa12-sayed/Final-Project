@@ -12,6 +12,7 @@ use Modules\Website\app\Models\Orderitem;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\OrderAddress;
+use Modules\Dashboard\app\Models\Coupon;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 
@@ -20,13 +21,20 @@ class OrderController extends Controller
     public function checkout()
     {
         $cart = session()->get('cart', []);
-        if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
-        }
+    if (empty($cart)) {
+        return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+    }
 
-        $cartData = $this->getCartData($cart);
+    $cartData = $this->getCartData($cart);
 
-        return view('website::order.checkout', compact('cart', 'cartData'));
+    return view('website::order.checkout', [
+        'cart' => $cart,
+        'subtotal' => $cartData['subtotal'],
+        'discount' => $cartData['discount'],
+        'taxes' => $cartData['taxes'],
+        'total' => $cartData['total'],
+        'coupon_code' => $cartData['coupon_code'] ?? null
+    ]);
     }
 
     public function store(Request $request)
@@ -71,16 +79,15 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'store_id' => $store->id,
+                'subtotal' => $cartData['subtotal'], 
                 'total' => $cartData['total'],
                 'status' => 'pending',
-
-                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'pending', // Changed 'unpaid' to 'pending'
+                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'pending',
                 'number' => 'ORD-' . strtoupper(uniqid()),
-
                 'payment_method' => $request->payment_method,
-                'shipping' => 0,
-                'tax' => $cartData['taxes'],
-                'discount' => $cartData['discount'],
+                'shipping' => 0, 
+                'taxes' => $cartData['taxes'],
+                'discount' => $cartData['discount']
             ]);
 
             // Add order items
@@ -335,23 +342,39 @@ class OrderController extends Controller
         $productIds = array_keys($cart);
         $products = Product::whereIn('id', $productIds)->get();
         $subtotal = 0;
-
+    
         foreach ($products as $product) {
             $quantity = is_array($cart[$product->id]) ? $cart[$product->id]['quantity'] : $cart[$product->id];
             $finalPrice = $product->price - ($product->discount ?? 0);
             $subtotal += $finalPrice * $quantity;
         }
-
+    
+        // Initialize discount
         $discount = 0;
+        $couponCode = session('coupon');
+        
+        // Apply coupon if exists and valid
+        if ($couponCode) {
+            $coupon = Coupon::where('code', $couponCode)->first();
+            
+            if ($coupon && $coupon->is_active && $coupon->expiry_date >= now()) {
+                $discount = $coupon->discount;
+            } else {
+                
+                session()->forget('coupon');
+            }
+        }
+    
         $taxRate = 0.10;
         $taxes = $subtotal * $taxRate;
-        $total = $subtotal - $discount + $taxes;
-
+        $total = max(0, $subtotal - $discount) + $taxes; 
+    
         return [
             'subtotal' => $subtotal,
             'discount' => $discount,
             'taxes' => $taxes,
             'total' => $total,
+            'coupon_code' => $couponCode
         ];
     }
 }
