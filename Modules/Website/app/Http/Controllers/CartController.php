@@ -176,6 +176,9 @@ class CartController extends Controller
     public function applyCoupon(Request $request)
     {
         if (! Auth::check()) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Please log in to apply a coupon.'], 401);
+            }
             return redirect()->back()->with('error', 'Please log in to apply a coupon.');
         }
 
@@ -187,35 +190,72 @@ class CartController extends Controller
         $coupon = Coupon::where('code', $couponCode)->first();
 
         if (! $coupon) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 404);
+            }
             return redirect()->back()->with('error', 'Invalid coupon code.');
         }
 
         if (! $coupon->is_active) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Coupon is not active.'], 400);
+            }
             return redirect()->back()->with('error', 'Coupon is not active.');
         }
 
         if ($coupon->expiry_date < now()) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Coupon has expired.'], 400);
+            }
             return redirect()->back()->with('error', 'Coupon has expired.');
         }
 
         $user = Auth::user();
         if ($coupon->users()->where('user_id', $user->id)->exists()) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'You have already used this coupon.'], 400);
+            }
             return redirect()->back()->with('error', 'You have already used this coupon.');
         }
 
         $totalUses = $coupon->users()->count();
         if ($totalUses >= $coupon->limit) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Coupon usage limit reached.'], 400);
+            }
             return redirect()->back()->with('error', 'Coupon usage limit reached.');
         }
 
         session()->put('coupon', $coupon->code);
 
+        $cart = session()->get('cart', []);
+        $cartData = $this->getCartData($cart);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Coupon applied successfully.',
+                'cartData' => $cartData
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Coupon applied successfully.');
     }
 
-    public function removeCoupon()
+    public function removeCoupon(Request $request)
     {
         session()->forget('coupon');
+
+        $cart = session()->get('cart', []);
+        $cartData = $this->getCartData($cart);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Coupon removed successfully.',
+                'cartData' => $cartData
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Coupon removed.');
     }

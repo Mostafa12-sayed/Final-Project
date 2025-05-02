@@ -183,28 +183,6 @@
 
 @section('scripts')
 @if(!empty($products) && count($products) > 0)
-<script>
-    // Remove from compare
-    $('.remove-compare').on('click', function() {
-        var productId = $(this).data('product-id');
-        
-        $.ajax({
-            url: '/compare/remove/' + productId,
-            method: 'DELETE',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                if (response.success) {
-                    location.reload(); // Refresh page to update comparison
-                }
-            }
-        });
-    });
-</script>
-@endif
-@endsection
-
 <style>
     .comparison-table {
         font-size: 14px;
@@ -252,3 +230,26 @@
         font-size: 12px;
     }
 </style>
+<script>
+    // Remove from compare
+    $('.remove-compare').on('click', function() {
+        var productId = $(this).data('product-id');
+        
+        $.ajax({
+            url: '/compare/remove/' + productId,
+            method: 'DELETE',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload(); // Refresh page to update comparison
+                }
+            }
+        });
+    });
+</script>
+@endif
+@endsection
+
+

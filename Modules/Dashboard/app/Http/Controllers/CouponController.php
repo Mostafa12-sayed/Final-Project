@@ -15,7 +15,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $coupons = Coupon::where('user_id', auth()->id())->paginate(10);
+        $coupons = Coupon::where('user_id', auth()->guard('admin')->id())->paginate(10);
 
         return view('dashboard::coupons.coupons', ['coupons' => $coupons]);
     }
@@ -36,10 +36,38 @@ class CouponController extends Controller
     public function store(CouponRequest $request)
     {
         $data = $request->all();
-        $data['user_id'] = auth()->guard('admin')->id();
-        Coupon::create($data);
 
-        return back()->with('success', 'Coupon created successfully');
+        // Check if admin is authenticated
+        if (!auth()->guard('admin')->check()) {
+            return back()->with('error', 'You must be logged in as an admin to create coupons.');
+        }
+
+        $adminId = auth()->guard('admin')->id();
+        if (!$adminId) {
+            return back()->with('error', 'Could not determine admin ID.');
+        }
+
+        $data['user_id'] = $adminId;
+
+        // Set default limit if not provided
+        if (!isset($data['limit'])) {
+            $data['limit'] = 1; // Default limit
+        }
+
+        // Convert is_active to boolean if it's a string
+        if (isset($data['is_active']) && is_string($data['is_active'])) {
+            $data['is_active'] = ($data['is_active'] === '1' || $data['is_active'] === 'true');
+        }
+
+        try {
+            $coupon = Coupon::create($data);
+            if (!$coupon) {
+                return back()->with('error', 'Failed to create coupon for unknown reason.');
+            }
+            return back()->with('success', 'Coupon created successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error creating coupon: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -64,9 +92,26 @@ class CouponController extends Controller
     public function update(CouponRequest $request, Coupon $coupon): RedirectResponse
     {
         $data = $request->all();
-        $coupon->update($data);
 
-        return back()->with('success', 'Coupon updated successfully');
+        // Set default limit if not provided
+        if (!isset($data['limit'])) {
+            $data['limit'] = 1; // Default limit
+        }
+
+        // Convert is_active to boolean if it's a string
+        if (isset($data['is_active']) && is_string($data['is_active'])) {
+            $data['is_active'] = ($data['is_active'] === '1' || $data['is_active'] === 'true');
+        }
+
+        try {
+            $result = $coupon->update($data);
+            if (!$result) {
+                return back()->with('error', 'Failed to update coupon for unknown reason.');
+            }
+            return back()->with('success', 'Coupon updated successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error updating coupon: ' . $e->getMessage());
+        }
     }
 
     /**

@@ -37,6 +37,11 @@
                                value="{{ old('discount', $coupon->discount) }}" >
                     </div>
                     <div class="mb-3">
+                        <label for="limit" class="form-label">Usage Limit</label>
+                        <input type="number" id="limit" name="limit" class="form-control" placeholder="Enter usage limit"
+                               value="{{ old('limit', $coupon->limit ?? 1) }}" min="1">
+                    </div>
+                    <div class="mb-3">
                         <label for="expiry_date" class="form-label">Expiry date</label>
                         <input type="date" id="expiry_date" name="expiry_date" class="form-control" placeholder="Enter expiry date"
                                value="{{ old('expiry_date', $coupon->expiry_date) }}" >
