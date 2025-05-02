@@ -37,6 +37,7 @@
 namespace Modules\Website\database\seeders;
 
 use Illuminate\Contracts\Cache\Store;
+use App\Models\SiteInfo;
 use Illuminate\Database\Seeder;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Category;
@@ -122,10 +123,13 @@ class WebsiteDatabaseSeeder extends Seeder
         //         [
         //             'slug' => Str::slug($categoryData['name']),
         //             'description' => $categoryData['description'],
+        //             'store_id' => Store::inRandomOrder()->first()->id,
+        //             'expiry_date' => $this->faker->dateTimeBetween('now', '+1 month'),
         //             'image' => $categoryData['image'],
         //             'code' => Str::upper(Str::random(10)),
         //             'status' => 'active',
         //             'parent_id' => null,
+
         //         ]
         //     );
         // }
@@ -140,7 +144,6 @@ class WebsiteDatabaseSeeder extends Seeder
 
         // Step 3: Create 10 stores
         // Stores::factory()->count(15)->create();
-
-        HeroSections::factory()->count(6)->create();
+        // HeroSections::factory()->count(6)->create();
     }
 }
