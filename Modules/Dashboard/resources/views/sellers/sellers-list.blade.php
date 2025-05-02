@@ -71,7 +71,7 @@
                                  <select class="form-select form-select-sm role-select"  >
                                      <option selected>Select Role</option>
                                      @foreach ($roles as $role)
-                                         <option value="{{ $role->id }}" @if($seller->admin->role_id == $role->id) selected @endif>{{ $role->name }}</option>
+                                         <option value="{{ $role->id }}" @if(optional($seller->admin)->role_id == $role->id) selected @endif>{{ $role->name }}</option>
                                      @endforeach
 
                                  </select>

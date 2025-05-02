@@ -92,12 +92,13 @@ Route::middleware('auth.admin')->group(function () {
     Route::get('/admin/orders/change-status-admin/{order}/{status}', [OrdersController::class, 'editStatusAdmin'])->name('admin.order.change.status.admin');
     Route::get('/admin/orders/change-status-seller/{order}/{status}', [OrdersController::class, 'editStatusSeller'])->name('admin.order.change.status.seller');
 
-    Route::post('/admin/orders/update-status/{order}', [OrdersController::class, 'updateStatus'])->name('admin.order.update-status');
+    Route::post('/admin/orders/update-shipping-vale/{order}', [OrdersController::class, 'updateChangeShippingValue'])->name('admin.order.update-update-shipping-value');
 
     Route::post('/admin/orders/update-payment-status/{order}', [OrdersController::class, 'updatePaymentStatus'])->name('admin.order.update-payment-status');
-    Route::post('/admin/orders/update-delivery-status/{order}', [OrdersController::class, 'updateDeliveryStatus'])->name('admin.order.update-delivery-status');
-    Route::post('/admin/orders/update-order-details/{order}', [OrdersController::class, 'updateOrderDetails'])->name('admin.order.update-order-details');
-    Route::post('/admin/orders/update-order-address/{order}', [OrdersController::class, 'updateOrderAddress'])->name('admin.order.update-order-address');
+    Route::get('/admin/orders/invoice/{order}', [OrdersController::class, 'invoice'])->name('admin.order.invoice');
+//    Route::get('/admin/orders/confirm/{order}', [OrdersController::class, 'invoice'])->name('admin.order.invoice');
+
+
 
     // routes of contact us
     Route::get('/admin/contact-us', [DashboardController::class, 'contactUs'])->name('admin.contact-us.index');

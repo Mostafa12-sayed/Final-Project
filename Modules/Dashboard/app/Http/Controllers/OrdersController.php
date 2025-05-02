@@ -124,4 +124,27 @@ class OrdersController extends Controller
 
         return back();
     }
+
+    public function updatePaymentStatus(Order $order)
+    {
+        $order->payment_status = request('payment_status');
+        $order->save();
+        flash()->success('Payment status updated successfully.');
+
+        return back();
+    }
+
+    public function updateChangeShippingValue(Order $order)
+    {
+        $order->shipping = request('shipping_value');
+        $order->save();
+        flash()->success('Shipping value updated successfully.');
+
+        return back();
+    }
+
+    public function invoice(Order $order)
+    {
+        return view('dashboard::order.invoice', compact('order'));
+    }
 }

@@ -16,21 +16,21 @@
 
      @stack('styles')
      <!-- App favicon -->
-     <link rel="shortcut icon" href="{{asset('dashboard/assets/images/favicon.ico')}}">
+    <link  href="{{ asset('vendor/flasher/flasher.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="{{asset('dashboard/assets/images/favicon.ico')}}">
 
-     <!-- Vendor css (Require in all Page) -->
-     <link href="{{asset('dashboard/assets/css/vendor.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Vendor css (Require in all Page) -->
+    <link href="{{asset('dashboard/assets/css/vendor.min.css')}}" rel="stylesheet" type="text/css" />
 
-     <!-- Icons css (Require in all Page) -->
-     <link href="{{asset('dashboard/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Icons css (Require in all Page) -->
+    <link href="{{asset('dashboard/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
-     <!-- App css (Require in all Page) -->
-     <link href="{{asset('dashboard/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- App css (Require in all Page) -->
+    <link href="{{asset('dashboard/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
 
-     <!-- Theme Config js (Require in all Page) -->
-     <script src="{{asset('dashboard/assets/js/config.js')}}"></script>
+    <!-- Theme Config js (Require in all Page) -->
+    <script src="{{asset('dashboard/assets/js/config.js')}}"></script>
 
-     <link  href="{{ asset('vendor/flasher/flasher.min.css') }}" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -57,12 +57,12 @@
      <!-- Vendor Javascript (Require in all Page) -->
      <div class="modal " id="hr-table-modal" tabindex="-1" aria-labelledby="quickViewModalLabel" >
 
-         <!-- AJAX content will be injected here -->
+
 
      </div>
      <script src="{{asset('dashboard/assets/js/vendor.js')}}"></script>
 
-     <!-- App Javascript (Require in all Page) -->
+
      <script src="{{asset('dashboard/assets/js/app.js')}}"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
