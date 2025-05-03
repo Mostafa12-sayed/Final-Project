@@ -214,9 +214,28 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
+                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
+                            <div class="team-img">
+                                <img src="assets/img/team/04.jpg" style="height: 350px;" alt="thumb">
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a href="#">Hady Abdelmonem</a></h5>
+                                    <span>Fullstack PHP Developer</span>
+                                </div>
+                            </div>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".75s">
                             <div class="team-img ">
-                                <img src="assets/img/team/03.PNG" style="height: 300px;" alt="thumb">
+                                <img src="assets/img/team/03.PNG" style="height: 350px;" alt="thumb">
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
@@ -232,25 +251,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Hady Abdelmonaem</a></h5>
-                                    <span>Fullstack PHP Developer</span>
-                                </div>
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-x-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
