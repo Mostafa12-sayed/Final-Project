@@ -142,7 +142,7 @@
                              <span class="d-flex align-items-center">
 
                                      <img class="rounded-circle" width="32"
-                                          src="{{ Auth::guard('admin')->user()->profile_picture ? asset('storage/'.Auth::guard('admin')->user()->profile_picture) : asset('dashboard/assets/images/users/dummy-avatar.jpg') }}" alt="avatar-3">
+                                          src="{{ Auth::guard('admin')->user()->profile_picture ? asset(Auth::guard('admin')->user()->profile_picture) : asset('dashboard/assets/images/users/dummy-avatar.jpg') }}" alt="avatar-3">
 
                              </span>
                         </a>

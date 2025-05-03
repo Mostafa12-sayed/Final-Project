@@ -41,6 +41,11 @@ Route::middleware(['auth.guset.admin'])->group(function () {
         Route::post('/login', [AuthAdminController::class, 'login']);
         Route::get('/register', [AuthAdminController::class, 'register'])->name('register');
         Route::post('/register', [AuthAdminController::class, 'store'])->name('register.store');
+        Route::get('/reset-password',[AuthAdminController::class, 'passwordReset'])->name('reset-password');
+        Route::post('/reset-password/store',[AuthAdminController::class, 'passwordResetLink'])->name('reset-password.store');
+
+        Route::get('/change-password',[AuthAdminController::class, 'passwordChange'])->name('change-password');
+        Route::post('/change-password/store',[AuthAdminController::class, 'passwordChangeStore'])->name('change-password.store');
     });
 });
 
