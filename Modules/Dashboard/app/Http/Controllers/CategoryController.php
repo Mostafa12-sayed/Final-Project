@@ -66,12 +66,10 @@ class CategoryController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $categories = Category::select('id', 'name')->get();
-        $category = Category::findOrFail($id);
 
-        return view('dashboard::category.category-add', compact('categories', 'category'));
+        return view('dashboard::category.category-details', compact( 'category'));
     }
 
     /**

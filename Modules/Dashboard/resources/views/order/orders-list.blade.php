@@ -13,7 +13,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Order Cancel</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('buyer_status', 'cancelled')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('buyer_status', 'cancelled')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -31,7 +31,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Order Shipped</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'shipping')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('status', 'shipping')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -49,7 +49,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Order Delivering</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'delivering')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('status', 'delivering')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -67,7 +67,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Pending Review</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'pending')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('status', 'pending')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -84,7 +84,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Pending Payment</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('payment_status', 'pending')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('payment_status', 'pending')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -101,7 +101,7 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                              <div>
                                                   <h4 class="card-title mb-2">Delivered</h4>
-                                                  <p class="text-muted fw-medium fs-22 mb-0">{{$orders->where('status', 'completed')->count()}}</p>
+                                                  <p class="text-muted fw-medium fs-22 mb-0">{{\Modules\Website\app\Models\Order::where('status', 'completed')->count()}}</p>
                                              </div>
                                              <div>
                                                   <div class="avatar-md bg-primary bg-opacity-10 rounded">
@@ -121,19 +121,6 @@
                                    <div class="d-flex card-header justify-content-between align-items-center">
                                         <div>
                                              <h4 class="card-title">All Order List</h4>
-                                        </div>
-                                        <div class="dropdown">
-                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded" data-bs-toggle="dropdown" aria-expanded="false">
-                                                  This Month
-                                             </a>
-                                             <div class="dropdown-menu dropdown-menu-end">
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Download</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Export</a>
-                                                  <!-- item-->
-                                                  <a href="#!" class="dropdown-item">Import</a>
-                                             </div>
                                         </div>
                                    </div>
                                    <div class="card-body p-0">
@@ -165,7 +152,7 @@
                                                             </td>
                                                             <td> ${{$order->total}}</td>
                                                             <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13">{{$order->payment_status}}</span></td>
-                                                            <td> {{$order->items_count}}</td>
+                                                            <td> {{$order->items->count()}}</td>
                                                             <td> {{$order->number}}</td>
                                                             <td> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13">{{$order->status}}</span></td>
                                                             <td>

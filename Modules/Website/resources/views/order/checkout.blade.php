@@ -417,16 +417,17 @@
 
                     <!-- Order Summary -->
                     <div class="col-lg-4">
-                        <div class="shop-cart-summary mt-0">
+                        <div class="shop-cart-summary">
                             <h5>Cart Summary</h5>
                             <ul>
-                                <li><strong>Sub Total:</strong> <span>${{ number_format($cartData['subtotal'], 2) }}</span></li>
-                                <li><strong>Discount:</strong> <span>${{ number_format($cartData['discount'], 2) }}</span></li>
-                                <li><strong>Shipping:</strong> <span>Free</span></li>
-                                <li><strong>Taxes:</strong> <span>${{ number_format($cartData['taxes'], 2) }}</span></li>
-                                <li class="shop-cart-total">
-                                    <strong>Total:</strong> <span>${{ number_format($cartData['total'], 2) }}</span>
-                                </li>
+                                <li><strong>Sub Total:</strong> <span id="subtotal">${{ number_format($subtotal, 2) }}</span></li>
+                                <li><strong>Discount:</strong> <span id="discount">${{ number_format($discount, 2) }}</span></li>
+                                @if(session('coupon'))
+                                <li><strong>Coupon Applied:</strong> <span>{{ session('coupon') }}</span> <a href="#" id="remove-coupon" class="text-danger">(Remove)</a></li>
+                                @endif
+                                <li><strong>Shipping:</strong> <span id="shipping">Free</span></li>
+                                <li><strong>Taxes:</strong> <span id="taxes">${{ number_format($taxes, 2) }}</span></li>
+                                <li class="shop-cart-total"><strong>Total:</strong> <span id="total">${{ number_format($total, 2) }}</span></li>
                             </ul>
                         </div>
                     </div>

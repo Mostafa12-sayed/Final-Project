@@ -55,8 +55,9 @@
                                                             <td>{{ $category->products->count() }}</td>
                                                             <td>
                                                                  <div class="d-flex gap-2">
-                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                      <a href="{{ route('admin.category.edit' , ['category'=>$category->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                     <button data-href="{{ route('admin.category.show' , ['category'=>$category->id]) }}" data-container="#hr-table-modal" type="button" class="btn btn-light btn-sm btn-modal" >
+                                                                         <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
+                                                                     </button>                                                                      <a href="{{ route('admin.category.edit' , ['category'=>$category->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                       <form id="delete-form-category-{{ $category->id }}" action="{{ route('admin.category.destroy' ,['category'=>$category->id]) }}" method="POST" class="d-inline">
                                                                            @csrf
                                                                            @method('DELETE')

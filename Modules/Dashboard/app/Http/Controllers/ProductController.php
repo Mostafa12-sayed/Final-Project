@@ -90,7 +90,7 @@ class ProductController extends Controller
                 'quantity' => $request->quantity,
                 'category_id' => $request->category_id,
                 'image' => $firstImage,
-                'gallery' => json_encode($images),
+                'gallery' => $images,
                 'slug' => Str::slug($request->name),
             ]);
 
@@ -119,9 +119,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $categories = Category::select('id', 'name')->get();
+//        $categories = Category::select('id', 'name')->get();
 
-        return view('dashboard::product.product-add', compact('categories', 'product'));
+        return view('dashboard::product.product-details', compact( 'product'));
     }
 
     /**
@@ -162,7 +162,7 @@ class ProductController extends Controller
             // ✅ تحديث صور المعرض إن وجدت
             if ($request->hasFile('images')) {
                 // حذف الصور القديمة إذا كانت موجودة
-                $oldImages = json_decode($product->gallery, true);
+                $oldImages = $product->gallery;
                 foreach ($oldImages as $oldImage) {
                     FileHelper::deleteImage($oldImage); // تأكد من وجود دالة لحذف الصور القديمة
                 }
@@ -171,9 +171,9 @@ class ProductController extends Controller
                 foreach ($request->file('images') as $image) {
                     $images[] = FileHelper::uploadImage($image, 'products');
                 }
-            } else {
+            } elseif($product->gallery) {
                 // إذا لم تكن هناك صور جديدة، استخدم الصور القديمة
-                $images = json_decode($product->gallery, true);
+                $images = $product->gallery;
             }
 
             // ✅ تحديث المنتج
@@ -188,7 +188,7 @@ class ProductController extends Controller
                 'quantity' => $request->quantity,
                 'category_id' => $request->category_id,
                 'image' => $firstImage,
-                'gallery' => json_encode($images),
+                'gallery' => $images,
                 'slug' => Str::slug($request->name),
             ]);
 
