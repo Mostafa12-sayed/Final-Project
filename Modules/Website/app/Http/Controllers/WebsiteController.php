@@ -20,39 +20,86 @@ class WebsiteController extends Controller
      */
     public function index()
     {
+        // Only categories that are active and have active products
         $categories = Category::where('status', 'active')
             ->whereHas('products', function ($query) {
-                $query->where('status', 'active');
-            })->withCount([
+                $query->where('status', 'active')
+                      ->whereHas('category', function ($q) {
+                          $q->where('status', 'active');
+                      });
+            })
+            ->withCount([
                 'products' => function ($query) {
-                    $query->where('status', 'active');
+                    $query->where('status', 'active')
+                          ->whereHas('category', function ($q) {
+                              $q->where('status', 'active');
+                          });
                 },
-            ])->orderBy('products_count', 'desc')
+            ])
+            ->orderBy('products_count', 'desc')
             ->get();
-
-        $categories_products = Category::with('products')->where('status', 'active')->get();
-
-        $products = Product::where('status', 'active')->inRandomOrder()->take(40)->get();
-
+    
+        // Active categories and their active products
+        $categories_products = Category::with(['products' => function ($query) {
+            $query->where('status', 'active')
+                  ->whereHas('category', function ($q) {
+                      $q->where('status', 'active');
+                  });
+        }])->where('status', 'active')->get();
+    
+        // Random active products with active categories
+        $products = Product::where('status', 'active')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->inRandomOrder()->take(40)->get();
+    
+        // Top rated from the above list
         $top_rated = $products->sortByDesc('rating')->take(3);
-
-        $on_sale_products = Product::where('status', 'active')->where('discount', '>', 0)->where('stock', '>', 0)->where('status', 'active')
-            ->where('expiry_date', '>', now())->inRandomOrder()->take(10)->orderBy('discount', 'desc')->get();
-
+    
+        // On-sale products with valid expiry date and active category
+        $on_sale_products = Product::where('status', 'active')
+            ->where('discount', '>', 0)
+            ->where('stock', '>', 0)
+            ->where('expiry_date', '>', now())
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->inRandomOrder()->take(10)
+            ->orderBy('discount', 'desc')->get();
+    
+        // Trending products from the first list
         $top_products = $products->sortByDesc(function ($product) {
             return $product->trending_items;
         })->take(20);
-
-        $products2 = Product::where('status', 'active')->inRandomOrder()->take(20)->get();
+    
+        // Another batch of random products filtered by active categories
+        $products2 = Product::where('status', 'active')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->inRandomOrder()->take(20)->get();
+    
         $top_products2 = $products2->sortByDesc(function ($product) {
             return $product->trending_items;
         })->take(20);
+    
+        // Other unrelated data
         $stores = Stores::paginate(6);
-
         $heros = HeroSections::paginate(7);
-
-        return view('website::index', compact('categories', 'categories_products', 'top_products', 'on_sale_products', 'top_rated', 'stores', 'top_products2', 'heros'));
+    
+        return view('website::index', compact(
+            'categories',
+            'categories_products',
+            'top_products',
+            'on_sale_products',
+            'top_rated',
+            'stores',
+            'top_products2',
+            'heros'
+        ));
     }
+    
 
     /**
      * Show the form for creating a new resource.
