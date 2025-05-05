@@ -5,6 +5,7 @@ use Modules\Website\app\Http\Controllers\CartController;
 use Modules\Website\app\Http\Controllers\CategoryController;
 use Modules\Website\app\Http\Controllers\ComparerController;
 use Modules\Website\app\Http\Controllers\OrderController;
+use Modules\Website\app\Http\Controllers\PaymentController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
@@ -103,3 +104,18 @@ Route::get('/test-paypal', function () {
 
     return $token ? "PayPal Connected!" : "Failed to connect";
 });
+// cart checkout and payment routes
+Route::middleware('auth')->group(function () {
+
+    Route::get('/checkout/payment/{orderId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payment/response', [PaymentController::class, 'responseCallback'])->name('payment.response');
+//    Route::get('/checkout/{orderId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+
+});
+
+// payment success and failed routes
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
+
+//  payment callback route
+Route::get('/payment/callback', [PaymentController::class, 'processCallback'])->name('payment.callback');

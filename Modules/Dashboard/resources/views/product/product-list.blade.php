@@ -46,15 +46,14 @@
                                                             </div>
                                                             <div>
                                                                  <a href="#!" class="text-dark fw-medium fs-15">{{$product->name}}</a>
-                                                                 <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L , Xl </p>
                                                             </div>
                                                        </div>
 
                                                   </td>
                                                   <td>${{$product->price}}</td>
                                                   <td>
-                                                       <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $product->quantity - $product->stock }} Item</span> Left</p>
-                                                       <p class="mb-0 text-muted">{{ $product->stock }} Sold</p>
+{{--                                                       <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $product->quantity - $product->stock }} Item</span> Left</p>--}}
+                                                       <p class="mb-0 text-muted">{{ $product->stock }}</p>
                                                   </td>
                                                   <td> {{ optional($product->category)->name}}</td>
                                                   <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{$product->average_rating}}</span>
