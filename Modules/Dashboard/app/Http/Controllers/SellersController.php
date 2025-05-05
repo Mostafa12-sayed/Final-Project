@@ -55,7 +55,7 @@ class SellersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
     }
@@ -79,14 +79,11 @@ class SellersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         //
@@ -101,7 +98,7 @@ class SellersController extends Controller
             $seller->store->status = 'active';
             $seller->store->save();
             $seller->save();
-            dispatch(new SendSellerAcceptedEmail($seller, 'accepted')); // ← Job من داخل الموديول
+            dispatch(new SendSellerAcceptedEmail($seller, 'accepted'));
 
             flash()->success('Seller accepted successfully.');
 
@@ -119,7 +116,7 @@ class SellersController extends Controller
         if ($seller) {
             $seller->status = 'inactive';
             $seller->save();
-            dispatch(new SendSellerAcceptedEmail($seller, 'rejected')); // ← Job من داخل الموديول
+            dispatch(new SendSellerAcceptedEmail($seller, 'rejected'));
 
             return redirect()->back()->with('success', 'Seller rejected successfully.');
         }
