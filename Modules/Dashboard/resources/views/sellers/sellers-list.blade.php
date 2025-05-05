@@ -80,8 +80,8 @@
                                  <p class="mb-0 fs-15 fw-medium text-dark p-2"> <strong>Status: </strong></p>
                                  <select class="form-select form-select-sm status-select">
                                       <option selected>Select Status</option>
-                                      <option value="active" @if($seller->admin->status == 'active') selected @endif>Active</option>
-                                      <option value="inactive" @if($seller->admin->status == 'inactive') selected @endif>Inactive</option>
+                                      <option value="active" @if(optional($seller->admin)->status == 'active') selected @endif>Active</option>
+                                      <option value="inactive" @if(optional($seller->admin)->status == 'inactive') selected @endif>Inactive</option>
                                  </select>
                              </div>
 

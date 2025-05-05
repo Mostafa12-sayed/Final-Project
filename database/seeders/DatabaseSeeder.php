@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-//        $this->call([
-//            PermissionSeeder::class,
-//            CreateAdminSeeder::class,
-//        ]);
-         SiteInfo::factory()->count(1)->create();
+        $this->call([
+            PermissionSeeder::class,
+            CreateAdminSeeder::class,
+        ]);
+        SiteInfo::factory()->count(1)->create();
+
     }
 }
