@@ -146,11 +146,38 @@ class OrderController extends Controller
         $provider->setApiCredentials(config('paypal'));
         
         try {
-            // Get and set access token
             $token = $provider->getAccessToken();
             $provider->setAccessToken($token);
     
-            // Prepare order data
+            $items = [];
+            $itemTotal = 0;
+            
+            foreach ($order->items as $item) {
+                $itemValue = round($item->price * $item->quantity, 2);
+                $itemTotal += $itemValue;
+                
+                $items[] = [
+                    "name" => substr($item->product_name, 0, 127),
+                    "description" => substr($item->product_name, 0, 127),
+                    "sku" => (string)$item->product_id,
+                    "unit_amount" => [
+                        "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                        "value" => number_format($item->price, 2, '.', '')
+                    ],
+                    "quantity" => (string)$item->quantity,
+                    "category" => "PHYSICAL_GOODS"
+                ];
+            }
+            $itemTotal = round($itemTotal, 2);
+
+            $shipping = round($order->shipping, 2);
+            $tax = round($order->taxes, 2); 
+            $discount = round($order->discount, 2); 
+    
+
+            $total = round($itemTotal + $shipping + $tax - $discount, 2);
+    
+            // 4. Prepare PayPal request with proper discount handling
             $orderData = [
                 "intent" => "CAPTURE",
                 "application_context" => [
@@ -164,46 +191,65 @@ class OrderController extends Controller
                     [
                         "amount" => [
                             "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
-                            "value" => number_format($order->total, 2, '.', ''),
+                            "value" => number_format($total, 2, '.', ''),
                             "breakdown" => [
                                 "item_total" => [
                                     "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
-                                    "value" => number_format($order->total - $order->tax - $order->shipping, 2, '.', '')
+                                    "value" => number_format($itemTotal, 2, '.', '')
                                 ],
                                 "shipping" => [
                                     "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
-                                    "value" => number_format($order->shipping, 2, '.', '')
+                                    "value" => number_format($shipping, 2, '.', '')
                                 ],
                                 "tax_total" => [
                                     "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
-                                    "value" => number_format($order->tax, 2, '.', '')
+                                    "value" => number_format($tax, 2, '.', '')
+                                ],
+                                "discount" => [
+                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "value" => number_format($discount, 2, '.', '')
                                 ]
                             ]
                         ],
                         "reference_id" => $order->number,
                         "description" => "Order #".$order->number,
-                        "items" => $this->getPaypalOrderItems($order)
+                        "items" => $items
                     ]
                 ]
             ];
     
-            Log::debug('PayPal Order Request:', $orderData);
-            $response = $provider->createOrder($orderData);
-            Log::debug('PayPal Order Response:', $response);
+            // Debug output
+            Log::debug('PAYPAL FINAL REQUEST', [
+                'Calculations' => [
+                    'Item_Total' => $itemTotal,
+                    'Shipping' => $shipping,
+                    'Tax' => $tax,
+                    'Discount' => $discount,
+                    'Calculated_Total' => $total,
+                    'Order_Total' => $order->total
+                ],
+                'PayPal_Request' => $orderData
+            ]);
     
-            if (isset($response['id']) && $response['status'] === 'CREATED') {
-                foreach ($response['links'] as $link) {
-                    if ($link['rel'] === 'approve') {
-                        return redirect()->away($link['href']);
-                    }
+            $response = $provider->createOrder($orderData);
+            
+            if (!isset($response['id'])) {
+                throw new \Exception("PayPal response error: ".json_encode($response));
+            }
+    
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    return redirect()->away($link['href']);
                 }
             }
     
-            throw new \Exception("No approval link found. Response: ".json_encode($response));
+            throw new \Exception("No approval link in PayPal response");
     
         } catch (\Exception $e) {
-            Log::error("PayPal Error: ".$e->getMessage()."\n".$e->getTraceAsString());
-            return back()->with('error', 'Payment initialization failed: '.$e->getMessage());
+            Log::error("PAYPAL FINAL ERROR: ".$e->getMessage());
+            return back()
+                ->with('error', 'Payment failed: '.$e->getMessage())
+                ->withInput();
         }
     }
     
@@ -376,5 +422,20 @@ class OrderController extends Controller
             'total' => $total,
             'coupon_code' => $couponCode
         ];
+    }
+    public function remove($productId): JsonResponse
+    {
+        // Existing remove method, updated to include cartData
+        $cart = session()->get('cart', []);
+
+        if (! isset($cart[$productId])) {
+            return response()->json(['success' => false, 'message' => 'Product not found in cart'], 404);
+        }
+
+        unset($cart[$productId]);
+        session()->put('cart', $cart);
+        $cartData = $this->getCartData($cart);
+
+        return response()->json(['success' => true, 'cartData' => $cartData]);
     }
 }
