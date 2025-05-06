@@ -1,7 +1,9 @@
 <?php
 
 namespace Modules\Website\app\Http\Controllers;
+use App\Services\PaymobPaymentService;
 
+use Modules\Website\app\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,12 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class OrderController extends Controller
 {
+    public $paymobService;
+    public $paymentController;
+    public function __construct(){
+        $this->paymobService = app(PaymobPaymentService::class);
+        $this->paymentController = new PaymentController( $this->paymobService);
+    }
     public function checkout()
     {
         $cart = session()->get('cart', []);
@@ -49,7 +57,7 @@ class OrderController extends Controller
             'country' => 'required|string|max:2',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'payment_method' => 'required|in:cod,paypal',
+            'payment_method' => 'required|in:cod,paypal,credit_card',
         ]);
 
         $cart = session()->get('cart', []);
@@ -121,13 +129,17 @@ class OrderController extends Controller
 
             DB::commit();
 
-            
+
             // Handle different payment methods
             if ($request->payment_method == 'cod') {
                 session()->forget('cart');
                 return redirect()->route('order.complete', $order->id)
                        ->with('success', 'Order placed successfully!');
-            } else {
+            }elseif($request->payment_method == 'credit_card')
+            {
+                return redirect()->route('payment.checkout', ['orderId' => $order->id]);
+            }
+            else {
                 return $this->processPaypalPayment($order);
             }
 
@@ -144,7 +156,7 @@ class OrderController extends Controller
     {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
-        
+
         try {
             $token = $provider->getAccessToken();
             $provider->setAccessToken($token);
@@ -252,7 +264,7 @@ class OrderController extends Controller
                 ->withInput();
         }
     }
-    
+
     private function getPaypalOrderItems(Order $order)
     {
         $items = [];
@@ -276,28 +288,28 @@ class OrderController extends Controller
     {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
-        
+
         try {
             $token = $provider->getAccessToken();
             $provider->setAccessToken($token);
-    
+
             $response = $provider->capturePaymentOrder($request->token);
             Log::debug('PayPal Capture Response:', $response);
-    
+
             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
                 $order->update([
                     'payment_status' => 'paid',
                     'status' => 'processing',
                     'paid_at' => now()
                 ]);
-                
+
                 session()->forget('cart');
                 return redirect()->route('order.complete', $order)
                        ->with('success', 'Payment completed successfully!');
             }
-    
+
             throw new \Exception("Payment not completed. Status: ".($response['status'] ?? 'unknown'));
-    
+
         } catch (\Exception $e) {
             Log::error("PayPal Capture Error: ".$e->getMessage());
             $order->update(['payment_status' => 'failed']);

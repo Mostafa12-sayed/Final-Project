@@ -163,10 +163,10 @@
                                         <div class="col-lg-6">
 
                                                   <div class="mb-3">
-                                                       <label for="product-stock" class="form-label">Stock</label>
-                                                       <input type="number" name="quantity" id="product-stock" class="form-control" placeholder="Quantity" value="{{ old('quantity',$product->quantity) }}">
+                                                       <label for="product-stock" class="form-label">Quantity</label>
+                                                       <input type="number" name="quantity" id="product-stock" class="form-control" placeholder="Quantity" value="{{ old('stock',$product->stock) }}">
                                                        @if($errors->has('quantity'))
-                                                       <span class="text-danger">{{ $errors->first('quantity') }}</span>
+                                                       <span class="text-danger">{{ $errors->first('stock') }}</span>
                                                        @endif
                                                   </div>
 

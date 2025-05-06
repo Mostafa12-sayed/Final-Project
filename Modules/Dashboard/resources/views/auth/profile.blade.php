@@ -42,7 +42,7 @@
 
 
                                     <div class="student_image position-relative" >
-                                        <img class="image-preview-image "    src="{{ asset('storage/'.$resource->profile_picture ?? 'dashboard/assets/images/users/dummy-avatar.jpg' ) }}">
+                                        <img class="image-preview-image "    src="{{ asset($resource->profile_picture ?? 'dashboard/assets/images/users/dummy-avatar.jpg' ) }}">
                                         <label for="image" class="btn btn-primary text-white p-1 px-2 " style="top: 130px;position: absolute; left: 44%  ;  min-height: 5px; ">
                                             <i class="ti ti-cloud-upload fs-6 cursor-pointer"></i>
                                         </label>

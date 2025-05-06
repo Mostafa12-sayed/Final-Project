@@ -5,6 +5,7 @@ use Modules\Website\app\Http\Controllers\CartController;
 use Modules\Website\app\Http\Controllers\CategoryController;
 use Modules\Website\app\Http\Controllers\ComparerController;
 use Modules\Website\app\Http\Controllers\OrderController;
+use Modules\Website\app\Http\Controllers\PaymentController;
 use Modules\Website\app\Http\Controllers\ProductController;
 use Modules\Website\app\Http\Controllers\ProfileController;
 use Modules\Website\app\Http\Controllers\WebsiteController;
@@ -50,8 +51,10 @@ Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name
 // Wishlist Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/aj/add/{product}', [WishlistController::class, 'add_ajax'])->name('wishlist.add_ajax');
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::delete('/wishlist/aj/remove/{product}', [WishlistController::class, 'remove_ajax'])->name('wishlist.remove_ajax');
 });
 // coupon Routes
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
@@ -101,3 +104,18 @@ Route::get('/test-paypal', function () {
 
     return $token ? "PayPal Connected!" : "Failed to connect";
 });
+// cart checkout and payment routes
+Route::middleware('auth')->group(function () {
+
+    Route::get('/checkout/payment/{orderId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payment/response', [PaymentController::class, 'responseCallback'])->name('payment.response');
+//    Route::get('/checkout/{orderId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+
+});
+
+// payment success and failed routes
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
+
+//  payment callback route
+Route::get('/payment/callback', [PaymentController::class, 'processCallback'])->name('payment.callback');
