@@ -46,7 +46,7 @@
                                 <ul class="list-unstyled mb-0">
                                     <li class="d-flex mb-2">
                                         <strong class="me-2">Brand:</strong>
-                                        <span>{{ $product->store->name ?? 'N/A' }}</span>
+                                        <span>{{ $product->brand ?? 'N/A' }}</span>
                                     </li>
                                     <li class="d-flex mb-2">
                                         <strong class="me-2">Category:</strong>

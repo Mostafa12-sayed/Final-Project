@@ -1,5 +1,7 @@
 @extends('website::layouts.master')
 
+
+
 @section('content')
     <!-- breadcrumb -->
     <div class="site-breadcrumb">
@@ -98,6 +100,7 @@
                                                     <input type="text" name="coupon_code" id="coupon_code" class="form-control" placeholder="Your Coupon Code">
                                                     <button class="theme-btn" type="submit">Apply Coupon</button>
                                                 </div>
+                                                <div id="couponError" class="alert alert-danger d-none" style="margin-top: 15px;width: 290px;padding-left: 20px;margin-left: 50px;"></div>
                                             </form>
                                             @if(session('error'))
                                                 <div class="alert alert-danger mt-2">
@@ -193,14 +196,8 @@
                             $quantityInput.val(quantity);
                             $row.find('.shop-cart-subtotal span').text('$' + (price * quantity).toFixed(2));
                             updateSummary(response.cartData);
-                        } else {
-                            alert(response.message || 'Error updating quantity');
                         }
                     },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        alert('Error updating quantity: ' + xhr.statusText);
-                    }
                 });
             }
 
@@ -242,7 +239,7 @@
 
                 var couponCode = $('#coupon_code').val();
                 if (!couponCode) {
-                    alert('Please enter a coupon code');
+                    $('#couponError').text('Please enter a coupon code').removeClass('d-none');
                     return;
                 }
 
@@ -266,7 +263,8 @@
                         if (xhr.responseJSON && xhr.responseJSON.message) {
                             errorMessage = xhr.responseJSON.message;
                         }
-                        alert(errorMessage);
+                        // alert(errorMessage);
+                        $('#couponError').text(errorMessage).removeClass('d-none');
                     }
                 });
             });
@@ -290,7 +288,7 @@
                         }
                     },
                     error: function(xhr) {
-                        alert('Error removing coupon');
+                        $('#couponError').text('Error removing coupon').removeClass('d-none');
                     }
                 });
             });

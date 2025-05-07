@@ -1,5 +1,15 @@
 @extends('website::layouts.master')
 
+@section('styles')
+<style>
+    .rating-text {
+        font-size: 0.80rem;
+        /* margin-left: 2px; */
+        color: #666;
+    }
+</style>
+@endsection
+
 @section('content')
     <!-- breadcrumb -->
     <div class="site-breadcrumb">
@@ -53,6 +63,32 @@
                                 </ul>
                             </div>
 
+                            <!-- Price Range Widget -->
+                            <div class="shop-widget">
+                                <h4 class="shop-widget-title">Price Range</h4>
+                                <div class="price-filter-wrap">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="price_min">Min ($)</label>
+                                                <input type="number" id="price_min" name="price_min" class="form-control" placeholder="Min" value="{{ request('price_min') }}" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="price_max">Max ($)</label>
+                                                <input type="number" id="price_max" name="price_max" class="form-control" placeholder="Max" value="{{ request('price_max') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn" style="width: 100%; background-color: #03a297; color: aliceblue;">Apply Filter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Sales Widget -->
                             <div class="shop-widget">
                                 <h4 class="shop-widget-title">Sales</h4>
@@ -90,71 +126,84 @@
 
                             <!-- Ratings Widget -->
                             <div class="shop-widget">
-                                <h4 class="shop-widget-title">Ratings</h4>
+                                <h4 class="shop-widget-title">Customer Ratings</h4>
                                 <ul class="shop-checkbox-list rating">
                                     <li>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rate1" name="rating[]" value="5"
-                                                {{ in_array(5, request('rating', [])) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <input class="form-check-input" type="radio" id="rate0" name="rating" value=""
+                                                {{ empty(request('rating')) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <label class="form-check-label" for="rate0">
+                                                <span>All Ratings</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="rate1" name="rating" value="5"
+                                                {{ request('rating') == '5' ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label" for="rate1">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
+                                                <!-- <span class="rating-text">&amp; Up</span> -->
                                             </label>
                                         </div>
                                     </li>
-                                    <!-- Other rating options remain the same -->
                                     <li>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rate2" name="rating[]" value="4"
-                                                {{ in_array(4, request('rating', [])) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <input class="form-check-input" type="radio" id="rate2" name="rating" value="4"
+                                                {{ request('rating') == '4' ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label" for="rate2">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fal fa-star"></i>
+                                                <span class="rating-text">&amp; Up</span>
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rate3" name="rating[]" value="3"
-                                                {{ in_array(3, request('rating', [])) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <input class="form-check-input" type="radio" id="rate3" name="rating" value="3"
+                                                {{ request('rating') == '3' ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label" for="rate3">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
+                                                <span class="rating-text">&amp; Up</span>
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rate4" name="rating[]" value="2"
-                                                {{ in_array(2, request('rating', [])) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <input class="form-check-input" type="radio" id="rate4" name="rating" value="2"
+                                                {{ request('rating') == '2' ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label" for="rate4">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
+                                                <span class="rating-text">&amp; Up</span>
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rate5" name="rating[]" value="1"
-                                                {{ in_array(1, request('rating', [])) ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <input class="form-check-input" type="radio" id="rate5" name="rating" value="1"
+                                                {{ request('rating') == '1' ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label" for="rate5">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
                                                 <i class="fal fa-star"></i>
+                                                <span class="rating-text">&amp; Up</span>
                                             </label>
                                         </div>
                                     </li>
@@ -168,18 +217,19 @@
                 <div class="col-lg-9">
                     <div class="col-md-12">
                         <div class="shop-sort">
-                            <div class="shop-sort-box">
-                                <div class="shop-sorty-label">Sort By:</div>
-                                <select class="select" onchange="location = this.value;">
-                                    <option value="{{ route('products') }}">Default Sorting</option>
-                                    <option value="{{ route('products', ['sort' => 'latest']) }}">Latest Items</option>
-                                    <option value="{{ route('products', ['sort' => 'price_low']) }}">Price - Low To High</option>
-                                    <option value="{{ route('products', ['sort' => 'price_high']) }}">Price - High To Low</option>
-                                </select>
-                                <div class="shop-sort-show">
-                                    Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
-                                </div>
+                        <div class="shop-sort-box">
+                            <div class="shop-sorty-label">Sort By:</div>
+                            <select class="select" onchange="location = this.value;">
+                                <option value="{{ route('products', ['sort' => 'default']) }}" {{ request('sort') == 'default' || !request('sort') ? 'selected' : '' }}>Default Sorting</option>
+                                <option value="{{ route('products', ['sort' => 'latest']) }}" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest Items</option>
+                                <option value="{{ route('products', ['sort' => 'price_low']) }}" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price - Low To High</option>
+                                <option value="{{ route('products', ['sort' => 'price_high']) }}" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price - High To Low</option>
+                            </select>
+                            <div class="shop-sort-show">
+                                Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }} Results
                             </div>
+                        </div>
+
                             <!-- <div class="shop-sort-gl">
                                 <a href="{{ route('products') }}" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></a>
                             </div> -->
@@ -296,4 +346,7 @@
 
     <!-- shop-area end -->
 @endsection
+
+
+
 
