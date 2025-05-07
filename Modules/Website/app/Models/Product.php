@@ -41,7 +41,8 @@ class Product extends Model
         'status',
         'slug',
         'image',
-        'expiry_date'
+        'expiry_date',
+        'store_id'
     ];
 
     protected $casts = [
