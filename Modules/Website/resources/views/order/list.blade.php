@@ -93,7 +93,7 @@
                                                     <tr>
                                                         <td><span class="table-list-code">{{ $order->number }}</span></td>
                                                         <td>{{ $order->created_at->format('F d, Y') }}</td>
-                                                        <td>${{ number_format($order->total, 2) }}</td>
+                                                        <td>${{ number_format($order->total_price, 2) }}</td>
                                                         <td>
                                                             <span class="badge 
                                                                 @if($order->status == 'pending') badge-info

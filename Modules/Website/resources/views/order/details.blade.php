@@ -102,37 +102,25 @@
                                         <div class="order-summary">
                                             <h5>Order Summary</h5>
                                             <table class="table">
-                                                @if($order->discount > 0)
                                                 <tr>
-                                                    <td>Discount</td>
-                                                    <td class="text-danger">-${{ number_format($order->discount, 2) }}</td>
+                                                    <td>Subtotal</td>
+                                                    <td>${{ number_format($order->subtotal, 2) }}</td>
                                                 </tr>
-                                                @endif
+                                                <tr>
+                                                    <td>Shipping</td>
+                                                    <td>${{ number_format($order->shipping, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tax</td>
+                                                    <td>${{ number_format($order->tax, 2) }}</td>
+                                                </tr>
                                                 <tr class="total">
-                                                    <td><strong>Total</strong></td>
-                                                    <td><strong>${{ number_format($order->total, 2) }}</strong></td>
+                                                    <td>Total</td>
+                                                    <td>${{ number_format($order->total, 2) }}</td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="order-address">
-                                            <h5>Shipping Address</h5>
-                                            <address>
-                                                <strong>{{ $order->address->first_name }} {{ $order->address->last_name }}</strong><br>
-                                                {{ $order->address->street_addresses }}<br>
-                                                {{ $order->address->city }}, {{ $order->address->state }} {{ $order->address->postal_code }}<br>
-                                                {{ $order->address->country }}<br>
-                                                <abbr title="Phone">P:</abbr> {{ $order->address->phone_number }}<br>
-                                                <abbr title="Email">E:</abbr> {{ $order->address->email }}
-                                            </address>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="order-actions mt-4">
-                                    <a href="{{ route('order.list') }}" class="btn btn-secondary btn-sm">Back to Orders</a>
                                 </div>
                             </div>
                         </div>
