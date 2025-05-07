@@ -417,17 +417,16 @@
 
                     <!-- Order Summary -->
                     <div class="col-lg-4">
-                        <div class="shop-cart-summary">
+                        <div class="shop-cart-summary mt-0">
                             <h5>Cart Summary</h5>
                             <ul>
-                                <li><strong>Sub Total:</strong> <span id="subtotal">${{ number_format($subtotal, 2) }}</span></li>
-                                <li><strong>Discount:</strong> <span id="discount">${{ number_format($discount, 2) }}</span></li>
-                                @if(session('coupon'))
-                                <li><strong>Coupon Applied:</strong> <span>{{ session('coupon') }}</span> <a href="#" id="remove-coupon" class="text-danger">(Remove)</a></li>
-                                @endif
-                                <li><strong>Shipping:</strong> <span id="shipping">Free</span></li>
-                                <li><strong>Taxes:</strong> <span id="taxes">${{ number_format($taxes, 2) }}</span></li>
-                                <li class="shop-cart-total"><strong>Total:</strong> <span id="total">${{ number_format($total, 2) }}</span></li>
+                                <li><strong>Sub Total:</strong> <span>${{ number_format($cartData['subtotal'], 2) }}</span></li>
+                                <li><strong>Discount:</strong> <span>${{ number_format($cartData['discount'], 2) }}</span></li>
+                                <li><strong>Shipping:</strong> <span>Free</span></li>
+                                <li><strong>Taxes:</strong> <span>${{ number_format($cartData['taxes'], 2) }}</span></li>
+                                <li class="shop-cart-total">
+                                    <strong>Total:</strong> <span>${{ number_format($cartData['total'], 2) }}</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -501,6 +500,154 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+$(document).ready(function() {
+            // Minus button
+            $('.minus-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+                var $row = $(this).closest('tr');
+                var $quantityInput = $row.find('.quantity');
+                var currentQuantity = parseInt($quantityInput.val());
+                if (currentQuantity > 1) {
+                    updateQuantity(productId, currentQuantity - 1, $row);
+                }
+            });
+
+            // Plus button
+            $('.plus-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+                var $row = $(this).closest('tr');
+                var $quantityInput = $row.find('.quantity');
+                var currentQuantity = parseInt($quantityInput.val());
+                updateQuantity(productId, currentQuantity + 1, $row);
+            });
+
+            // Remove button
+            $('.shop-cart-remove').off('click').on('click', function(e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+                var $row = $(this).closest('tr');
+                removeItem(productId, $row);
+            });
+
+            function updateQuantity(productId, quantity, $row) {
+                $.ajax({
+                    url: '{{ route("cart.update", ":id") }}'.replace(':id', productId),
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            var $quantityInput = $row.find('.quantity');
+                            var price = parseFloat($row.find('.shop-cart-price span').text().replace('$', ''));
+                            $quantityInput.val(quantity);
+                            $row.find('.shop-cart-subtotal span').text('$' + (price * quantity).toFixed(2));
+                            updateSummary(response.cartData);
+                        } else {
+                            alert(response.message || 'Error updating quantity');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Error updating quantity: ' + xhr.statusText);
+                    }
+                });
+            }
+
+            function removeItem(productId, $row) {
+                $.ajax({
+                    url: '{{ route("cart.remove", ":id") }}'.replace(':id', productId),
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $row.remove();
+                            if ($('tbody tr').length === 0) {
+                                $('.cart-table').replaceWith('<p>Your cart is empty.</p>');
+                            }
+                            updateSummary(response.cartData);
+                        } else {
+                            alert('Error removing item');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Error removing item: ' + xhr.statusText);
+                    }
+                });
+            }
+
+            function updateSummary(cartData) {
+                $('#subtotal').text('$' + cartData.subtotal.toFixed(2));
+                $('#discount').text('$' + cartData.discount.toFixed(2));
+                $('#taxes').text('$' + cartData.taxes.toFixed(2));
+                $('#total').text('$' + cartData.total.toFixed(2));
+            }
+
+            // Handle coupon form submission
+            $('#coupon-form').on('submit', function(e) {
+                e.preventDefault();
+
+                var couponCode = $('#coupon_code').val();
+                if (!couponCode) {
+                    alert('Please enter a coupon code');
+                    return;
+                }
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        coupon_code: couponCode
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Reload the page to show the updated cart with coupon applied
+                            location.reload();
+                        } else {
+                            alert(response.message || 'Error applying coupon');
+                        }
+                    },
+                    error: function(xhr) {
+                        var errorMessage = 'Error applying coupon';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            });
+
+            // Handle coupon removal
+            $('#remove-coupon').on('click', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ route("cart.removeCoupon") }}',
+                    method: 'GET',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Reload the page to show the updated cart without coupon
+                            location.reload();
+                        } else {
+                            alert(response.message || 'Error removing coupon');
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Error removing coupon');
+                    }
+                });
+            });
+        });
 </script>
 @endsection
 
@@ -522,4 +669,5 @@ document.addEventListener('DOMContentLoaded', function() {
     color: white;
 }
 </style>
+
 @endsection

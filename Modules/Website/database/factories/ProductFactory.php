@@ -247,7 +247,10 @@
 //            'expiry_date' => $this->faker->dateTimeBetween('now', '+1 month'),
 //            'gallery' => $this->faker->randomElements([
 //                'assets/img/product/01.png',
+//                'assets/img/product/02.png',
 //                'assets/img/product/03.png',
+//                'assets/img/product/04.png',
+//                'assets/img/product/05.png',
 //                'assets/img/product/06.png',
 //                'assets/img/product/07.png',
 //                'assets/img/product/08.png',
@@ -257,7 +260,10 @@
 //
 //            'image' => $this->faker->randomElement([
 //                'assets/img/product/01.png',
+//                'assets/img/product/02.png',
 //                'assets/img/product/03.png',
+//                'assets/img/product/04.png',
+//                'assets/img/product/05.png',
 //                'assets/img/product/06.png',
 //                'assets/img/product/07.png',
 //                'assets/img/product/08.png',
@@ -552,7 +558,10 @@ class ProductFactory extends Factory
             'discount' => $this->faker->boolean(30) ? $this->faker->randomFloat(2, 1, 100) : 0,
             'gallery' => $this->faker->randomElements([
                 'assets/img/product/01.png',
+                'assets/img/product/02.png',
                 'assets/img/product/03.png',
+                'assets/img/product/04.png',
+                'assets/img/product/05.png',
                 'assets/img/product/06.png',
                 'assets/img/product/07.png',
                 'assets/img/product/08.png',
@@ -561,7 +570,10 @@ class ProductFactory extends Factory
             ], 3, false),
             'image' => $this->faker->randomElement([
                 'assets/img/product/01.png',
+                'assets/img/product/02.png',
                 'assets/img/product/03.png',
+                'assets/img/product/04.png',
+                'assets/img/product/05.png',
                 'assets/img/product/06.png',
                 'assets/img/product/07.png',
                 'assets/img/product/08.png',

@@ -167,9 +167,8 @@
                 <td>
                     <div class="product-rating">
                         @for($i = 1; $i <= 5; $i++)
-                            <i class="{{ $i <= $product->rating ? 'fas' : 'far' }} fa-star"></i>
+                        <i class="{{ $product->average_rating >= $i ? 'fas fa-star' : ($product->average_rating >= $i - 0.5 ? 'fas fa-star-half-alt' : 'far fa-star') }}"></i>
                         @endfor
-                        <span class="rating-value">({{ $product->rating }}/5)</span>
                     </div>
                 </td>
                 @endforeach

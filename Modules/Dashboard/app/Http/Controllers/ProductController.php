@@ -30,6 +30,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+//        dd(auth('admin')->user()->hasRole('admin'));
         // Start by checking if the user is a seller
         $query = Product::with('category:id,name');
 
@@ -58,27 +59,24 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
+
         $images = [];
         $firstImage = null;
-
+        $store_id =auth('admin')->user()->hasRole('admin') ? null : auth('admin')->user()->store_id;
         DB::beginTransaction();
 
         try {
-            // ✅ رفع صورة رئيسية إن وجدت
             if ($request->hasFile('image')) {
                 $firstImage = FileHelper::uploadImage($request->file('image'), 'products');
             }
-
-            // ✅ رفع صور المعرض إن وجدت
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $images[] = FileHelper::uploadImage($image, 'products');
                 }
             }
 
-            // ✅ إنشاء المنتج
             $product = Product::create([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -87,11 +85,14 @@ class ProductController extends Controller
                 'tax' => $request->tax,
                 'discount' => $request->discount,
                 'code' => $request->code,
-                'quantity' => $request->quantity,
+                'stock' => $request->quantity,
                 'category_id' => $request->category_id,
                 'image' => $firstImage,
                 'gallery' => $images,
                 'slug' => Str::slug($request->name),
+                'store_id' =>$store_id ,
+                'expiry_date'=> $request->expiry_date,
+                'quantity' => $request->quantity,
             ]);
 
             if ($product) {
@@ -109,7 +110,7 @@ class ProductController extends Controller
             $this->rollbackImage($firstImage, $images);
             flash()->error('Error: '.$e->getMessage());
 
-            return back();
+            return back()->withInput();
         }
 
     }
@@ -147,36 +148,27 @@ class ProductController extends Controller
         try {
 
             if ($request->hasFile('image')) {
-                // حذف الصورة القديمة إذا كانت موجودة
                 if ($product->image) {
-                    FileHelper::deleteImage($product->image); // تأكد من وجود دالة لحذف الصورة القديمة
+                    FileHelper::deleteImage($product->image);
                 }
-
-                // رفع الصورة الجديدة
                 $firstImage = FileHelper::uploadImage($request->file('image'), 'products');
             } else {
-                // إذا لم تكن هناك صورة جديدة، استخدم الصورة القديمة
                 $firstImage = $product->image;
             }
 
-            // ✅ تحديث صور المعرض إن وجدت
             if ($request->hasFile('images')) {
-                // حذف الصور القديمة إذا كانت موجودة
                 $oldImages = $product->gallery;
                 foreach ($oldImages as $oldImage) {
-                    FileHelper::deleteImage($oldImage); // تأكد من وجود دالة لحذف الصور القديمة
+                    FileHelper::deleteImage($oldImage);
                 }
 
-                // رفع الصور الجديدة
                 foreach ($request->file('images') as $image) {
                     $images[] = FileHelper::uploadImage($image, 'products');
                 }
             } elseif($product->gallery) {
-                // إذا لم تكن هناك صور جديدة، استخدم الصور القديمة
                 $images = $product->gallery;
             }
 
-            // ✅ تحديث المنتج
             $product->update([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -185,11 +177,15 @@ class ProductController extends Controller
                 'tax' => $request->tax,
                 'discount' => $request->discount,
                 'code' => $request->code,
-                'quantity' => $request->quantity,
+                'stock' => $request->quantity,
                 'category_id' => $request->category_id,
                 'image' => $firstImage,
                 'gallery' => $images,
                 'slug' => Str::slug($request->name),
+                'expiry_date'=> $request->expiry_date,
+                'quantity' => $request->quantity,
+
+
             ]);
 
             DB::commit();

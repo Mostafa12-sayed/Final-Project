@@ -7,6 +7,7 @@ use App\Models\SiteInfo;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Dashboard\Database\Seeders\PermissionSeeder;
+use Modules\Website\database\seeders\WebsiteDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,16 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         $this->call([
-            PermissionSeeder::class,
-            CreateAdminSeeder::class,
+//            PermissionSeeder::class,
+//            CreateAdminSeeder::class,
+            WebsiteDatabaseSeeder::class,
+
         ]);
-        // SiteInfo::factory()->count(1)->create();
+//        SiteInfo::factory()->count(1)->create();
+
     }
 }
