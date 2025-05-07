@@ -12,6 +12,7 @@ class CheckLoginUserNormal
      */
     public function handle(Request $request, Closure $next)
     {
+//        dd("done");
         if (auth('web')->check()) {
             return abort(403);
         }
