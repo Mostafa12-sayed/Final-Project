@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container  mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mt-5 ">
@@ -18,7 +18,7 @@
 
                     @if(isset($order))
                     <div class="mt-4">
-                        <h4>Order #{{ $order->id }}</h4>
+                        <h4>Order #{{ $order->number }}</h4>
                         <p>Total: {{ number_format($order->total, 2) }} EGP</p>
                     </div>
                     @endif

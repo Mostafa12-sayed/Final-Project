@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Modules\Website\app\Models\Order;
-use PhpParser\Node\Expr\Empty_;
+
 use Illuminate\Routing\Controller;
 
 
@@ -39,7 +39,7 @@ class PaymentController extends Controller
                 ->first();
             if ($existingPayment) {
                 // Payment already exists, don't create a new one
-                return redirect()->route('payment.pending', ['order_id' => $order->id]);
+                return redirect()->route('payment.failed', ['order_id' => $order->id]);
             }
             $amount = $order->total;
             $this->paymobService->authenticate();

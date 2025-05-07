@@ -26,7 +26,7 @@ class AdminRegister extends FormRequest
                     ->symbols()
                     ->uncompromised(), ],
             'address' => 'nullable|string|max:255',
-            'store_name' => 'required|string|max:255',
+            'store_name' => 'required|string|max:255|unique:stores,name',
             'description' => 'nullable|string|max:255',
             // Add any other fields you need to validate
         ];

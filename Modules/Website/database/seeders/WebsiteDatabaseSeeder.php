@@ -135,11 +135,11 @@ class WebsiteDatabaseSeeder extends Seeder
         // }
 
         // Create 100 products, assigning them to random existing categories
-        // Product::factory()->count(100)->create([
-        //     'category_id' => function () {
-        //         return Category::inRandomOrder()->first()->id;
-        //     },
-        // ]);
+         Product::factory()->count(100)->create([
+             'category_id' => function () {
+                 return Category::inRandomOrder()->first()->id;
+             },
+         ]);
 
 
         // Step 3: Create 10 stores
