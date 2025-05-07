@@ -205,7 +205,7 @@
                                         </div>
                                         <div class="product-content">
                                             <h3 class="product-title">
-                                                <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
+                                                <a href="{{ route('product.show', $product->slug) }}">{{ucfirst($product->name)}}</a>
                                             </h3>
                                             <div class="product-rate">
                                                 @for($i = 1; $i <= 5; $i++)
@@ -281,7 +281,7 @@
                             </div>
                         </div>
                         <div class="product-content">
-                            <h3 class="product-title"><a href="shop-single.html">{{ucfirst($product->name)}}</a></h3>
+                            <h3 class="product-title"><a href="{{ route('product.show', $product->slug) }}">{{ucfirst($product->name)}}</a></h3>
                             <div class="product-rate">
                                 @for($i = 1; $i <= 5; $i++)
                                 <i class="{{ $product->average_rating >= $i ? 'fas fa-star' : ($product->average_rating >= $i - 0.5 ? 'fas fa-star-half-alt' : 'far fa-star') }}"></i>
@@ -311,7 +311,7 @@
                     <div class="product-item">
                         <div class="product-img">
                             <span class="type new" style="background-color: #ff6347;">trending</span>
-                            <a href="shop-single.html"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
+                            <a href="{{ route('product.show', $product->slug) }}"><img src="{{$product->image}}" alt="{{$product->name}}"></a>
                             <div class="product-action-wrap">
                                 <div class="product-action">
                                     <a href="#" data-href="{{route('product.modal', ['product'=> $product->id])}}" data-container="#website-table-modal" class="btn-modal"><i class="far fa-eye"></i></a>
@@ -335,7 +335,7 @@
                             </div>
                         </div>
                         <div class="product-content">
-                            <h3 class="product-title"><a href="shop-single.html">{{ucfirst($product->name)}}</a></h3>
+                            <h3 class="product-title"><a href="{{ route('product.show', $product->slug) }}">{{ucfirst($product->name)}}</a></h3>
                             <div class="product-rate">
                                 @for($i = 1; $i <= 5; $i++)
                                 <i class="{{ $product->average_rating >= $i ? 'fas fa-star' : ($product->average_rating >= $i - 0.5 ? 'fas fa-star-half-alt' : 'far fa-star') }}"></i>
@@ -425,7 +425,7 @@
                                 <a href="{{route('product.show', $product->slug)}}"><img src="{{ $product->image }}" alt="#"></a>
                             </div>
                             <div class="product-list-content">
-                                <h4><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h4>
+                                <h4><a href="{{ route('product.show', $product->slug) }}">{{ucfirst($product->name)}}</a></h4>
                                 <span class="type discount" style="background-color: #ff6347; color: white; border-radius: 5px; padding: 3px;">{{ round(($product->discount / $product->price) * 100) }}% Off</span>
                                 <div class="product-list-rate">
                                     @for($i = 1; $i <= 5; $i++)

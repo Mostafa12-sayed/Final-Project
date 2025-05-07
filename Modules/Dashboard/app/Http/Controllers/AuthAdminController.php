@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Dashboard\app\Http\Requests\AdminRegister;
 use Modules\Dashboard\app\Models\Admin;
-
+use Modules\Dashboard\Mail\ResetPasswordLink;
 class AuthAdminController extends Controller
 {
     public function showLoginForm()
@@ -43,14 +43,14 @@ class AuthAdminController extends Controller
             if ($admin->status === 'pending' || $admin->status === 'inactive') {
                 Auth::guard('admin')->logout();
 
-                return back()->withErrors(['login' => 'Your account is not active. Please contact support.']);
+                return back()->withErrors(['login' => 'Your account is not active. Please contact support.'])->withInput();
             }
 
             //            return redirect()->intended('/admin/dashboard');
             return to_route('admin.dashboard');
         }
 
-        return back()->withErrors(['login' => 'Invalid credentials.']);
+        return back()->withErrors(['login' => 'Invalid credentials.'])->withInput();
 
     }
 
@@ -105,5 +105,45 @@ class AuthAdminController extends Controller
 
         // Auth::guard('admin')->login($admin);
 
+    }
+
+    public function passwordReset(){
+        return view('dashboard::auth.reset-password');
+    }
+    public function passwordResetLink(Request $request){
+        $email = $request->email;
+        $admin = Admin::where('email', $email)->first();
+
+        if($admin){
+            $token = Str::random(60);
+            $admin->update(['verification_token' => $token]);
+            \Mail::to($admin->email)->send(new ResetPasswordLink($admin));
+            return redirect()->back()->with('success', 'Reset Password Link Send to your Email.');
+        }else{
+            return redirect()->back()->with('error', 'Email Not Found.')->withInput();
+        }
+    }
+    public function passwordChange(Request $request){
+        $token=$request->get('token');
+        return view('dashboard::auth.reset-change-password', compact('token'));
+    }
+    public function passwordChangeStore(Request $request){
+
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'exists:admins,email', 'max:255'],
+        ]);
+        $admin = Admin::where('email', $request->email)->first();
+        if($admin){
+            if($admin->verification_token == $request->token){
+                $admin->update(['password' => Hash::make($request->password),'verification_token' => null]);
+                return redirect()->route('admin.login')->with('success', 'Password Reset Successfully.');
+            }
+            else{
+                return redirect()->back()->with('error', 'Invalid Token.')->withInput();
+            }
+        }else{
+            return redirect()->back()->with('error', 'Invalid Token.')->withInput();
+        }
     }
 }
