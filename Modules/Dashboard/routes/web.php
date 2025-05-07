@@ -89,7 +89,7 @@ Route::middleware('checkUserNormal')->group(function (){
         Route::post('/admin/orders/update/{order}', [OrdersController::class, 'show'])->name('admin.order.update');
         Route::get('/admin/orders/delete/{order}', [OrdersController::class, 'destroy'])->name('admin.order.delete');
 
-        Route::get('/admin/orders/change-status/{order}/{status}', [OrdersController::class, 'editStatus'])->name('admin.order.edit.change.status');
+        Route::post('/admin/orders/change-status', [OrdersController::class, 'editStatus'])->name('admin.order.edit.change.status');
 
         Route::get('/admin/orders/change-status-admin/{order}/{status}', [OrdersController::class, 'editStatusAdmin'])->name('admin.order.change.status.admin');
         Route::get('/admin/orders/change-status-seller/{order}/{status}', [OrdersController::class, 'editStatusSeller'])->name('admin.order.change.status.seller');

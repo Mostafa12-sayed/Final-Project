@@ -52,25 +52,22 @@
                                                   </td>
                                                   <td>${{$product->price}}</td>
                                                   <td>
-{{--                                                       <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $product->quantity - $product->stock }} Item</span> Left</p>--}}
                                                        <p class="mb-0 text-muted">{{ $product->stock }}</p>
                                                   </td>
                                                   <td> {{ optional($product->category)->name}}</td>
-                                                  <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{$product->average_rating}}</span>
+                                                  <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{intval($product->average_rating)}}</span>
                                                       {{$product->reviews->count()}} Review</td>
                                                   <td>
                                                        <div class="d-flex gap-2">
                                                            <button data-href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" data-container="#hr-table-modal" type="button" class="btn btn-light btn-sm btn-modal" >
                                                                <iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon>
                                                            </button>
-{{--                                                            <a href="{{ route('admin.products.show' , ['product'=>$product->id]) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>--}}
                                                             <a href="{{ route('admin.products.edit' , ['product'=>$product->id]) }}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                             <form id="delete-form-product-{{ $product->id }}" action="{{ route('admin.products.destroy' , ['product'=>$product->id]) }}" method="POST">
                                                                  @csrf
                                                                  @method('delete')
                                                             </form>
                                                            <a type="submit" class="btn btn-soft-danger btn-sm delete-item" data-form="delete-form-product-{{ $product->id }}"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
-
                                                        </div>
                                                   </td>
                                              </tr>

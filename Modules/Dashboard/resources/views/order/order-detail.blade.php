@@ -28,7 +28,7 @@
                                                      @elseif($order->admin_status =='rejected')
                                                          <a href="{{route('admin.order.change.status.admin', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
                                                      @endif
-                                                 @elseif(auth('admin')->user()->hasPermission('approve_orders_seller'))
+                                                 @elseif(auth('admin')->user()->hasPermission('approve_orders_seller') && auth('admin')->user()->hasRole('Seller') )
                                                      @if($order->seller_status == 'pending')
                                                          <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'approved'])}}" class="btn btn-outline-secondary">Approved</a>
                                                          <a href="{{route('admin.order.change.status.seller', ['order'=>$order->id , 'status' => 'rejected'])}}" class="btn btn-outline-secondary">Rejected</a>
@@ -64,9 +64,9 @@
                                          <i class="bi bi-printer"></i> Print Invoice
                                      </a>
                                          {{-- Mark as Shipped --}}
-                                         @if(in_array($order->status, ['shipping', 'confirming']) && auth('admin')->user()->hasPermission('make_order_ship'))
-                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>
-                                         @endif
+{{--                                         @if(in_array($order->status, ['shipping', 'confirming']) && auth('admin')->user()->hasPermission('make_order_ship'))--}}
+{{--                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'shipping'])}}" class="btn btn-primary">Make As Ready To Ship</a>--}}
+{{--                                         @endif--}}
                                      </div>
                                      </div>
                                  <div class="card-body">
@@ -87,18 +87,22 @@
                                      <div class="d-flex flex-wrap gap-2">
 
                                          {{-- Confirm Order --}}
-                                         @if($order->status === 'pending')
-                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'confirming'])}}" class="btn btn-primary">Confirm Order</a>
+{{--                                         @if($order->status === 'pending')--}}
+{{--                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'confirming'])}}" class="btn btn-primary">Confirm Order</a>--}}
 
-                                         @endif
+{{--                                         @endif--}}
 
-                                         {{-- Cancel Order --}}
-                                         @if(in_array($order->status, ['pending', 'confirming']))
-                                                 <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'cancelling'])}}" class="btn btn-primary">Cancel Order</a>
-                                         @endif
-                                         @if(in_array($order->status, ['shipping', 'confirming']))
-                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'completed'])}}" class="btn btn-primary">Complated Order</a>
-                                         @endif
+{{--                                         --}}{{-- Cancel Order --}}
+{{--                                         @if(in_array($order->status, ['pending', 'confirming']))--}}
+
+{{--                                                 <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'cancelling'])}}" class="btn btn-primary">Cancel Order</a>--}}
+{{--                                         @endif--}}
+{{--                                         @if(in_array($order->status, ['shipping', 'confirming']))--}}
+{{--                                             <a href="{{route('admin.order.edit.change.status', ['order'=>$order->id , 'status'=>'completed'])}}" class="btn btn-primary">Complated Order</a>--}}
+{{--                                         @endif--}}
+{{--                                         @if(auth('admin')->user()->hasPermission('edit_order_admin'))--}}
+
+{{--                                         @endif--}}
 
 
 
@@ -114,7 +118,25 @@
 {{--                                         </form>--}}
                                      </div>
                                  </div>
-                                 <div class="row">
+                                 <div class="row col-md-12">
+                                     <div class="d-flex align-items-center gap-2 w-100 mb-2">
+                                         {{--                                             <label for="status" class="mb-2">Change Status</label>--}}
+                                         <form action="{{ route('admin.order.edit.change.status', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                             @csrf
+                                             <input name="order" value="{{ $order->id }}" hidden="true">
+                                             <label for="example-select" class="form-label ">Change Status</label>
+                                             <div class=" d-flex align-items-center justify-content-between gap-2">
+                                                 <select class="form-select w-100" id="example-select" name="status">
+                                                     <option value="pending" {{ $order->status == 'pending' ?'selected' : '' }}>Pending</option>
+                                                     <option value="confirming" {{ $order->status == 'confirming' ?'selected' : '' }}>Confirming</option>
+                                                     <option value="cancelling" {{ $order->status == 'cancelling' ?'selected' : '' }}>Cancelling</option>
+                                                     <option value="shipping" {{ $order->status =='shipping' ?'selected' : '' }}>Shipping</option>
+                                                     <option value="completed" {{ $order->status == 'completed' ?'selected' : '' }}>Completed</option>
+                                                 </select>
+                                                 <button type="submit" class="btn btn-primary ">Save</button>
+                                             </div>
+                                         </form>
+                                     </div>
                                  <div class="col-md-6">
                                      @if( auth('admin')->user()->hasPermission('make_order_payment'))
                                          <label for="payment_status" class="mb-2">Payment Status</label>
@@ -247,7 +269,19 @@
                          </div>
                          <div class="card-body">
                               <div class="d-flex align-items-center gap-2">
-                                   <img src="{{is_null($order->user->profile_image) ? asset('assets/img/account/user.png') : asset('assets/img/account/'.$order->user->profile_image)}}" alt="" class="avatar rounded-3 border border-light border-3">
+                                  @php
+                                      $profileImage = $order->user->profile_image;
+
+                                      if (is_null($profileImage)) {
+                                          $imageUrl = asset('assets/img/account/user.png');
+                                      } elseif (Str::startsWith($profileImage, ['http://', 'https://'])) {
+                                          $imageUrl = $profileImage;
+                                      } else {
+                                          $imageUrl = config('app.url') . '/assets/img/account/' . ltrim($profileImage, '/');
+                                      }
+                                  @endphp
+
+                                  <img src="{{ $imageUrl }}" alt="" class="avatar rounded-3 border border-light border-3">
                                    <div>
                                         <p class="mb-1">{{$order->user->name}}</p>
                                         <a href="#!" class="link-primary fw-medium">{{$order->user->email}}</a>

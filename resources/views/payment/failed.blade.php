@@ -1,12 +1,11 @@
 @extends('website::layouts.master')
 
 @section('content')
-<div class="container">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mt-5">
                 <div class="card-header bg-danger text-white">Payment Failed</div>
-
                 <div class="card-body text-center">
                     <div class="mb-4">
                         <i class="fa fa-times-circle text-danger" style="font-size: 64px;"></i>

@@ -6,6 +6,7 @@
                <!-- Start Container Fluid -->
                <div class="container-xxl">
 
+                    @if(!auth('admin')->user()->hasRole('Seller'))
                     <div class="row">
                          <div class="col-md-6 col-xl-3">
                               <div class="card">
@@ -114,7 +115,7 @@
                          </div>
 
                     </div>
-
+                    @endif
                     <div class="row">
                          <div class="col-xl-12">
                               <div class="card">
