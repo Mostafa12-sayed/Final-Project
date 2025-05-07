@@ -36,7 +36,7 @@ Route::group(['prefix' => '/profile', 'middleware' => ['auth']], function () {
 
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/productss', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/quick-view/{productId}', [ProductController::class, 'getProductDetails'])->name('product.quickview');
 Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
@@ -52,7 +52,9 @@ Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name
 Route::middleware(['auth'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/aj/add/{product}', [WishlistController::class, 'add_ajax'])->name('wishlist.add_ajax');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::delete('/wishlist/aj/remove/{product}', [WishlistController::class, 'remove_ajax'])->name('wishlist.remove_ajax');
 });
 // coupon Routes
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
