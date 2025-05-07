@@ -59,11 +59,12 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
+
         $images = [];
         $firstImage = null;
-
+        $store_id =auth('admin')->user()->hasRole('admin') ? null : auth('admin')->user()->store_id;
         DB::beginTransaction();
 
         try {
@@ -89,8 +90,9 @@ class ProductController extends Controller
                 'image' => $firstImage,
                 'gallery' => $images,
                 'slug' => Str::slug($request->name),
-                'store_id' => auth('admin')->user()->hasRole('admin') ? null : auth('admin')->user()->store_id,
+                'store_id' =>$store_id ,
                 'expiry_date'=> $request->expiry_date,
+                'quantity' => $request->quantity,
             ]);
 
             if ($product) {
@@ -108,7 +110,7 @@ class ProductController extends Controller
             $this->rollbackImage($firstImage, $images);
             flash()->error('Error: '.$e->getMessage());
 
-            return back();
+            return back()->withInput();
         }
 
     }
@@ -181,6 +183,8 @@ class ProductController extends Controller
                 'gallery' => $images,
                 'slug' => Str::slug($request->name),
                 'expiry_date'=> $request->expiry_date,
+                'quantity' => $request->quantity,
+
 
             ]);
 
