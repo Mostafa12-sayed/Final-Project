@@ -190,6 +190,9 @@
                 }
             });
         });
+        $('.btn-close').on('click', function (e) {
+            window.location.reload();
+        });
     </script>
 <script>
     window.isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};

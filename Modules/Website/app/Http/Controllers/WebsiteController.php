@@ -20,6 +20,7 @@ class WebsiteController extends Controller
      */
     public function index()
     {
+        // Only categories that are active and have active products
         $categories = Category::where('status', 'active')
             ->whereHas('products', function ($query) {
                 $query->where('status', 'active')
@@ -38,6 +39,7 @@ class WebsiteController extends Controller
             ->orderBy('products_count', 'desc')
             ->get();
     
+        // Active categories and their active products
         $categories_products = Category::with(['products' => function ($query) {
             $query->where('status', 'active')
                   ->whereHas('category', function ($q) {
@@ -45,14 +47,17 @@ class WebsiteController extends Controller
                   });
         }])->where('status', 'active')->get();
     
+        // Random active products with active categories
         $products = Product::where('status', 'active')
             ->whereHas('category', function ($query) {
                 $query->where('status', 'active');
             })
             ->inRandomOrder()->take(40)->get();
     
+        // Top rated from the above list
         $top_rated = $products->sortByDesc('rating')->take(3);
     
+        // On-sale products with valid expiry date and active category
         $on_sale_products = Product::where('status', 'active')
             ->where('discount', '>', 0)
             ->where('stock', '>', 0)
@@ -63,10 +68,12 @@ class WebsiteController extends Controller
             ->inRandomOrder()->take(10)
             ->orderBy('discount', 'desc')->get();
     
+        // Trending products from the first list
         $top_products = $products->sortByDesc(function ($product) {
             return $product->trending_items;
         })->take(20);
     
+        // Another batch of random products filtered by active categories
         $products2 = Product::where('status', 'active')
             ->whereHas('category', function ($query) {
                 $query->where('status', 'active');
@@ -77,6 +84,7 @@ class WebsiteController extends Controller
             return $product->trending_items;
         })->take(20);
     
+        // Other unrelated data
         $stores = Stores::paginate(6);
         $heros = HeroSections::paginate(7);
     

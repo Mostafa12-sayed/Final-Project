@@ -1,56 +1,6 @@
-@extends('website::layouts.master')
+@extends('website::layouts.userDashboard')
 
-@section('content')
-<main class="main">
-    <!-- breadcrumb -->
-    <div class="site-breadcrumb">
-        <div class="site-breadcrumb-bg" style="background: url(assets/img/breadcrumb/01.jpg)"></div>
-        <div class="container">
-            <div class="site-breadcrumb-wrap">
-                <h4 class="breadcrumb-title">All Order Details</h4>
-                <ul class="breadcrumb-menu">
-                    <li><a href="{{ route('home') }}"><i class="far fa-home"></i> Home</a></li>
-                    <li class="active">Order Details</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- breadcrumb end -->
-
-    <!-- user dashboard -->
-    <div class="user-area bg pt-100 pb-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                <div class="sidebar">
-                            <div class="sidebar-top">
-                                <div class="sidebar-profile-img">
-                                <img src="{{ Auth::user()->profile_image 
-                                    ? asset('storage/users/' . Auth::user()->profile_image) 
-                                    : asset('assets/img/account/user.png') }}" alt="">
-                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                                    <input type="file" class="profile-img-file">
-                                </div>
-                                <h5>{{ Auth::user()->name }}</h5>
-                                <p>{{ Auth::user()->email }}</p>
-                            </div>
-                            <ul class="sidebar-list">
-                                <li><a href="user-dashboard.html"><i class="far fa-gauge-high"></i> Dashboard</a></li>
-                                <li><a href="user-profile.html"><i class="far fa-user"></i> My Profile</a></li>
-                                <li><a class="active" href="order-list.html"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="wishlist.html"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="address-list.html"><i class="far fa-location-dot"></i> Address List</a></li>
-                                <li><a href="support-ticket.html"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="track-order.html"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
-                                <li><a href="payment-method.html"><i class="far fa-wallet"></i> Payment Methods</a></li>
-                                <li><a href="user-notification.html"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="user-message.html"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="user-setting.html"><i class="far fa-gear"></i> Settings</a></li>
-                                <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
-                            </ul>
-                        </div>
-                </div>
-
+@section('main-content')
                 <div class="col-lg-9">
                     <div class="user-wrapper">
                         <div class="row">
@@ -102,44 +52,29 @@
                                         <div class="order-summary">
                                             <h5>Order Summary</h5>
                                             <table class="table">
-                                                @if($order->discount > 0)
                                                 <tr>
-                                                    <td>Discount</td>
-                                                    <td class="text-danger">-${{ number_format($order->discount, 2) }}</td>
+                                                    <td>Subtotal</td>
+                                                    <td>${{ number_format($order->subtotal, 2) }}</td>
                                                 </tr>
-                                                @endif
+                                                <tr>
+                                                    <td>Shipping</td>
+                                                    <td>${{ number_format($order->shipping, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tax</td>
+                                                    <td>${{ number_format($order->tax, 2) }}</td>
+                                                </tr>
                                                 <tr class="total">
-                                                    <td><strong>Total</strong></td>
-                                                    <td><strong>${{ number_format($order->total, 2) }}</strong></td>
+                                                    <td>Total</td>
+                                                    <td>${{ number_format($order->total, 2) }}</td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="order-address">
-                                            <h5>Shipping Address</h5>
-                                            <address>
-                                                <strong>{{ $order->address->first_name }} {{ $order->address->last_name }}</strong><br>
-                                                {{ $order->address->street_addresses }}<br>
-                                                {{ $order->address->city }}, {{ $order->address->state }} {{ $order->address->postal_code }}<br>
-                                                {{ $order->address->country }}<br>
-                                                <abbr title="Phone">P:</abbr> {{ $order->address->phone_number }}<br>
-                                                <abbr title="Email">E:</abbr> {{ $order->address->email }}
-                                            </address>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="order-actions mt-4">
-                                    <a href="{{ route('order.list') }}" class="btn btn-secondary btn-sm">Back to Orders</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</main>
+
 @endsection

@@ -54,11 +54,11 @@ Route::middleware('checkUserNormal')->group(function (){
         Route::post('/admin/products/delete-image', [ProductController::class, 'deleteImage'])->name('admin.products.delete-image');
 
         // sellers routes
+        Route::post('/admin/sellers/update-status-role/{id}', [SellersController::class, 'UpdateStatusRole'])->name('admin.sellers.UpdateStatusRole');
         Route::get('/admin/sellers/orders', [SellersController::class, 'sellersOrders'])->name('admin.sellers.orders');
         Route::resource('/admin/sellers', SellersController::class)->names('admin.sellers');
         Route::get('/admin/sellers/{seller}/accept', [SellersController::class, 'accept'])->name('admin.sellers.accept');
         Route::get('/admin/sellers/{seller}/reject', [SellersController::class, 'reject'])->name('admin.sellers.reject');
-        Route::post('/admin/sellers/update-status-role/{id}', [SellersController::class, 'UpdateStatusRole'])->name('admin.sellers.UpdateStatusRole');
 
         Route::resource('/admin/category', CategoryController::class)->names('admin.category');
         Route::resource('codes', CodesController::class)->names('admin.codes');
@@ -89,7 +89,7 @@ Route::middleware('checkUserNormal')->group(function (){
         Route::post('/admin/orders/update/{order}', [OrdersController::class, 'show'])->name('admin.order.update');
         Route::get('/admin/orders/delete/{order}', [OrdersController::class, 'destroy'])->name('admin.order.delete');
 
-        Route::get('/admin/orders/change-status/{order}/{status}', [OrdersController::class, 'editStatus'])->name('admin.order.edit.change.status');
+        Route::post('/admin/orders/change-status', [OrdersController::class, 'editStatus'])->name('admin.order.edit.change.status');
 
         Route::get('/admin/orders/change-status-admin/{order}/{status}', [OrdersController::class, 'editStatusAdmin'])->name('admin.order.change.status.admin');
         Route::get('/admin/orders/change-status-seller/{order}/{status}', [OrdersController::class, 'editStatusSeller'])->name('admin.order.change.status.seller');

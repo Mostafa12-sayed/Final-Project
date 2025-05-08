@@ -12,7 +12,6 @@ use Modules\Website\app\Models\Orderitem;
 use Modules\Website\app\Models\Product;
 use Modules\Website\app\Models\Stores;
 use Modules\Website\app\Models\OrderAddress;
-use Modules\Dashboard\app\Models\Coupon;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 
@@ -21,20 +20,13 @@ class OrderController extends Controller
     public function checkout()
     {
         $cart = session()->get('cart', []);
-    if (empty($cart)) {
-        return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
-    }
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+        }
 
-    $cartData = $this->getCartData($cart);
+        $cartData = $this->getCartData($cart);
 
-    return view('website::order.checkout', [
-        'cart' => $cart,
-        'subtotal' => $cartData['subtotal'],
-        'discount' => $cartData['discount'],
-        'taxes' => $cartData['taxes'],
-        'total' => $cartData['total'],
-        'coupon_code' => $cartData['coupon_code'] ?? null
-    ]);
+        return view('website::order.checkout', compact('cart', 'cartData'));
     }
 
     public function store(Request $request)
@@ -49,7 +41,7 @@ class OrderController extends Controller
             'country' => 'required|string|max:2',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'payment_method' => 'required|in:cod,paypal',
+            'payment_method' => 'required|in:cod,paypal,credit_card',
         ]);
 
         $cart = session()->get('cart', []);
@@ -79,15 +71,16 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'store_id' => $store->id,
-                'subtotal' => $cartData['subtotal'], 
                 'total' => $cartData['total'],
                 'status' => 'pending',
-                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'pending',
+
+                'payment_status' => $request->payment_method == 'cod' ? 'pending' : 'pending', // Changed 'unpaid' to 'pending'
                 'number' => 'ORD-' . strtoupper(uniqid()),
+
                 'payment_method' => $request->payment_method,
-                'shipping' => 0, 
-                'taxes' => $cartData['taxes'],
-                'discount' => $cartData['discount']
+                'shipping' => 0,
+                'tax' => $cartData['taxes'],
+                'discount' => $cartData['discount'],
             ]);
 
             // Add order items
@@ -121,13 +114,17 @@ class OrderController extends Controller
 
             DB::commit();
 
-            
+
             // Handle different payment methods
             if ($request->payment_method == 'cod') {
                 session()->forget('cart');
                 return redirect()->route('order.complete', $order->id)
                        ->with('success', 'Order placed successfully!');
-            } else {
+            }elseif($request->payment_method == 'credit_card')
+            {
+                return redirect()->route('payment.checkout', ['orderId' => $order->id]);
+            }
+            else {
                 return $this->processPaypalPayment($order);
             }
 
@@ -144,18 +141,18 @@ class OrderController extends Controller
     {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
-        
+
         try {
             $token = $provider->getAccessToken();
             $provider->setAccessToken($token);
-    
+
             $items = [];
             $itemTotal = 0;
-            
+
             foreach ($order->items as $item) {
                 $itemValue = round($item->price * $item->quantity, 2);
                 $itemTotal += $itemValue;
-                
+
                 $items[] = [
                     "name" => substr($item->product_name, 0, 127),
                     "description" => substr($item->product_name, 0, 127),
@@ -241,19 +238,19 @@ class OrderController extends Controller
             Log::debug('PayPal Order Request', $orderData);
     
             $response = $provider->createOrder($orderData);
-            
+
             if (!isset($response['id'])) {
                 throw new \Exception("PayPal response error: ".json_encode($response));
             }
-    
+
             foreach ($response['links'] as $link) {
                 if ($link['rel'] === 'approve') {
                     return redirect()->away($link['href']);
                 }
             }
-    
+
             throw new \Exception("No approval link in PayPal response");
-    
+
         } catch (\Exception $e) {
             Log::error("PAYPAL ERROR: ".$e->getMessage());
             Log::error("Stack trace: ".$e->getTraceAsString());
@@ -263,7 +260,7 @@ class OrderController extends Controller
                 ->withInput();
         }
     }
-    
+
     private function getPaypalOrderItems(Order $order)
     {
         $items = [];
@@ -287,7 +284,7 @@ class OrderController extends Controller
     {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
-        
+
         try {
             // 1. Get access token
             $token = $provider->getAccessToken();
@@ -472,7 +469,6 @@ class OrderController extends Controller
             'discount' => $discount,
             'taxes' => $taxes,
             'total' => $total,
-            'coupon_code' => $couponCode
         ];
     }
     public function remove($productId): JsonResponse

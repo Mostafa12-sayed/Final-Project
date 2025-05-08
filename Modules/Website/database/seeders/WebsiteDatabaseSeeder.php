@@ -37,6 +37,8 @@
 namespace Modules\Website\database\seeders;
 
 use Illuminate\Contracts\Cache\Store;
+use Modules\Dashboard\app\Models\Admin;
+
 use App\Models\SiteInfo;
 use Illuminate\Database\Seeder;
 use Modules\Website\app\Models\Product;
@@ -133,20 +135,28 @@ class WebsiteDatabaseSeeder extends Seeder
         //         ]
         //     );
         // }
+        
+        // Stores::factory()->count(15)->create();
+        $admins = Admin::where('type', 'user')->whereNull('store_id')->get();
+
+        foreach ($admins as $admin) {
+            $store = Stores::factory()->create([
+                'admin_id' => $admin->id,
+            ]);
+
+            $admin->update([
+                'store_id' => $store->id,
+            ]);
+        }
+        // Create 100 products, assigning them to random existing categories
+         Product::factory()->count(8)->create([
+             'category_id' => function () {
+                 return Category::inRandomOrder()->first()->id;
+             },
+         ]);
+
 
         // Step 3: Create 10 stores
-        Stores::factory()->count(15)->create();
-
-
-        // Create 100 products, assigning them to random existing categories
-        Product::factory()->count(300)->create([
-            'category_id' => function () {
-                return Category::inRandomOrder()->first()->id;
-            },
-        ]);
-
-
-
         HeroSections::factory()->count(6)->create();
     }
 }

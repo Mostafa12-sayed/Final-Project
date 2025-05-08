@@ -197,16 +197,6 @@
 {{--                                </ul>--}}
 {{--                           </div>--}}
 {{--                      </li>--}}
-                    @if(auth()->guard('admin')->user()->hasPermission('read-settings'))
-                      <li class="nav-item">
-                           <a class="nav-link" href="settings.html">
-                                <span class="nav-icon">
-                                     <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
-                                </span>
-                                <span class="nav-text"> Settings </span>
-                           </a>
-                      </li>
-                         @endif
 
                       <li class="menu-title mt-2">Users</li>
 

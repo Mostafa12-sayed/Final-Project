@@ -54,10 +54,22 @@ class ProductController extends Controller
             $q->where('discount', '>', 0);
         });
 
-        // Ratings Filter
+        // Ratings Filter - Using average rating from reviews
         $query->when(request('rating'), function ($q) {
-            $ratings = request('rating', []);
-            $q->whereIn('rating', $ratings);
+            $rating = request('rating');
+            if (!empty($rating)) {
+                // Only include products with minimum rating from reviews
+                if ($rating > 1) {
+                    $q->whereHas('reviews', function ($reviewQuery) use ($rating) {
+                        $reviewQuery->select('product_id')
+                            ->groupBy('product_id')
+                            ->havingRaw('AVG(rating) >= ?', [$rating]);
+                    });
+                } else {
+                    // For 1-star rating, include all products with reviews
+                    $q->whereHas('reviews');
+                }
+            }
         });
 
         // Sorting
@@ -81,6 +93,7 @@ class ProductController extends Controller
 
         return view('website::product.products', compact('products', 'categories'));
     }
+
 
     public function getProductDetails(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -134,7 +147,7 @@ class ProductController extends Controller
 
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000',
+            'comment' => 'nullable|string|min:3|max:1000',
         ]);
 
         $product = Product::where('slug', $slug)->firstOrFail();
@@ -180,7 +193,7 @@ class ProductController extends Controller
 
     public function showProduct(Product $product)
     {
-        
+
         return view('website::product.modal', compact('product'));
     }
 }

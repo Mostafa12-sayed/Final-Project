@@ -100,7 +100,7 @@ class AuthAdminController extends Controller
             \Log::error('Admin Registration Error: '.$e->getMessage());
 
             // dd($e);
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
 
         // Auth::guard('admin')->login($admin);

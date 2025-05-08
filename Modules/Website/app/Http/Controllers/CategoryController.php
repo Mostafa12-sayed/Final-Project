@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('status', 'active')->paginate(10);
+        $categories = Category::where('status', 'active')->get();
 
         return view('website::product.categories', compact('categories'));
         // return view('website::index');
