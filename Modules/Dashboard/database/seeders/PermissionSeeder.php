@@ -4,6 +4,9 @@ namespace Modules\Dashboard\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Modules\Dashboard\app\Models\Admin;
 use Modules\Dashboard\app\Models\Permission;
 
 class PermissionSeeder extends Seeder
@@ -100,6 +103,45 @@ class PermissionSeeder extends Seeder
             if (! DB::table('permissions')->where('name', $item['name'])->exists()) {
                 Permission::updateOrCreate($item);
             }
+        }
+
+        $admins = [
+            [
+                'name' => 'Admin One',
+                'email' => 'admin1@example.com',
+                'username' => 'admin1',
+            ],
+            [
+                'name' => 'Admin Two',
+                'email' => 'admin2@example.com',
+                'username' => 'admin2',
+            ],
+            [
+                'name' => 'Admin Three',
+                'email' => 'admin3@example.com',
+                'username' => 'admin3',
+            ],
+            [
+                'name' => 'Admin Four',
+                'email' => 'admin4@example.com',
+                'username' => 'admin4',
+            ],
+        ];
+
+        foreach ($admins as $data) {
+            Admin::create(array_merge($data, [
+                'password' => Hash::make('password'),
+                'type' => 'user',
+                'status' => 'active',
+                'phone' => '1234567890',
+                'address' => '123 Admin St',
+                'remember_token' => Str::random(10),
+                'is_verified' => true,
+                'is_suspended' => false,
+                'is_deleted' => false,
+                'created_by' => 'seeder',
+                'updated_by' => 'seeder',
+            ]));
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Modules\Website\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Modules\Website\database\factories\StoresFactoryFactory;
 
 class Stores extends Model
