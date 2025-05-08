@@ -159,77 +159,86 @@ class OrderController extends Controller
                 $items[] = [
                     "name" => substr($item->product_name, 0, 127),
                     "description" => substr($item->product_name, 0, 127),
-                    "sku" => (string)$item->product_id,
                     "unit_amount" => [
-                        "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                        "currency_code" => "USD",
                         "value" => number_format($item->price, 2, '.', '')
                     ],
                     "quantity" => (string)$item->quantity,
-                    "category" => "PHYSICAL_GOODS"
+                    "category" => "PHYSICAL_GOODS",
+                    "sku" => "prod_".$item->product_id 
                 ];
             }
-            $itemTotal = round($itemTotal, 2);
+    
 
             $shipping = round($order->shipping, 2);
-            $tax = round($order->taxes, 2); 
-            $discount = round($order->discount, 2); 
+            $discount = round($order->discount, 2);
+            $itemTotal = round($itemTotal, 2);
+            $taxableAmount = max(0, $itemTotal - $discount);
+            $tax = round($taxableAmount * 0.10, 2);
+            $total = round($taxableAmount + $tax + $shipping, 2);
     
-
-            $total = round($itemTotal + $shipping + $tax - $discount, 2);
-    
-            // 4. Prepare PayPal request with proper discount handling
+            // Compliance requirements
             $orderData = [
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('paypal.success', $order),
                     "cancel_url" => route('paypal.cancel', $order),
-                    "brand_name" => env('APP_NAME', 'Laravel Store'),
+                    "brand_name" => env('APP_NAME', 'My Store'),
                     "user_action" => "PAY_NOW",
-                    "shipping_preference" => "NO_SHIPPING"
+                    "shipping_preference" => "SET_PROVIDED_ADDRESS",
+                    "landing_page" => "BILLING",
+                    "locale" => "en-US",
+                    "payment_method" => [
+                        "payee_preferred" => "IMMEDIATE_PAYMENT_REQUIRED"
+                    ]
                 ],
                 "purchase_units" => [
                     [
+                        "reference_id" => $order->number,
+                        "description" => "Purchase from ".env('APP_NAME', 'My Store'),
+                        "custom_id" => "ORDER_".$order->id,
+                        "invoice_id" => "INV_".$order->number,
+                        "soft_descriptor" => substr(env('APP_NAME', 'MyStore'), 0, 22),
                         "amount" => [
-                            "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                            "currency_code" => "USD",
                             "value" => number_format($total, 2, '.', ''),
                             "breakdown" => [
                                 "item_total" => [
-                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "currency_code" => "USD",
                                     "value" => number_format($itemTotal, 2, '.', '')
                                 ],
                                 "shipping" => [
-                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "currency_code" => "USD",
                                     "value" => number_format($shipping, 2, '.', '')
                                 ],
                                 "tax_total" => [
-                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "currency_code" => "USD",
                                     "value" => number_format($tax, 2, '.', '')
                                 ],
                                 "discount" => [
-                                    "currency_code" => env('PAYPAL_CURRENCY', 'USD'),
+                                    "currency_code" => "USD",
                                     "value" => number_format($discount, 2, '.', '')
                                 ]
                             ]
                         ],
-                        "reference_id" => $order->number,
-                        "description" => "Order #".$order->number,
-                        "items" => $items
+                        "items" => $items,
+                        "shipping" => [
+                            "name" => [
+                                "full_name" => $order->address->first_name.' '.$order->address->last_name
+                            ],
+                            "address" => [
+                                "address_line_1" => $order->address->street_address,
+                                "admin_area_2" => $order->address->city,
+                                "admin_area_1" => $order->address->state,
+                                "postal_code" => $order->address->postal_code,
+                                "country_code" => $order->address->country
+                            ]
+                        ]
                     ]
                 ]
             ];
     
-            // Debug output
-            Log::debug('PAYPAL FINAL REQUEST', [
-                'Calculations' => [
-                    'Item_Total' => $itemTotal,
-                    'Shipping' => $shipping,
-                    'Tax' => $tax,
-                    'Discount' => $discount,
-                    'Calculated_Total' => $total,
-                    'Order_Total' => $order->total
-                ],
-                'PayPal_Request' => $orderData
-            ]);
+            Log::debug('PayPal Order Request', $orderData);
     
             $response = $provider->createOrder($orderData);
             
@@ -246,9 +255,11 @@ class OrderController extends Controller
             throw new \Exception("No approval link in PayPal response");
     
         } catch (\Exception $e) {
-            Log::error("PAYPAL FINAL ERROR: ".$e->getMessage());
+            Log::error("PAYPAL ERROR: ".$e->getMessage());
+            Log::error("Stack trace: ".$e->getTraceAsString());
+            
             return back()
-                ->with('error', 'Payment failed: '.$e->getMessage())
+                ->with('error', 'Payment processing failed. Please try again or contact support.')
                 ->withInput();
         }
     }
@@ -266,7 +277,7 @@ class OrderController extends Controller
                     "value" => number_format($item->price, 2, '.', '')
                 ],
                 "quantity" => $item->quantity,
-                "category" => "PHYSICAL_GOODS" // or "DIGITAL_GOODS" if applicable
+                "category" => "PHYSICAL_GOODS" 
             ];
         }
         return $items;
@@ -278,33 +289,73 @@ class OrderController extends Controller
         $provider->setApiCredentials(config('paypal'));
         
         try {
+            // 1. Get access token
             $token = $provider->getAccessToken();
             $provider->setAccessToken($token);
-    
+            
+            // 2. Capture the approved payment
             $response = $provider->capturePaymentOrder($request->token);
-            Log::debug('PayPal Capture Response:', $response);
+            Log::debug('PayPal Capture Response', $response);
     
-            if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-                $order->update([
-                    'payment_status' => 'paid',
-                    'status' => 'processing',
-                    'paid_at' => now()
-                ]);
-                
-                session()->forget('cart');
-                return redirect()->route('order.complete', $order)
-                       ->with('success', 'Payment completed successfully!');
+            // 3. Verify capture was successful
+            if (!isset($response['status']) || $response['status'] !== 'COMPLETED') {
+                throw new \Exception("PayPal capture failed: ".json_encode($response));
             }
     
-            throw new \Exception("Payment not completed. Status: ".($response['status'] ?? 'unknown'));
+            // 4. Handle different status cases
+            switch ($response['status']) {
+                case 'COMPLETED':
+                    // Verify amounts strictly
+                    $capturedAmount = (float)($response['purchase_units'][0]['payments']['captures'][0]['amount']['value'] ?? 0);
+                    if (abs($capturedAmount - $order->total) > 0.01) {
+                        throw new \Exception(sprintf(
+                            "Amount mismatch! Captured: %.2f vs Order: %.2f",
+                            $capturedAmount,
+                            $order->total
+                        ));
+                    }
+                    
+                    // Update order status
+                    $order->update([
+                        'payment_status' => 'paid',
+                        'status' => 'processing',
+                        'transaction_id' => $response['id'],
+                        'payer_id' => $response['payer']['payer_id'] ?? null,
+                        'payment_source' => $response['payment_source']['paypal']['email_address'] ?? null,
+                        'paid_at' => now(),
+                        'paypal_response' => json_encode($response)
+                    ]);
+                    
+                    session()->forget('cart');
+                    return redirect()->route('order.complete', $order)
+                           ->with('success', 'Payment completed successfully!');
+                    
+                case 'PENDING':
+                    $order->update([
+                        'payment_status' => 'pending',
+                        'transaction_id' => $response['id']
+                    ]);
+                    return redirect()->route('order.complete', $order)
+                           ->with('warning', 'Payment is pending approval');
+                    
+                default:
+                    throw new \Exception("Unexpected payment status: ".$response['status']);
+            }
     
         } catch (\Exception $e) {
-            Log::error("PayPal Capture Error: ".$e->getMessage());
-            $order->update(['payment_status' => 'failed']);
+            Log::error("PayPal Capture Error: " . $e->getMessage());
+            Log::error("Full Response: " . json_encode($response ?? []));
+            
+            $order->update([
+                'payment_status' => 'failed',
+                'failure_reason' => substr($e->getMessage(), 0, 255)
+            ]);
+            
             return redirect()->route('order.checkout')
-                   ->with('error', 'Payment verification failed: '.$e->getMessage());
+                   ->with('error', 'Payment failed: '.$e->getMessage());
         }
     }
+    
 
     public function paypalCancel(Request $request, Order $order)
     {
@@ -388,32 +439,33 @@ class OrderController extends Controller
         $productIds = array_keys($cart);
         $products = Product::whereIn('id', $productIds)->get();
         $subtotal = 0;
-    
+        
         foreach ($products as $product) {
             $quantity = is_array($cart[$product->id]) ? $cart[$product->id]['quantity'] : $cart[$product->id];
             $finalPrice = $product->price - ($product->discount ?? 0);
             $subtotal += $finalPrice * $quantity;
         }
+        $subtotal = round($subtotal, 2);
     
-        // Initialize discount
+        // Handle coupon discount
         $discount = 0;
         $couponCode = session('coupon');
-        
-        // Apply coupon if exists and valid
         if ($couponCode) {
             $coupon = Coupon::where('code', $couponCode)->first();
-            
             if ($coupon && $coupon->is_active && $coupon->expiry_date >= now()) {
-                $discount = $coupon->discount;
+                $discount = min($coupon->discount, $subtotal);
             } else {
-                
                 session()->forget('coupon');
             }
         }
+        $discount = round($discount, 2);
     
-        $taxRate = 0.10;
-        $taxes = $subtotal * $taxRate;
-        $total = max(0, $subtotal - $discount) + $taxes; 
+        // Calculate taxes properly (10% of taxable amount)
+        $taxableAmount = max(0, $subtotal - $discount);
+        $taxes = round($taxableAmount * 0.10, 2);
+        
+        // Calculate final total
+        $total = round($taxableAmount + $taxes, 2);
     
         return [
             'subtotal' => $subtotal,
