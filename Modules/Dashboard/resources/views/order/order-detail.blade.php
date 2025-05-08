@@ -189,13 +189,13 @@
                                                                            <img src="{{asset(optional($item->product)->image)}}" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
-                                                                           <a href="{{route('product.show', ['slug' => $item->product->slug])}}" class="text-dark fw-medium fs-15" target="_blank">{{$item->product->name}}</a>
+{{--                                                                           <a href="{{route('product.show', ['slug' => optional($item->product)->slug])}}" class="text-dark fw-medium fs-15" target="_blank">{{optional($item->product)->name}}</a>--}}
                                                                       </div>
                                                                  </div>
 
                                                             </td>
                                                             <td>
-                                                                 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$item->product->status}}</span>
+                                                                 <span class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{optional($item->product)->status}}</span>
                                                             </td>
                                                             <td>${{$item->quantity}}</td>
                                                             <td>${{$item->price}}</td>

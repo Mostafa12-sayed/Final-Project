@@ -69,7 +69,7 @@
                              <div class="d-flex align-items-center col-sm-12 ">
                                  <p class="mb-0 fs-15 fw-medium text-dark p-2"> <strong>Role: </strong></p>
                                  <select class="form-select form-select-sm role-select"  >
-                                     <option selected>Select Role</option>
+                                     <option selected value="" disabled>Select Role</option>
                                      @foreach ($roles as $role)
                                          <option value="{{ $role->id }}" @if(optional($seller->admin)->role_id == $role->id) selected @endif>{{ $role->name }}</option>
                                      @endforeach
@@ -111,7 +111,7 @@
             $('.role-select, .status-select').on('change', function () {
                 let cardFooter = $(this).closest('.card-footer');
                 let adminId = cardFooter.data('admin-id');
-                let roleId = cardFooter.find('.role-select').val();
+                let roleId = cardFooter.find('.role-select').val() ;
                 let status = cardFooter.find('.status-select').val();
 
                 $.ajax({
