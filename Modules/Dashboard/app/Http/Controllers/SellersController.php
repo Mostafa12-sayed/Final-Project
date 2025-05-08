@@ -126,12 +126,21 @@ class SellersController extends Controller
 
     public function UpdateStatusRole(Request $request, $id)
     {
+        $role=null;
+        if($request->role_id !=='')
+        {
+            $role=$request->role_id;
+        }
+
         $seller = Store::where('admin_id', $id)->first();
         $seller->status = $request->status;
-        $seller->admin->role_id = $request->role_id;
+        $seller->admin->role_id =$role ;
         $seller->admin->status = $request->status;
         $seller->admin->save();
-        $seller->admin->syncRoles([$request->role_id]);
+        if($request->role_id !==''){
+
+            $seller->admin->syncRoles([$request->role_id]);
+        }
         $seller->save();
 
         return response()->json(['success' => 'Status updated successfully.']);

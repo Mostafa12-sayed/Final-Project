@@ -60,8 +60,8 @@ class ProductController extends Controller
             if (!empty($rating)) {
                 // Only include products with minimum rating from reviews
                 if ($rating > 1) {
-                    $q->whereHas('reviews', function($reviewQuery) use ($rating) {
-                        $reviewQuery->selectRaw('product_id, AVG(rating) as avg_rating')
+                    $q->whereHas('reviews', function ($reviewQuery) use ($rating) {
+                        $reviewQuery->select('product_id')
                             ->groupBy('product_id')
                             ->havingRaw('AVG(rating) >= ?', [$rating]);
                     });
