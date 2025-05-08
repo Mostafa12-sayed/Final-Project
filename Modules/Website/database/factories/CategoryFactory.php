@@ -167,7 +167,7 @@ class CategoryFactory extends Factory
                 'assets/img/icon/pet-care.svg',
             ]),
             'code' => Str::upper(Str::random(10)), // Ensure uniqueness & format
-            'status' => $this->faker->randomElement(['active', 'inactive']),
+            'status' => 'active',
         ];
     }
 

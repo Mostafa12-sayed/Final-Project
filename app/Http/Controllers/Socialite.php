@@ -38,7 +38,7 @@ class Socialite extends Controller
                 'user_type' => 'customer',
                 'email_verified_at' => now(),
             ]);
-            if (! $olduser->profile_image) {
+            if (is_null($olduser)) {
                 $newuser->profile_image = $user->avatar;
                 $newuser->save();
             }
@@ -78,6 +78,10 @@ class Socialite extends Controller
                 'profile_image' => $user->avatar,
                 'email_verified_at' => now(),
             ]);
+        }
+        if (is_null($olduser)) {
+            $newuser->profile_image = $user->avatar;
+            $newuser->save();
         }
         Auth::login($newuser);
 

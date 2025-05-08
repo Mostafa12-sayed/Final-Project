@@ -32,10 +32,14 @@ class SearchProducts extends Component
 
         // Step 2: Get active products with relationships
         $productsWithRelations = Product::with(['store', 'category'])
-            ->whereIn('id', $scoutResults->pluck('id'))
-            ->where('status', 'active')->limit(6)
-            ->get()
-            ->keyBy('id');
+        ->whereIn('id', $scoutResults->pluck('id'))
+        ->where('status', 'active')
+        ->whereHas('category', function ($query) {
+            $query->where('status', 'active'); 
+        })
+        ->limit(6)
+        ->get()
+        ->keyBy('id');
 
         // Convert to array format
         $this->products = $productsWithRelations->map(function ($product) {

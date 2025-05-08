@@ -23,7 +23,6 @@ class Product extends Model
         'category_id',
         'name',
         'description',
-        'store_id',
         'slug',
         'brand',
         'weight',
@@ -41,8 +40,7 @@ class Product extends Model
         'status',
         'slug',
         'image',
-        'expiry_date',
-        'store_id'
+        'expiry_date'
     ];
 
     protected $casts = [
@@ -75,24 +73,9 @@ class Product extends Model
     {
         $array = $this->toArray();
 
-        // Load relationships if not loaded
-        if (! $this->relationLoaded('store')) {
-            $this->load('store');
-        }
-        if (! $this->relationLoaded('category')) {
-            $this->load('category');
-        }
-
-        // Include store data
-        $array['store'] = $this->store ? [
-            'store_id' => $this->store->id,
-            'name' => $this->store->name,
-        ] : null;
-
-        // Include category data
-        $array['category_name'] = $this->category ? $this->category->name : null;
-
-        return $array;
+        return [
+            'name' => $this->name,
+        ];;
     }
 
     public function getDiscountedPriceAttribute()
@@ -107,7 +90,6 @@ class Product extends Model
         $rating = ($this->rating ?? 0);
         $sold = $quantity - $stock;
         $daysOld = now()->diffInHours($this->created_at);
-        // Calculate the trending score
         $score = ($sold * 2) + ($rating * 3) - ($daysOld * 0.5);
 
         return $score;
