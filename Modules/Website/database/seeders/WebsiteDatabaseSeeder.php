@@ -113,7 +113,7 @@ class WebsiteDatabaseSeeder extends Seeder
 
 
         // // Step 1: Create 10 categories first
-        // Category::factory()->count(11)->create();
+        Category::factory()->count(11)->create();
 
         // // Step 2: Create 100 products, assigning them to existing categories
         // // Insert categories, creating them only if they don’t exist
@@ -133,7 +133,8 @@ class WebsiteDatabaseSeeder extends Seeder
         //         ]
         //     );
         // }
-
+        
+        Stores::factory()->count(15)->create();
         // Create 100 products, assigning them to random existing categories
          Product::factory()->count(100)->create([
              'category_id' => function () {
@@ -143,7 +144,6 @@ class WebsiteDatabaseSeeder extends Seeder
 
 
         // Step 3: Create 10 stores
-        // Stores::factory()->count(15)->create();
-        // HeroSections::factory()->count(6)->create();
+        HeroSections::factory()->count(6)->create();
     }
 }

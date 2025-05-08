@@ -18,6 +18,7 @@ class Stores extends Model
         'name',
         'slug',
         'description',
+        'store_id',
         'logo_image',
         'cover_image',
         'status',

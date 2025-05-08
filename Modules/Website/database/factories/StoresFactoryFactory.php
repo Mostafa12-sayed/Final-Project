@@ -4,6 +4,7 @@ namespace Modules\Website\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Modules\Website\app\Models\Admin;
 use Modules\Website\app\Models\Stores;
 
 class StoresFactoryFactory extends Factory
@@ -22,7 +23,7 @@ class StoresFactoryFactory extends Factory
         $name = $this->faker->unique()->company;
 
         return [
-            'admin_id' => 1, // or use an existing admin_id
+            'admin_id' => Admin::inRandomOrder()->first()?->id ?? 1, 
             'name' => $name,
             'slug' => Str::slug($name),
             'description' => $this->faker->paragraph,

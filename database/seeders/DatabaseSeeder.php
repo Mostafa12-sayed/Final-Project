@@ -18,12 +18,12 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-//            PermissionSeeder::class,
-//            CreateAdminSeeder::class,
+        //    PermissionSeeder::class,
+        //    CreateAdminSeeder::class,
             WebsiteDatabaseSeeder::class,
 
         ]);
-//        SiteInfo::factory()->count(1)->create();
+    //    SiteInfo::factory()->count(1)->create();
 
     }
 }

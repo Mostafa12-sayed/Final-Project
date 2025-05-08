@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'mailisearch'),
+    'driver' => env('SCOUT_DRIVER', 'meilisearch'),
 
     /*
     |--------------------------------------------------------------------------
@@ -141,9 +141,8 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             'product' => [
-                'filterableAttributes' => ['id', 'name', 'store_id'],
-                'sortableAttributes' => ['created_at'],
-                'searchableAttributes' => ['name', 'description', 'category_name'],
+                'searchableAttributes' => ['name'],
+                'sortableAttributes' => ['name'],
             ],
         ],
     ],

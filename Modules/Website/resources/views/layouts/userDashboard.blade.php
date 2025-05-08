@@ -84,7 +84,7 @@
                     </div>
                     <ul class="sidebar-list">
                         <li><a class="{{request()->routeIs('profile.index') ? 'active' : ''}}" href="{{ route('profile.index') }}"><i class="far fa-user"></i> My Profile</a></li>
-                        <li><a href="{{route('order.list')}}"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
+                        <li><a href="{{route('order.list')}}"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger"></span></a></li>
                         <li>
                             <a class="{{request()->routeIs('wishlist.index') ? 'active' : ''}}" href="{{ auth()->check() ? route('wishlist.index') : route('login') }}">
                                 <i class="far fa-heart"></i> My Wishlist
